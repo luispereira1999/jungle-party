@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 4f;
     private Rigidbody rigidbody;
 
-    // variáveis para verificar se está no chão
+    // variáveis para verificar se o personagem está no chão
     public float groundDistance = 0.1f;
     public LayerMask groundLayer;
 
@@ -25,10 +25,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // quando o jogador pressiona uma tecla de saltar
+        // se o jogador pressiona uma tecla de saltar
         if (Input.GetButtonDown("Jump") && isTouchingGround())
         {
             jump();
+            animator.SetBool("isJumping", true);
+        }
+        else
+        {
+            animator.SetBool("isJumping", false);
         }
     }
 
@@ -37,7 +42,7 @@ public class PlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
 
-        // quando o jogador pressiona uma tecla de movimento
+        // se o jogador pressiona uma tecla de movimento
         if (horizontalInput != 0f || verticalInput != 0f)
         {
             updateMovement(horizontalInput, verticalInput);
