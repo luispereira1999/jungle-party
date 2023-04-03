@@ -93,5 +93,11 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(collision.gameObject);
         }
+
+        // se houver colisão com alguma bomba
+        if (collision.gameObject.tag == "Bomb")
+        {
+            // TODO
+        }
     }
 }
