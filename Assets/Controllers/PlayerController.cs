@@ -1,18 +1,25 @@
 using UnityEngine;
 
-public class MovementController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
+    // variáveis para o movimento e velocidade do personagem
     public float moveSpeed = 4f;
     public float jumpForce = 4f;
     private Rigidbody rigidbody;
 
+    // variáveis para verificar se está no chão
     public float groundDistance = 0.1f;
     public LayerMask groundLayer;
+
+    // variáveis para as animações
+    Animator animator;
+    bool isWalking = false;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -35,6 +42,20 @@ public class MovementController : MonoBehaviour
         {
             updateMovement(horizontalInput, verticalInput);
             updateDirection(horizontalInput, verticalInput);
+
+            if (!isWalking)
+            {
+                animator.SetBool("isWalking", true);
+                isWalking = true;
+            }
+        }
+        else
+        {
+            if (isWalking)
+            {
+                animator.SetBool("isWalking", false);
+                isWalking = false;
+            }
         }
     }
 
