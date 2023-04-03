@@ -392,15 +392,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea1fab11abb804a4d87ef1758b5052cd, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea1fab11abb804a4d87ef1758b5052cd, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea1fab11abb804a4d87ef1758b5052cd, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea1fab11abb804a4d87ef1758b5052cd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -492,10 +492,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5620235
-  m_Height: 1.4655418
+  m_Radius: 0.55751216
+  m_Height: 1.4105953
   m_Direction: 1
-  m_Center: {x: -0.047590435, y: 0.6435385, z: 0.038388968}
+  m_Center: {x: -0.04759038, y: 0.6356671, z: 0.013717133}
 --- !u!54 &1348500245
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -524,8 +524,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775056d1437c18745ba5fb91c4da41a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4.5
-  jumpForce: 4.5
+  moveSpeed: 4.25
+  jumpForce: 4.25
   groundDistance: 1
   groundLayer:
     serializedVersion: 2
