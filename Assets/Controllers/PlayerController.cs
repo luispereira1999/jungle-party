@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
     // variáveis para o movimento e velocidade do personagem
     public float moveSpeed = 4f;
     public float jumpForce = 4f;
-    private Rigidbody rigidbody;
+    private Rigidbody rb;
 
     // variáveis para verificar se o personagem está no chão
     public float groundDistance = 0.1f;
@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
     }
 
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
     void updateMovement(float horizontalInput, float verticalInput)
     {
         Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput) * moveSpeed * Time.fixedDeltaTime;
-        rigidbody.MovePosition(transform.position + movement);
+        rb.MovePosition(transform.position + movement);
     }
 
     void updateDirection(float horizontalInput, float verticalInput)
@@ -78,11 +78,20 @@ public class PlayerController : MonoBehaviour
 
     void jump()
     {
-        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     bool isTouchingGround()
     {
         return Physics.Raycast(transform.position, -Vector3.up, groundDistance, groundLayer);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        // se houver colisão com alguma power up
+        if (collision.gameObject.tag == "PowerUp")
+        {
+            Destroy(collision.gameObject);
+        }
     }
 }
