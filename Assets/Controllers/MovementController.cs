@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float jumpForce = 10f;
+    public float moveSpeed = 4f;
+    public float jumpForce = 4f;
     private Rigidbody rigidbody;
+
+    public float groundDistance = 0.1f;
+    public LayerMask groundLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +18,11 @@ public class MovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // quando o jogador pressiona uma tecla de saltar
+        if (Input.GetButtonDown("Jump") && isTouchingGround())
+        {
+            jump();
+        }
     }
 
     void FixedUpdate()
@@ -41,5 +48,15 @@ public class MovementController : MonoBehaviour
     {
         Vector3 direction = new Vector3(horizontalInput, 0f, verticalInput).normalized;
         transform.rotation = Quaternion.LookRotation(direction);
+    }
+
+    void jump()
+    {
+        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    bool isTouchingGround()
+    {
+        return Physics.Raycast(transform.position, -Vector3.up, groundDistance, groundLayer);
     }
 }
