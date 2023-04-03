@@ -20,12 +20,26 @@ public class MovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // detetar as entradas do teclado do jogador
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
 
-        // aplicar movimento em x
+        // quando o jogador pressiona uma tecla de movimento
+        if (horizontalInput != 0f || verticalInput != 0f)
+        {
+            updateMovement(horizontalInput, verticalInput);
+            updateDirection(horizontalInput, verticalInput);
+        }
+    }
+
+    void updateMovement(float horizontalInput, float verticalInput)
+    {
         Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput) * moveSpeed * Time.fixedDeltaTime;
         rigidbody.MovePosition(transform.position + movement);
+    }
+
+    void updateDirection(float horizontalInput, float verticalInput)
+    {
+        Vector3 direction = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+        transform.rotation = Quaternion.LookRotation(direction);
     }
 }
