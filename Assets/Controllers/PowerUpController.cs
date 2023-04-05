@@ -9,14 +9,14 @@ public class PowerUpController : MonoBehaviour
     private float startHeight;
     private float timeOffset;
 
-    // Start is called before the first frame update
+    // start is called before the first frame update
     void Start()
     {
         startHeight = transform.localPosition.y;
         timeOffset = Random.value * Mathf.PI * 2;
     }
 
-    // Update is called once per frame
+    // update is called once per frame
     void Update()
     {
         animate();

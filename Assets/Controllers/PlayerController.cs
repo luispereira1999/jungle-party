@@ -2,31 +2,43 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // variável para identificar o jogador
+    public int playerID;
+
     // variáveis para o movimento e velocidade do personagem
-    public float moveSpeed = 4f;
-    public float jumpForce = 4f;
+    public float moveSpeed = 4.25f;
+    public float jumpForce = 4.25f;
     private Rigidbody rb;
+
+    // variáveis para os controlos de cada jogador
+    public KeyCode left;
+    public KeyCode right;
+    public KeyCode top;
+    public KeyCode bottom;
+    public KeyCode action;
 
     // variáveis para verificar se o personagem está no chão
     public float groundDistance = 0.1f;
     public LayerMask groundLayer;
 
     // variáveis para as animações
-    Animator animator;
-    bool isWalking = false;
+    private Animator animator;
+    private bool isWalking = false;
 
-    // Start is called before the first frame update
+    // start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
+    // update is called once per frame
     void Update()
     {
+        bool isDoingAction = Input.GetKeyDown(action);
+
         // se o jogador pressiona uma tecla de saltar
-        if (Input.GetButtonDown("Jump") && isTouchingGround())
+        if (isDoingAction && isTouchingGround())
         {
             jump();
             animator.SetBool("isJumping", true);
@@ -39,11 +51,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        float horizontalInput = Input.GetAxis("Horizontal" + playerID);
+        float verticalInput = Input.GetAxis("Vertical" + playerID);
 
         // se o jogador pressiona uma tecla de movimento
-        if (horizontalInput != 0f || verticalInput != 0f)
+        if (horizontalInput != 0 || verticalInput != 0)
         {
             updateMovement(horizontalInput, verticalInput);
             updateDirection(horizontalInput, verticalInput);
