@@ -24,14 +24,12 @@ public class PlayerController : MonoBehaviour
 
     public PlayerAction currentAction;
 
-    // start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
     }
 
-    // update is called once per frame
     void Update()
     {
         bool actionInput = Input.GetButtonDown("Action" + playerID);

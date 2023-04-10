@@ -4,17 +4,22 @@ public class Level4Controller : MonoBehaviour
 {
     public GameObject player1;
     public GameObject player2;
-    public GameObject bomb;
-    public float spawnDistance = 2f;
+    public GameObject bombPrefab;
+    private BombController bombController;
+    public float distanceAhead = 1f;
+    int a;
 
-    // start is called before the first frame update
     void Start()
+    {
+        GameObject a = FindObjectOfType<GameController>().player1;
+    }
+
+    void Update()
     {
 
     }
 
-    // update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
     }
