@@ -1,33 +1,36 @@
 using UnityEngine;
 
+/*
+ * Esta classe controla a bomba existente no nível 4.
+ * Quando a primeira bomba é iniciada no nível ou na ronda, é inserida como objeto "filho" de um objeto "jogador".
+ * Ao trocar a bomba de jogador, esta passa novamente como um objeto "filho" para o objeto do outro jogador
+*/
 public class BombController : MonoBehaviour
 {
-    public GameObject currentPlayer;
-    public float distanceAhead = 1f;
+    private GameObject _player;
 
-    void Start()
+    public void SetPlayer(GameObject player)
     {
-
+        _player = player;
     }
 
-    void Update()
+    public void SetPosition(Vector3 position)
     {
-        FollowPlayer();
+        transform.position = position;
     }
 
-    public void SpawnBomb()
+    public void SetRotation(Quaternion rotation)
     {
-        // TODO
-
-        // Exemplo de spawnar objeto:
-        // GameObject newObject = Instantiate(bomb, transform.position + transform.forward * spawnDistance, transform.rotation);
-        // newObject.SetActive(true);
+        transform.rotation = rotation;
     }
 
-    public void FollowPlayer()
+    public void SetScale(Vector3 scale)
     {
-        Vector3 playerPosition = currentPlayer.transform.position;
-        Vector3 bombPosition = playerPosition + currentPlayer.transform.forward * distanceAhead;
-        transform.position = bombPosition;
+        transform.localScale = scale;
+    }
+
+    public void SetPlayerAsParent(GameObject player)
+    {
+        transform.SetParent(player.transform);
     }
 }

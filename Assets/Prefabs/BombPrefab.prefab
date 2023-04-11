@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3273786392412116405
+--- !u!1 &9166698033008333861
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,12 +8,12 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 87240722110692829}
-  - component: {fileID: 2338797595693378371}
-  - component: {fileID: 4236747161441440841}
-  - component: {fileID: 1153324388639277659}
-  - component: {fileID: 6527393185022823491}
-  - component: {fileID: 4431010748535992418}
+  - component: {fileID: 4295106816387448861}
+  - component: {fileID: 3250165170134973813}
+  - component: {fileID: 1368620207450648182}
+  - component: {fileID: 6042369326500000183}
+  - component: {fileID: 7194789122576991562}
+  - component: {fileID: 2368257419915453497}
   m_Layer: 0
   m_Name: BombPrefab
   m_TagString: Bomb
@@ -21,36 +21,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &87240722110692829
+--- !u!4 &4295106816387448861
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273786392412116405}
+  m_GameObject: {fileID: 9166698033008333861}
   m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
-  m_LocalPosition: {x: 44.597107, y: 6.19, z: 68.592896}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalPosition: {x: 1.01, y: 0.375, z: 1.258}
+  m_LocalScale: {x: 85, y: 85, z: 85}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -89.98, y: 0, z: 0}
---- !u!33 &2338797595693378371
+--- !u!33 &3250165170134973813
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273786392412116405}
+  m_GameObject: {fileID: 9166698033008333861}
   m_Mesh: {fileID: -849867405023671905, guid: a408f2da9ef20fb4eb7b9ef644b3263c, type: 3}
---- !u!23 &4236747161441440841
+--- !u!23 &1368620207450648182
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273786392412116405}
+  m_GameObject: {fileID: 9166698033008333861}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -87,13 +87,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &1153324388639277659
+--- !u!54 &6042369326500000183
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273786392412116405}
+  m_GameObject: {fileID: 9166698033008333861}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -103,30 +103,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &6527393185022823491
+--- !u!65 &7194789122576991562
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273786392412116405}
+  m_GameObject: {fileID: 9166698033008333861}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.003, y: 0.0029999996, z: 0.0042108335}
   m_Center: {x: 0, y: 0, z: 0.00048787022}
---- !u!114 &4431010748535992418
+--- !u!114 &2368257419915453497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273786392412116405}
+  m_GameObject: {fileID: 9166698033008333861}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5d471fc308abd94e9c8f156e5bb98a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayer: {fileID: 6546067869783910091, guid: 3a918d084be35774aae3012f21a73fb7, type: 3}
+  player: {fileID: 0}
   distanceAhead: 1
+  distancia: 5
+  altura: 13

@@ -2,23 +2,23 @@ using UnityEngine;
 
 /*
  * Controla o nível 4.
+ * O nível consiste em trocar de bomba de jogador para jogador,
+ * até que o tempo acabe e quem tem a bomba perde.
+ * O nível é constituido por várias rondas.
 */
 public class Level4Controller : MonoBehaviour
 {
     private GameObject player1;
     private GameObject player2;
     public GameObject bombPrefab;
+    private GameObject bomb;
     private BombController bombController;
-    //public float spawnDistance = 2f;
-    public float distanceAhead = 1f;
-
-    void Awake()
-    {
-
-    }
 
     void Start()
     {
+        /*
+         * Jogadores
+        */
         player1 = Instantiate(GameController.GetInstance().player1Prefab,
                               GameController.GetInstance().player1Prefab.transform.position,
                               GameController.GetInstance().player1Prefab.transform.rotation);
@@ -27,9 +27,17 @@ public class Level4Controller : MonoBehaviour
                               GameController.GetInstance().player2Prefab.transform.position,
                               GameController.GetInstance().player2Prefab.transform.rotation);
 
-        bombController = bombPrefab.GetComponent<BombController>();
-        bombController.currentPlayer = player1;
-        Instantiate(bombPrefab, transform.position, transform.rotation);
+        /*
+         * Bomba
+        */
+        bomb = Instantiate(bombPrefab, player1.transform.position, Quaternion.identity);
+
+        bombController = bomb.GetComponent<BombController>();
+        bombController.SetPlayer(player1);
+        bombController.SetPosition(player1.transform.position + new Vector3(0.4f, 0.7f, -0.5f));
+        bombController.SetRotation(Quaternion.Euler(-90f, 0f, 0f));
+        bombController.SetScale(new Vector3(140f, 140f, 140f));
+        bombController.SetPlayerAsParent(player1);
     }
 
     void Update()
@@ -40,10 +48,6 @@ public class Level4Controller : MonoBehaviour
     public void SpawnBomb()
     {
         // TODO
-
-        // Exemplo de spawnar objeto:
-        // GameObject newObject = Instantiate(bomb, transform.position + transform.forward * spawnDistance, transform.rotation);
-        // newObject.SetActive(true);
     }
 
     public void SpawnPowerUp()

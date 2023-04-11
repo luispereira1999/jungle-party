@@ -45,17 +45,13 @@ public class GameController : MonoBehaviour
     // é chamado uma vez por frame
     void Update()
     {
+        // TODO: posteriormente trocar este código, pelo clique do botão de iniciar jogo, no menu
         if (Input.GetKeyDown(KeyCode.F))
         {
             currentLevelID = 4;
             sceneName = "Level" + currentLevelID + "Scene";
             ChangeScene(sceneName);
             gameState = GameState.START_GAME;
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            currentLevelID = -1;
-            ChangeScene("MainMenuTestScene");
         }
     }
 
@@ -65,10 +61,10 @@ public class GameController : MonoBehaviour
     }
 
     /*
-     * Chamar esta função sempre que um novo jogo se iniciar,
+     * Chamar esta função sempre que um novo jogo se iniciar novamente,
      * para alterar os valores atuais para os valores originais
     */
-    void Reset()
+    void ResetGame()
     {
         currentLevelID = -1;
 
