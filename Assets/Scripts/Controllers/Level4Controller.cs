@@ -1,25 +1,38 @@
 using UnityEngine;
 
+/*
+ * Controla o nível 4.
+*/
 public class Level4Controller : MonoBehaviour
 {
-    public GameObject player1;
-    public GameObject player2;
+    private GameObject player1;
+    private GameObject player2;
     public GameObject bombPrefab;
     private BombController bombController;
+    //public float spawnDistance = 2f;
     public float distanceAhead = 1f;
-    int a;
+
+    void Awake()
+    {
+
+    }
 
     void Start()
     {
-        GameObject a = FindObjectOfType<GameController>().player1;
+        player1 = Instantiate(GameController.GetInstance().player1Prefab,
+                              GameController.GetInstance().player1Prefab.transform.position,
+                              GameController.GetInstance().player1Prefab.transform.rotation);
+
+        player2 = Instantiate(GameController.GetInstance().player2Prefab,
+                              GameController.GetInstance().player2Prefab.transform.position,
+                              GameController.GetInstance().player2Prefab.transform.rotation);
+
+        bombController = bombPrefab.GetComponent<BombController>();
+        bombController.currentPlayer = player1;
+        Instantiate(bombPrefab, transform.position, transform.rotation);
     }
 
     void Update()
-    {
-
-    }
-
-    void FixedUpdate()
     {
 
     }

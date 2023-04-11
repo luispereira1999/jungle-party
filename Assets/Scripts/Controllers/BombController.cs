@@ -12,10 +12,7 @@ public class BombController : MonoBehaviour
 
     void Update()
     {
-        Vector3 playerPos = currentPlayer.transform.position;
-        //Debug.Log(playerPos.x);
-        Vector3 bombPos = playerPos + currentPlayer.transform.forward * distanceAhead;
-        transform.position = bombPos;
+        FollowPlayer();
     }
 
     public void SpawnBomb()
@@ -25,5 +22,12 @@ public class BombController : MonoBehaviour
         // Exemplo de spawnar objeto:
         // GameObject newObject = Instantiate(bomb, transform.position + transform.forward * spawnDistance, transform.rotation);
         // newObject.SetActive(true);
+    }
+
+    public void FollowPlayer()
+    {
+        Vector3 playerPosition = currentPlayer.transform.position;
+        Vector3 bombPosition = playerPosition + currentPlayer.transform.forward * distanceAhead;
+        transform.position = bombPosition;
     }
 }
