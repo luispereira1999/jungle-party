@@ -9,21 +9,19 @@ public class PowerUpController : MonoBehaviour
     private float startHeight;
     private float timeOffset;
 
-    // Start is called before the first frame update
     void Start()
     {
         startHeight = transform.localPosition.y;
         timeOffset = Random.value * Mathf.PI * 2;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        animate();
-        spin();
+        Animate();
+        Spin();
     }
 
-    void animate()
+    void Animate()
     {
         float finalheight = startHeight + Mathf.Sin(Time.time * bounceSpeed + timeOffset) * bounceAmplitude;
         Vector3 position = transform.localPosition;
@@ -31,7 +29,7 @@ public class PowerUpController : MonoBehaviour
         transform.localPosition = position;
     }
 
-    void spin()
+    void Spin()
     {
         Vector3 rotation = transform.localRotation.eulerAngles;
         rotation.y += rotationSpeed * Time.deltaTime;
