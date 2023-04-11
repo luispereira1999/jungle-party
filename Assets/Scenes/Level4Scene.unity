@@ -324,8 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52969b0798c630344a62ac3b4e54065d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombPrefab: {fileID: 3273786392412116405, guid: de309a2aeb61be64b81991cee30eab43, type: 3}
-  distanceAhead: 1
+  bombPrefab: {fileID: 9166698033008333861, guid: b52d0e769fdb7ca4c87bb5e8527bb677, type: 3}
 --- !u!4 &721894622
 Transform:
   m_ObjectHideFlags: 0
@@ -470,6 +469,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevelID: -1
-  player1Prefab: {fileID: 6546067869783910091, guid: 3a918d084be35774aae3012f21a73fb7, type: 3}
+  player1Prefab: {fileID: 8061782758230423465, guid: 3a918d084be35774aae3012f21a73fb7, type: 3}
   player2Prefab: {fileID: 7266379850472434557, guid: fa33d86f90389e54e959673aac82b8de, type: 3}
   gameState: 2

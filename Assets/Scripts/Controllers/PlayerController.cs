@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         bool actionInput = Input.GetButtonDown("Action" + playerID);
-        
+
         if (actionInput)
         {
             if (currentAction == PlayerAction.KICK)
