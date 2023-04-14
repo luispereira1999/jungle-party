@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /*
  * Controla o nível 4.
@@ -20,14 +22,17 @@ public class Level4Controller : MonoBehaviour
 
     void Start()
     {
+        // previne que o Random não fique viciado
+        Random.InitState(DateTime.Now.Millisecond);
+        int randomID = GenerateFirstPlayerToPlay();
+        currentPlayerID = randomID;
+
         // exibir objetos na cena
         SpawnPlayer1();
         SpawnPlayer2();
 
         SpawnBomb();
-        AssingBomb();
-
-        currentPlayerID = 1;
+        AssignBomb();
     }
 
     void Update()
@@ -51,9 +56,7 @@ public class Level4Controller : MonoBehaviour
 
     int GenerateFirstPlayerToPlay()
     {
-        // TODO
-
-        return 1;
+        return Random.Range(1, 3);
     }
 
     public GameObject GetCurrentPlayer()
@@ -85,7 +88,7 @@ public class Level4Controller : MonoBehaviour
         bomb = Instantiate(bombPrefab, bombPrefab.transform.position, Quaternion.identity);
     }
 
-    public void AssingBomb()
+    public void AssignBomb()
     {
         bombController = bomb.GetComponent<BombController>();
         bombController.SetPlayer(this.GetCurrentPlayer());

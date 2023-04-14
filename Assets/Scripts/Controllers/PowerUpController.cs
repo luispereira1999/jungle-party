@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/*
+ * Controla as power ups existentes em cada nível.
+*/
 public class PowerUpController : MonoBehaviour
 {
     public float bounceSpeed = 8;

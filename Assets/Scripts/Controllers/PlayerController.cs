@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /*
- * Armazenar dados sobre cada personagem criada, no início do jogo.
- * E controlar os movimentos, ações e características do mesmo.
+ * Armazena dados sobre cada personagem criada, no início do jogo.
+ * E controla os movimentos, ações e características do mesmo.
 */
 public class PlayerController : MonoBehaviour
 {
@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
 
     void UpdateMovement(float horizontalInput, float verticalInput)
     {
-        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput) * moveSpeed * Time.fixedDeltaTime;
+        Vector3 movement = moveSpeed * Time.fixedDeltaTime * new Vector3(horizontalInput, 0f, verticalInput);
         rb.MovePosition(transform.position + movement);
     }
 
@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
         }
 
         string tag = GetOppositePlayerTag();
-       
+
         // se houver colisão com o outro jogador
         if (collision.gameObject.CompareTag(tag))
         {
@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour
             if (!level4Controller.collisionOccurred)
             {
                 level4Controller.ChangePlayerTurn();
-                level4Controller.AssingBomb();
+                level4Controller.AssignBomb();
                 level4Controller.collisionOccurred = true;
             }
             else
