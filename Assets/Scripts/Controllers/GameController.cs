@@ -22,7 +22,9 @@ public class GameController : MonoBehaviour
         return instance;
     }
 
-    // é chamado antes do Start()
+    /*
+     * É executado antes da função Start().
+    */
     void Awake()
     {
         if (instance != null)
@@ -36,13 +38,17 @@ public class GameController : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    // é chamado antes da primeira frame
+    /*
+     * É executado antes da primeira frame.
+    */
     void Start()
     {
 
     }
 
-    // é chamado uma vez por frame
+    /*
+     * É executado uma vez por frame.
+    */
     void Update()
     {
         // TODO: posteriormente trocar este código, pelo clique do botão de iniciar jogo, no menu

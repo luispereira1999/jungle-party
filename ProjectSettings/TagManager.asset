@@ -8,6 +8,9 @@ TagManager:
   - PowerUp
   - Terrain
   - Bomb
+  - LevelController
+  - Player1
+  - Player2
   layers:
   - Default
   - TransparentFX

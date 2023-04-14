@@ -8,36 +8,26 @@ using UnityEngine;
 */
 public class Level4Controller : MonoBehaviour
 {
-    private GameObject player1;
-    private GameObject player2;
+    public GameObject player1;
+    public GameObject player2;
+    int currentPlayerID = -1;
+
     public GameObject bombPrefab;
-    private GameObject bomb;
-    private BombController bombController;
+    public GameObject bomb;
+    public BombController bombController;
+
+    public bool collisionOccurred = false;
 
     void Start()
     {
-        /*
-         * Jogadores
-        */
-        player1 = Instantiate(GameController.GetInstance().player1Prefab,
-                              GameController.GetInstance().player1Prefab.transform.position,
-                              GameController.GetInstance().player1Prefab.transform.rotation);
+        // exibir objetos na cena
+        SpawnPlayer1();
+        SpawnPlayer2();
 
-        player2 = Instantiate(GameController.GetInstance().player2Prefab,
-                              GameController.GetInstance().player2Prefab.transform.position,
-                              GameController.GetInstance().player2Prefab.transform.rotation);
+        SpawnBomb();
+        AssingBomb();
 
-        /*
-         * Bomba
-        */
-        bomb = Instantiate(bombPrefab, player1.transform.position, Quaternion.identity);
-
-        bombController = bomb.GetComponent<BombController>();
-        bombController.SetPlayer(player1);
-        bombController.SetPosition(player1.transform.position + new Vector3(0.4f, 0.7f, -0.5f));
-        bombController.SetRotation(Quaternion.Euler(-90f, 0f, 0f));
-        bombController.SetScale(new Vector3(140f, 140f, 140f));
-        bombController.SetPlayerAsParent(player1);
+        currentPlayerID = 1;
     }
 
     void Update()
@@ -45,12 +35,67 @@ public class Level4Controller : MonoBehaviour
 
     }
 
-    public void SpawnBomb()
+    void SpawnPlayer1()
     {
-        // TODO
+        player1 = Instantiate(GameController.GetInstance().player1Prefab,
+                              GameController.GetInstance().player1Prefab.transform.position,
+                              GameController.GetInstance().player1Prefab.transform.rotation);
     }
 
-    public void SpawnPowerUp()
+    void SpawnPlayer2()
+    {
+        player2 = Instantiate(GameController.GetInstance().player2Prefab,
+                              GameController.GetInstance().player2Prefab.transform.position,
+                              GameController.GetInstance().player2Prefab.transform.rotation);
+    }
+
+    int GenerateFirstPlayerToPlay()
+    {
+        // TODO
+
+        return 1;
+    }
+
+    public GameObject GetCurrentPlayer()
+    {
+        if (currentPlayerID == 1)
+        {
+            return player2;
+        }
+        else
+        {
+            return player1;
+        }
+    }
+
+    public void ChangePlayerTurn()
+    {
+        if (currentPlayerID == 1)
+        {
+            currentPlayerID = 2;
+        }
+        else if (currentPlayerID == 2)
+        {
+            currentPlayerID = 1;
+        }
+    }
+
+    public void SpawnBomb()
+    {
+        bomb = Instantiate(bombPrefab, bombPrefab.transform.position, Quaternion.identity);
+    }
+
+    public void AssingBomb()
+    {
+        bombController = bomb.GetComponent<BombController>();
+        bombController.SetPlayer(this.GetCurrentPlayer());
+        bombController.SetPlayerAsParent(this.GetCurrentPlayer());
+        bombController.SetLocalPosition(new Vector3(0.042f, 0.39f, 0.352f));
+        bombController.SetLocalRotation(Quaternion.Euler(270f, 0f, 0f));
+        bombController.SetLocalScale(new Vector3(85f, 85f, 85f));
+    }
+
+    void SpawnPowerUp()
     {
         // TODO
     }

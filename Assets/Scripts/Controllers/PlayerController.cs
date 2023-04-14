@@ -24,10 +24,13 @@ public class PlayerController : MonoBehaviour
 
     public PlayerAction currentAction;
 
+    private Level4Controller level4Controller;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        level4Controller = FindObjectOfType<Level4Controller>();
     }
 
     void Update()
@@ -123,60 +126,89 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void UpdateMovement(float horizontalInput, float verticalInput)
+    void UpdateMovement(float horizontalInput, float verticalInput)
     {
         Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput) * moveSpeed * Time.fixedDeltaTime;
         rb.MovePosition(transform.position + movement);
     }
 
-    public void UpdateDirection(float horizontalInput, float verticalInput)
+    void UpdateDirection(float horizontalInput, float verticalInput)
     {
         Vector3 direction = new Vector3(horizontalInput, 0f, verticalInput).normalized;
         transform.rotation = Quaternion.LookRotation(direction);
     }
 
-    public void Kick()
+    void Kick()
     {
         Debug.Log("Kick()");
     }
 
-    public void PickUpAndThrow()
+    void PickUpAndThrow()
     {
         Debug.Log("PickUpAndThrow()");
     }
 
-    public void CarryMove()
+    void CarryMove()
     {
         Debug.Log("Kick()");
     }
 
-    public void Throw()
+    void Throw()
     {
         Debug.Log("Throw()");
     }
 
-    public void Jump()
+    void Jump()
     {
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    public bool IsTouchingGround()
+    bool IsTouchingGround()
     {
         return Physics.Raycast(transform.position, -Vector3.up, groundDistance, groundLayer);
     }
 
+    /*
+     * Trata das colisões que acontecem em cada jogador.
+    */
     void OnCollisionEnter(Collision collision)
     {
         // se houver colisão com alguma power up
-        if (collision.gameObject.tag == "PowerUp")
+        if (collision.gameObject.CompareTag("PowerUp"))
         {
             Destroy(collision.gameObject);
         }
 
-        // se houver colisão com alguma bomba
-        if (collision.gameObject.tag == "Bomb")
+        string tag = GetOppositePlayerTag();
+       
+        // se houver colisão com o outro jogador
+        if (collision.gameObject.CompareTag(tag))
         {
-            // TODO
+            // uma vez que existem 2 objetos com este script (os 2 jogadores),
+            // é necessário verificar se já ocorreu a colisão num jogador,
+            // para que o mesmo código não seja executado no outro jogador
+            if (!level4Controller.collisionOccurred)
+            {
+                level4Controller.ChangePlayerTurn();
+                level4Controller.AssingBomb();
+                level4Controller.collisionOccurred = true;
+            }
+            else
+            {
+                level4Controller.collisionOccurred = false;
+            }
+        }
+    }
+
+    string GetOppositePlayerTag()
+    {
+        if (playerID == 1)
+        {
+            return "Player2";
+        }
+        else
+        {
+            return "Player1";
         }
     }
 }

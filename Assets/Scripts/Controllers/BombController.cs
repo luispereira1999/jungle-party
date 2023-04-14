@@ -14,17 +14,17 @@ public class BombController : MonoBehaviour
         _player = player;
     }
 
-    public void SetPosition(Vector3 position)
+    public void SetLocalPosition(Vector3 position)
     {
-        transform.position = position;
+        transform.localPosition = position;
     }
 
-    public void SetRotation(Quaternion rotation)
+    public void SetLocalRotation(Quaternion rotation)
     {
-        transform.rotation = rotation;
+        transform.localRotation = rotation;
     }
 
-    public void SetScale(Vector3 scale)
+    public void SetLocalScale(Vector3 scale)
     {
         transform.localScale = scale;
     }

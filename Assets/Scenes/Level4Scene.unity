@@ -305,9 +305,10 @@ GameObject:
   m_Component:
   - component: {fileID: 721894622}
   - component: {fileID: 721894621}
+  - component: {fileID: 721894623}
   m_Layer: 0
   m_Name: Level4_Controller
-  m_TagString: Untagged
+  m_TagString: LevelController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -324,7 +325,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52969b0798c630344a62ac3b4e54065d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player1: {fileID: 0}
+  player2: {fileID: 0}
   bombPrefab: {fileID: 9166698033008333861, guid: b52d0e769fdb7ca4c87bb5e8527bb677, type: 3}
+  bomb: {fileID: 0}
+  bombController: {fileID: 0}
+  collisionOccurred: 0
 --- !u!4 &721894622
 Transform:
   m_ObjectHideFlags: 0
@@ -333,13 +339,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 721894620}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 49.4664, y: 6.503551, z: 70.63091}
+  m_LocalPosition: {x: 49.4664, y: 5.663, z: 66.077}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &721894623
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721894620}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
