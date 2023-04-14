@@ -7,6 +7,7 @@ using UnityEngine;
 */
 public class BombController : MonoBehaviour
 {
+    // referência do jogador que tem a bomba
     private GameObject _player;
 
     public void SetPlayer(GameObject player)

@@ -9,18 +9,23 @@ using UnityEngine.SceneManagement;
 */
 public class GameController : MonoBehaviour
 {
-    public int currentLevelID = -1;
+    // variáveis para guardar os prefabs dos jogadores
     public GameObject player1Prefab;
     public GameObject player2Prefab;
+    public int currentLevelID = -1;
+
+    // para controlar em qual estado e cena o jogo está no momento
     public GameState gameState = GameState.MAIN_MENU;
     private string sceneName;
 
+    // guarda a instância única desta classe
     private static GameController instance;
 
     public static GameController GetInstance()
     {
         return instance;
     }
+
 
     /*
      * É executado antes da função Start().
@@ -33,7 +38,7 @@ public class GameController : MonoBehaviour
         }
 
         // guardar em memória apenas uma instância desta classe,
-        // cria-la quando ainda não existe e não destrui-la quando se muda de cena.
+        // e cria-la quando ainda não existe, bem como não destrui-la quando a cena muda.
         instance = this;
         DontDestroyOnLoad(this.gameObject);
     }

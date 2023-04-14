@@ -10,22 +10,27 @@ using Random = UnityEngine.Random;
 */
 public class Level4Controller : MonoBehaviour
 {
+    // variáveis para guardar os jogadores do nível
     public GameObject player1;
     public GameObject player2;
-    int currentPlayerID = -1;
+    int playerIDWithBomb = -1;
 
+    // referências para a bomba
     public GameObject bombPrefab;
     public GameObject bomb;
     public BombController bombController;
 
+    // para saber se os jogadores colidiram
     public bool collisionOccurred = false;
+
 
     void Start()
     {
         // previne que o Random não fique viciado
         Random.InitState(DateTime.Now.Millisecond);
+
         int randomID = GenerateFirstPlayerToPlay();
-        currentPlayerID = randomID;
+        playerIDWithBomb = randomID;
 
         // exibir objetos na cena
         SpawnPlayer1();
@@ -59,9 +64,9 @@ public class Level4Controller : MonoBehaviour
         return Random.Range(1, 3);
     }
 
-    public GameObject GetCurrentPlayer()
+    public GameObject GetPlayerWithBomb()
     {
-        if (currentPlayerID == 1)
+        if (playerIDWithBomb == 1)
         {
             return player2;
         }
@@ -73,13 +78,13 @@ public class Level4Controller : MonoBehaviour
 
     public void ChangePlayerTurn()
     {
-        if (currentPlayerID == 1)
+        if (playerIDWithBomb == 1)
         {
-            currentPlayerID = 2;
+            playerIDWithBomb = 2;
         }
-        else if (currentPlayerID == 2)
+        else if (playerIDWithBomb == 2)
         {
-            currentPlayerID = 1;
+            playerIDWithBomb = 1;
         }
     }
 
@@ -91,8 +96,8 @@ public class Level4Controller : MonoBehaviour
     public void AssignBomb()
     {
         bombController = bomb.GetComponent<BombController>();
-        bombController.SetPlayer(this.GetCurrentPlayer());
-        bombController.SetPlayerAsParent(this.GetCurrentPlayer());
+        bombController.SetPlayer(this.GetPlayerWithBomb());
+        bombController.SetPlayerAsParent(this.GetPlayerWithBomb());
         bombController.SetLocalPosition(new Vector3(0.042f, 0.39f, 0.352f));
         bombController.SetLocalRotation(Quaternion.Euler(270f, 0f, 0f));
         bombController.SetLocalScale(new Vector3(85f, 85f, 85f));

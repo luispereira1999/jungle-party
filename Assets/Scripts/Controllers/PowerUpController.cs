@@ -1,16 +1,17 @@
 using UnityEngine;
 
 /*
- * Controla as power ups existentes em cada nível.
+ * Controla as power ups existentes e que são geradas em cada nível.
 */
 public class PowerUpController : MonoBehaviour
 {
+    private float startHeight;
+    private float timeOffset;
+
     public float bounceSpeed = 8;
     public float bounceAmplitude = 0.05f;
     public float rotationSpeed = 90;
 
-    private float startHeight;
-    private float timeOffset;
 
     void Start()
     {
@@ -29,6 +30,7 @@ public class PowerUpController : MonoBehaviour
         float finalheight = startHeight + Mathf.Sin(Time.time * bounceSpeed + timeOffset) * bounceAmplitude;
         Vector3 position = transform.localPosition;
         position.y = finalheight;
+
         transform.localPosition = position;
     }
 
@@ -36,6 +38,7 @@ public class PowerUpController : MonoBehaviour
     {
         Vector3 rotation = transform.localRotation.eulerAngles;
         rotation.y += rotationSpeed * Time.deltaTime;
+
         transform.localRotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
     }
 }
