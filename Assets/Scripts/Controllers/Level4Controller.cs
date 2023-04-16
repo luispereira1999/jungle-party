@@ -10,10 +10,13 @@ using Random = UnityEngine.Random;
 */
 public class Level4Controller : MonoBehaviour
 {
+    // variável para a referência do controlador de jogo
+    private GameController game;
+
     // variáveis para guardar os jogadores do nível
     public GameObject player1;
     public GameObject player2;
-    int playerIDWithBomb = -1;
+    private int playerIDWithBomb = -1;
 
     // referências para a bomba
     public GameObject bombPrefab;
@@ -26,6 +29,8 @@ public class Level4Controller : MonoBehaviour
 
     void Start()
     {
+        game = GameController.GetInstance();
+
         // previne que o Random não fique viciado
         Random.InitState(DateTime.Now.Millisecond);
 
@@ -47,16 +52,16 @@ public class Level4Controller : MonoBehaviour
 
     void SpawnPlayer1()
     {
-        player1 = Instantiate(GameController.GetInstance().player1Prefab,
-                              GameController.GetInstance().player1Prefab.transform.position,
-                              GameController.GetInstance().player1Prefab.transform.rotation);
+        player1 = Instantiate(game.players[0],
+                              game.players[0].transform.position,
+                              game.players[0].transform.rotation);
     }
 
     void SpawnPlayer2()
     {
-        player2 = Instantiate(GameController.GetInstance().player2Prefab,
-                              GameController.GetInstance().player2Prefab.transform.position,
-                              GameController.GetInstance().player2Prefab.transform.rotation);
+        player2 = Instantiate(game.players[1],
+                              game.players[1].transform.position,
+                              game.players[1].transform.rotation);
     }
 
     int GenerateFirstPlayerToPlay()
@@ -88,7 +93,7 @@ public class Level4Controller : MonoBehaviour
         }
     }
 
-    public void SpawnBomb()
+    void SpawnBomb()
     {
         bomb = Instantiate(bombPrefab, bombPrefab.transform.position, Quaternion.identity);
     }
@@ -104,6 +109,21 @@ public class Level4Controller : MonoBehaviour
     }
 
     void SpawnPowerUp()
+    {
+        // TODO
+    }
+
+    void CheckWinner()
+    {
+        // TODO
+    }
+
+    void UpdateScoreAtEndRound()
+    {
+        // TODO
+    }
+
+    void UpdateScoreAtEndLevel()
     {
         // TODO
     }

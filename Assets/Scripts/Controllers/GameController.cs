@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +14,8 @@ public class GameController : MonoBehaviour
     // variáveis para guardar os prefabs dos jogadores
     public GameObject player1Prefab;
     public GameObject player2Prefab;
-    public int currentLevelID = -1;
+    public List<GameObject> players = new List<GameObject>();
+    private int currentLevelID = -1;
 
     // para controlar em qual estado e cena o jogo está no momento
     public GameState gameState = GameState.MAIN_MENU;
@@ -48,7 +51,17 @@ public class GameController : MonoBehaviour
     */
     void Start()
     {
+        // criar jogadores
+        GameObject player1 = Instantiate(player1Prefab);
+        players.Add(player1);
 
+        GameObject player2 = Instantiate(player2Prefab);
+        players.Add(player2);
+
+        currentLevelID = 4;
+        sceneName = "Level" + currentLevelID + "Scene";
+        ChangeScene(sceneName);
+        gameState = GameState.START_GAME;
     }
 
     /*
@@ -56,13 +69,34 @@ public class GameController : MonoBehaviour
     */
     void Update()
     {
-        // TODO: posteriormente trocar este código, pelo clique do botão de iniciar jogo, no menu
+        // TODO: posteriormente trocar este código, pelo clique do botão de iniciar jogo, do menu
         if (Input.GetKeyDown(KeyCode.F))
         {
             currentLevelID = 4;
             sceneName = "Level" + currentLevelID + "Scene";
             ChangeScene(sceneName);
             gameState = GameState.START_GAME;
+        }
+
+        // TEST: trocar para o nível seguinte
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Debug.Log("eeeee");
+
+            currentLevelID = 5;
+            sceneName = "Level" + currentLevelID + "Scene";
+            ChangeScene(sceneName);
+            gameState = GameState.START_LEVEL;
+        }
+    }
+
+    void NextLevel()
+    {
+        currentLevelID++;
+
+        if (currentLevelID == 5)
+        {
+            gameState = GameState.FINISH_GAME;
         }
     }
 

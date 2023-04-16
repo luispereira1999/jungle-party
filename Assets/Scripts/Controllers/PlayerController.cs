@@ -14,23 +14,24 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 4.25f;
     public float jumpForce = 4.25f;
 
-    // para verificar se o personagem está congelado
-    private bool isFrozen = false;
-    private float freezingTime = 3f;
+    // para controlar as animações
+    private Animator animator;
+    private bool isWalking = false;
 
     // para verificar se o personagem está a pisar no chão
     public LayerMask groundLayer;
     public float groundDistance = 0.1f;
 
-    // para controlar as animações
-    public Animator animator;
-    private bool isWalking = false;
+    // para verificar se o personagem está congelado
+    private bool isFrozen = false;
+    private float freezingTime = 3f;
 
     // guarda qual ação o jogador deve executar
     public PlayerAction currentAction;
 
-    // referência do nível atual
+    // referências para outros controladores
     private Level4Controller level4Controller;
+    private ScoreController scoreController;
 
 
     void Start()
