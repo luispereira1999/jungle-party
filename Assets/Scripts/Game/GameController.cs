@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,11 +13,11 @@ public class GameController : MonoBehaviour
     // variáveis para guardar os prefabs dos jogadores
     public GameObject player1Prefab;
     public GameObject player2Prefab;
-    public List<GameObject> players = new List<GameObject>();
-    private int currentLevelID = -1;
+    public List<PlayerModel> players;
+    public int currentLevelID;
 
     // para controlar em qual estado e cena o jogo está no momento
-    public GameState gameState = GameState.MAIN_MENU;
+    public GameState gameState;
     private string sceneName;
 
     // guarda a instância única desta classe
@@ -51,17 +50,9 @@ public class GameController : MonoBehaviour
     */
     void Start()
     {
-        // criar jogadores
-        GameObject player1 = Instantiate(player1Prefab);
-        players.Add(player1);
-
-        GameObject player2 = Instantiate(player2Prefab);
-        players.Add(player2);
-
-        currentLevelID = 4;
-        sceneName = "Level" + currentLevelID + "Scene";
-        ChangeScene(sceneName);
-        gameState = GameState.START_GAME;
+        players = new List<PlayerModel>();
+        currentLevelID = -1;
+        gameState = GameState.MAIN_MENU;
     }
 
     /*
@@ -74,7 +65,7 @@ public class GameController : MonoBehaviour
         {
             currentLevelID = 4;
             sceneName = "Level" + currentLevelID + "Scene";
-            ChangeScene(sceneName);
+            SceneManager.LoadScene(sceneName);
             gameState = GameState.START_GAME;
         }
 
@@ -85,34 +76,46 @@ public class GameController : MonoBehaviour
 
             currentLevelID = 5;
             sceneName = "Level" + currentLevelID + "Scene";
-            ChangeScene(sceneName);
+            SceneManager.LoadScene(sceneName);
             gameState = GameState.START_LEVEL;
         }
     }
 
-    void NextLevel()
+    public void InitiateGame()
+    {
+        AddPlayer(player1Prefab, 0f);
+        AddPlayer(player2Prefab, 0f);
+
+        NextLevel();
+        gameState = GameState.START_GAME;
+    }
+
+    void AddPlayer(GameObject playerPrefab, float score)
+    {
+        players.Add(new PlayerModel(playerPrefab, score));
+    }
+
+    public void NextLevel()
     {
         currentLevelID++;
 
+        // usar isto enquanto existe apenas o nível 4
+        currentLevelID = 4;
+
         if (currentLevelID == 5)
         {
+            currentLevelID = -1;
             gameState = GameState.FINISH_GAME;
         }
-    }
-
-    void ChangeScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
     }
 
     /*
      * Chamar esta função sempre que um novo jogo se iniciar novamente,
      * para alterar os valores atuais para os valores originais
     */
-    void ResetGame()
+    public void ResetGame()
     {
+        players.Clear();
         currentLevelID = -1;
-
-        // outros dados...
     }
 }

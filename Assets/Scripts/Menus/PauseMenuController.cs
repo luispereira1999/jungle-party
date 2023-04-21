@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+/*
+ * Trata das interações do utilizador com o menu de pausa, existente em cada nível.
+*/
+public class PauseMenuController : MonoBehaviour
 {
+    // variáveis para os objetos deste menu
     [SerializeField] private GameObject buttonPause;
-
     [SerializeField] private GameObject menuPause;
 
     public void Pause()
@@ -31,8 +32,8 @@ public class PauseMenu : MonoBehaviour
 
     public void Quit()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        string sceneName = "MenuScene";
+        SceneManager.LoadScene(sceneName);
         menuPause.SetActive(false);
-
     }
 }

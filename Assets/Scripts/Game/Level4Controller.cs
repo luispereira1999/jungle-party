@@ -14,13 +14,13 @@ public class Level4Controller : MonoBehaviour
     private GameController game;
 
     // variáveis para guardar os jogadores do nível
-    public GameObject player1;
-    public GameObject player2;
+    public GameObject player1Object;
+    public GameObject player2Object;
     private int playerIDWithBomb = -1;
 
     // referências para a bomba
     public GameObject bombPrefab;
-    public GameObject bomb;
+    public GameObject bombObject;
     public BombController bombController;
 
     // para saber se os jogadores colidiram
@@ -52,16 +52,12 @@ public class Level4Controller : MonoBehaviour
 
     void SpawnPlayer1()
     {
-        player1 = Instantiate(game.players[0],
-                              game.players[0].transform.position,
-                              game.players[0].transform.rotation);
+        player1Object = Instantiate(game.players[0].prefab);
     }
 
     void SpawnPlayer2()
     {
-        player2 = Instantiate(game.players[1],
-                              game.players[1].transform.position,
-                              game.players[1].transform.rotation);
+        player2Object = Instantiate(game.players[1].prefab);
     }
 
     int GenerateFirstPlayerToPlay()
@@ -73,11 +69,11 @@ public class Level4Controller : MonoBehaviour
     {
         if (playerIDWithBomb == 1)
         {
-            return player2;
+            return player2Object;
         }
         else
         {
-            return player1;
+            return player1Object;
         }
     }
 
@@ -95,12 +91,12 @@ public class Level4Controller : MonoBehaviour
 
     void SpawnBomb()
     {
-        bomb = Instantiate(bombPrefab, bombPrefab.transform.position, Quaternion.identity);
+        bombObject = Instantiate(bombPrefab, bombPrefab.transform.position, Quaternion.identity);
     }
 
     public void AssignBomb()
     {
-        bombController = bomb.GetComponent<BombController>();
+        bombController = bombObject.GetComponent<BombController>();
         bombController.SetPlayer(this.GetPlayerWithBomb());
         bombController.SetPlayerAsParent(this.GetPlayerWithBomb());
         bombController.SetLocalPosition(new Vector3(0.042f, 0.39f, 0.352f));

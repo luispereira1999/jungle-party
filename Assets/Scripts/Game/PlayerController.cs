@@ -31,7 +31,6 @@ public class PlayerController : MonoBehaviour
 
     // referências para outros controladores
     private Level4Controller level4Controller;
-    private ScoreController scoreController;
 
 
     void Start()
