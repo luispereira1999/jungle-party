@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
- * Trata das interações do utilizador com o menu de pausa, existente em cada nível.
+ * Trata das interações do utilizador com o menu de pausa,
+ * existente em cada nível ao clicar no botão de pausa.
 */
 public class PauseMenuController : MonoBehaviour
 {
@@ -32,8 +33,10 @@ public class PauseMenuController : MonoBehaviour
 
     public void Quit()
     {
+        Time.timeScale = 1f;
+        menuPause.SetActive(false);
+
         string sceneName = "MenuScene";
         SceneManager.LoadScene(sceneName);
-        menuPause.SetActive(false);
     }
 }

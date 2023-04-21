@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -189,7 +189,55 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &59546540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 59546542}
+  - component: {fileID: 59546541}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &59546541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59546540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a919ec59148465540b762637741be94a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1Prefab: {fileID: 8061782758230423465, guid: 3a918d084be35774aae3012f21a73fb7, type: 3}
+  player2Prefab: {fileID: 7266379850472434557, guid: fa33d86f90389e54e959673aac82b8de, type: 3}
+  currentLevelID: -1
+  gameState: 2
+--- !u!4 &59546542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59546540}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 45.471397, y: 6.5774, z: 69.367744}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &120555476
 GameObject:
@@ -349,7 +397,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &644121766
 GameObject:
@@ -443,7 +491,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &683019824
 GameObject:
@@ -1378,7 +1426,7 @@ GameObject:
   - component: {fileID: 1211962488}
   - component: {fileID: 1211962487}
   m_Layer: 0
-  m_Name: MenuManager
+  m_Name: MenuController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1412,7 +1460,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1281367010
 GameObject:
@@ -1472,7 +1520,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 74ef9e6980c058b4ab6a9131db503821, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2953e1a497b32e24d98d06b911ade0b5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1894,7 +1942,7 @@ RectTransform:
   - {fileID: 1198570639}
   - {fileID: 2038884930}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2211,7 +2259,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2953e1a497b32e24d98d06b911ade0b5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 74ef9e6980c058b4ab6a9131db503821, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2289,8 +2337,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Jogo desenvolvido no \xE2mbito da unidade curricular de \nDesenvolvimento
     de Jogos Aplicado realizado no Instituto \nPolit\xE9cnico do C\xE1vado e do Ave.\r\n\r\nEquipa:\r\n-
-    Lu\xEDs Pereira\r\n- Pedro Silva\n- V\xE2nia Pereira\r\n\r\nBarcelos, Dezembro
-    2022\r\n\xA9 Direitos reservados."
+    Lu\xEDs Pereira\r\n- Pedro Silva\n- V\xE2nia Pereira\r\n\r\nBarcelos, Junho 2023\r\n\xA9
+    Direitos reservados."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /*
  * Existe apenas uma instância desta classe durante a execução do jogo.
@@ -18,7 +17,6 @@ public class GameController : MonoBehaviour
 
     // para controlar em qual estado e cena o jogo está no momento
     public GameState gameState;
-    private string sceneName;
 
     // guarda a instância única desta classe
     private static GameController instance;
@@ -60,25 +58,7 @@ public class GameController : MonoBehaviour
     */
     void Update()
     {
-        // TODO: posteriormente trocar este código, pelo clique do botão de iniciar jogo, do menu
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            currentLevelID = 4;
-            sceneName = "Level" + currentLevelID + "Scene";
-            SceneManager.LoadScene(sceneName);
-            gameState = GameState.START_GAME;
-        }
 
-        // TEST: trocar para o nível seguinte
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            Debug.Log("eeeee");
-
-            currentLevelID = 5;
-            sceneName = "Level" + currentLevelID + "Scene";
-            SceneManager.LoadScene(sceneName);
-            gameState = GameState.START_LEVEL;
-        }
     }
 
     public void InitiateGame()
@@ -98,11 +78,12 @@ public class GameController : MonoBehaviour
     public void NextLevel()
     {
         currentLevelID++;
+        gameState = GameState.START_LEVEL;
 
-        // usar isto enquanto existe apenas o nível 4
+        // TEST: usar isto enquanto existe apenas o nível 4
         currentLevelID = 4;
 
-        if (currentLevelID == 5)
+        if (currentLevelID > 5)
         {
             currentLevelID = -1;
             gameState = GameState.FINISH_GAME;
