@@ -5,7 +5,13 @@ using UnityEngine;
 */
 public class ScoreController : MonoBehaviour
 {
+    /* ATRIBUTOS */
+
+    // referência da pontuação do jogador
     private int _score;
+
+
+    /* MÉTODOS */
 
     void SetScore(int score)
     {

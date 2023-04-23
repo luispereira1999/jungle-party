@@ -5,18 +5,22 @@ using UnityEngine;
 */
 public class PowerUpController : MonoBehaviour
 {
-    private float startHeight;
-    private float timeOffset;
+    /* ATRIBUTOS */
 
-    public float bounceSpeed = 8;
-    public float bounceAmplitude = 0.05f;
-    public float rotationSpeed = 90;
+    private float _startHeight;
+    private float _timeOffset;
 
+    public float _bounceSpeed = 8;
+    public float _bounceAmplitude = 0.05f;
+    public float _rotationSpeed = 90;
+
+
+    /* MÉTODOS */
 
     void Start()
     {
-        startHeight = transform.localPosition.y;
-        timeOffset = Random.value * Mathf.PI * 2;
+        _startHeight = transform.localPosition.y;
+        _timeOffset = Random.value * Mathf.PI * 2;
     }
 
     void Update()
@@ -27,7 +31,7 @@ public class PowerUpController : MonoBehaviour
 
     void Animate()
     {
-        float finalheight = startHeight + Mathf.Sin(Time.time * bounceSpeed + timeOffset) * bounceAmplitude;
+        float finalheight = _startHeight + Mathf.Sin(Time.time * _bounceSpeed + _timeOffset) * _bounceAmplitude;
         Vector3 position = transform.localPosition;
         position.y = finalheight;
 
@@ -37,7 +41,7 @@ public class PowerUpController : MonoBehaviour
     void Spin()
     {
         Vector3 rotation = transform.localRotation.eulerAngles;
-        rotation.y += rotationSpeed * Time.deltaTime;
+        rotation.y += _rotationSpeed * Time.deltaTime;
 
         transform.localRotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
     }

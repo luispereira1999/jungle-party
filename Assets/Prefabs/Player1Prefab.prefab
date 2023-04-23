@@ -1809,15 +1809,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775056d1437c18745ba5fb91c4da41a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerID: 1
-  moveSpeed: 4.25
-  jumpForce: 4.25
-  groundLayer:
+  _playerID: 1
+  _moveSpeed: 4.25
+  _jumpForce: 4.25
+  _groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  groundDistance: 0.3
-  animator: {fileID: 0}
-  currentAction: 3
+  _groundDistance: 0.1
 --- !u!1 &8289076706372950934
 GameObject:
   m_ObjectHideFlags: 0

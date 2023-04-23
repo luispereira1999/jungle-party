@@ -6,115 +6,104 @@ using UnityEngine;
 */
 public class PlayerController : MonoBehaviour
 {
+    /* ATRIBUTOS PRIVADOS */
+
     // variável para identificação do jogador
-    public int playerID;
+    [SerializeField] private int _playerID;
 
     // variáveis para a física (movimento e velocidade do personagem)
-    private Rigidbody rb;
-    public float moveSpeed = 4.25f;
-    public float jumpForce = 4.25f;
+    private Rigidbody _rigidbody;
+    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _jumpForce;
 
     // para controlar as animações
-    private Animator animator;
-    private bool isWalking = false;
+    private Animator _animator;
+    private bool _isWalking = false;
 
     // para verificar se o personagem está a pisar no chão
-    public LayerMask groundLayer;
-    public float groundDistance = 0.1f;
+    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private float _groundDistance;
 
     // para verificar se o personagem está congelado
-    private bool isFrozen = false;
-    private float freezingTime = 3f;
+    private bool _isFrozen = false;
+    private float _freezingTime = 3f;
 
     // guarda qual ação o jogador deve executar
-    public PlayerAction currentAction;
-
-    // referências para outros controladores
-    private Level4Controller level4Controller;
+    private IPlayerAction _currentAction;
 
 
-    void Start()
+    /* PROPRIEDADES PÚBLICAS */
+
+    public int PlayerID
     {
-        rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
-        level4Controller = FindObjectOfType<Level4Controller>();
+        get { return _playerID; }
+        set { _playerID = value; }
     }
 
+    public bool IsWalking
+    {
+        get { return _isWalking; }
+        set { _isWalking = value; }
+    }
+
+
+    /* MÉTODOS DO MONOBEHAVIOUR */
+
+    /*
+     * É executado antes da primeira frame.
+    */
+    void Start()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
+    }
+
+    /*
+     * É executado uma vez por frame.
+    */
     void Update()
     {
-        if (!isFrozen)
+        if (!_isFrozen)
         {
-            bool actionInput = Input.GetButtonDown("Action" + playerID);
+            bool actionInput = Input.GetButtonDown("Action" + _playerID);
 
             if (actionInput)
             {
-                if (currentAction == PlayerAction.KICK)
+                if (_currentAction is KickController)  // nível 1
                 {
-                    animator.SetBool("isKicking", true);
-                    Kick();
+                    _currentAction.Enter();
                 }
-                if (currentAction == PlayerAction.PICK_UP_AND_THROW)
+                if (_currentAction is ThrowController)  // nível 4
                 {
-                    animator.SetBool("isPickingUpAndThrowing", true);
-                    PickUpAndThrow();
-                }
-                if (currentAction == PlayerAction.CARRY_MOVE)
-                {
-                    animator.SetBool("isCarryingMove", true);
-                    CarryMove();
-                }
-                if (currentAction == PlayerAction.THROW)
-                {
-                    if (!isWalking)
+                    if (!_isWalking)
                     {
-                        animator.SetBool("isThrowing", true);
-                        Throw();
-                    }
-                }
-                if (currentAction == PlayerAction.JUMP)
-                {
-                    if (IsTouchingGround())
-                    {
-                        animator.SetBool("isJumping", true);
-                        Jump();
+                        _currentAction.Enter();
                     }
                 }
             }
             else
             {
-                if (currentAction == PlayerAction.KICK)
+                if (_currentAction is KickController)  // nível 1
                 {
-                    animator.SetBool("isKicking", false);
+                    _currentAction.Exit();
                 }
-                if (currentAction == PlayerAction.PICK_UP_AND_THROW)
+                if (_currentAction is ThrowController)  // nível 4
                 {
-                    animator.SetBool("isPickingUpAndThrowing", false);
-                }
-                if (currentAction == PlayerAction.CARRY_MOVE)
-                {
-                    animator.SetBool("isCarryingMove", false);
-                }
-                if (currentAction == PlayerAction.THROW)
-                {
-                    animator.SetBool("isThrowing", false);
-                }
-                if (currentAction == PlayerAction.JUMP)
-                {
-                    if (IsTouchingGround())
-                    {
-                        animator.SetBool("isJumping", false);
-                    }
+                    _currentAction.Exit();
                 }
             }
         }
     }
 
+    /*
+     * É executado em intervalos fixos.
+    */
     void FixedUpdate()
     {
-        if (!isFrozen)
+        if (!_isFrozen)
         {
-            float horizontalInput = Input.GetAxis("Horizontal" + playerID);
-            float verticalInput = Input.GetAxis("Vertical" + playerID);
+            float horizontalInput = Input.GetAxis("Horizontal" + _playerID);
+            float verticalInput = Input.GetAxis("Vertical" + _playerID);
 
             // se o jogador pressiona uma tecla de movimento
             if (horizontalInput != 0 || verticalInput != 0)
@@ -122,63 +111,21 @@ public class PlayerController : MonoBehaviour
                 UpdateMovement(horizontalInput, verticalInput);
                 UpdateDirection(horizontalInput, verticalInput);
 
-                if (!isWalking)
+                if (!_isWalking)
                 {
-                    animator.SetBool("isWalking", true);
-                    isWalking = true;
+                    _animator.SetBool("isWalking", true);
+                    _isWalking = true;
                 }
             }
             else
             {
-                if (isWalking)
+                if (_isWalking)
                 {
-                    animator.SetBool("isWalking", false);
-                    isWalking = false;
+                    _animator.SetBool("isWalking", false);
+                    _isWalking = false;
                 }
             }
         }
-    }
-
-    void UpdateMovement(float horizontalInput, float verticalInput)
-    {
-        Vector3 movement = moveSpeed * Time.fixedDeltaTime * new Vector3(horizontalInput, 0f, verticalInput);
-        rb.MovePosition(transform.position + movement);
-    }
-
-    void UpdateDirection(float horizontalInput, float verticalInput)
-    {
-        Vector3 direction = new Vector3(horizontalInput, 0f, verticalInput).normalized;
-        transform.rotation = Quaternion.LookRotation(direction);
-    }
-
-    void Kick()
-    {
-        Debug.Log("Kick()");
-    }
-
-    void PickUpAndThrow()
-    {
-        Debug.Log("PickUpAndThrow()");
-    }
-
-    void CarryMove()
-    {
-        Debug.Log("Kick()");
-    }
-
-    void Throw()
-    {
-        Debug.Log("Throw()");
-    }
-
-    void Jump()
-    {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-    }
-
-    bool IsTouchingGround()
-    {
-        return Physics.Raycast(transform.position, -Vector3.up, groundDistance, groundLayer);
     }
 
     /*
@@ -192,61 +139,72 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
-        string currentPlayerTag = GetCurrentPlayerTag();
-        string oppositePlayerTag = GetOppositePlayerTag();
+        string oppositePlayerTag = GetOppositePlayer().tag;
 
         // se houver colisão com o outro jogador
         if (collision.gameObject.CompareTag(oppositePlayerTag))
         {
-            // uma vez que existem 2 objetos com este script (os 2 jogadores),
-            // é necessário verificar se já ocorreu a colisão num jogador,
-            // para que o mesmo código não seja executado no outro jogador
-            if (!level4Controller.collisionOccurred)
+            if (_currentAction is ThrowController)
             {
-                if (level4Controller.GetPlayerWithBomb().tag != currentPlayerTag)
-                {
-                    level4Controller.ChangePlayerTurn();
-                    level4Controller.AssignBomb();
-                    level4Controller.collisionOccurred = true;
-
-                    Freeze(freezingTime);
-
-                    animator.SetBool("isWalking", false);
-                    isWalking = false;
-                }
-            }
-            else
-            {
-                level4Controller.collisionOccurred = false;
+                _currentAction.Collide(collision);
             }
         }
     }
 
-    string GetCurrentPlayerTag()
+
+    /* MÉTODOS DO PLAYERCONTROLLER */
+
+    public void SetAction(IPlayerAction action, MonoBehaviour level)
     {
-        return this.gameObject.tag;
+        _currentAction = action;
+        _currentAction.Level = level;
+        _currentAction.Player = this;
     }
 
-    string GetOppositePlayerTag()
+    void UpdateMovement(float horizontalInput, float verticalInput)
     {
-        if (playerID == 1)
+        Vector3 movement = _moveSpeed * Time.fixedDeltaTime * new Vector3(horizontalInput, 0f, verticalInput);
+        _rigidbody.MovePosition(transform.position + movement);
+    }
+
+    void UpdateDirection(float horizontalInput, float verticalInput)
+    {
+        Vector3 direction = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+        transform.rotation = Quaternion.LookRotation(direction);
+    }
+
+    public GameObject GetCurrentPlayer()
+    {
+        return this.gameObject;
+    }
+
+    public GameObject GetOppositePlayer()
+    {
+        if (_playerID == 1)
         {
-            return "Player2";
+            GameObject[] oppositePlayer = GameObject.FindGameObjectsWithTag("Player2");
+            return oppositePlayer[0];
         }
         else
         {
-            return "Player1";
+            GameObject[] oppositePlayer = GameObject.FindGameObjectsWithTag("Player1");
+            return oppositePlayer[0];
         }
     }
 
-    void Freeze(float freezingTime)
+    public float GetFreezingTime()
     {
-        isFrozen = true;
+        return _freezingTime;
+    }
+
+    public void Freeze(float freezingTime)
+    {
+        _isFrozen = true;
         Invoke("Unfreeze", freezingTime);
     }
 
-    void Unfreeze()
+    public void Unfreeze()
     {
-        isFrozen = false;
+        _isFrozen = false;
     }
 }

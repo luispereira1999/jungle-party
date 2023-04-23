@@ -7,22 +7,27 @@ using UnityEngine.SceneManagement;
 */
 public class PauseMenuController : MonoBehaviour
 {
+    /* ATRIBUTOS */
+
     // variáveis para os objetos deste menu
-    [SerializeField] private GameObject buttonPause;
-    [SerializeField] private GameObject menuPause;
+    [SerializeField] private GameObject _buttonPause;
+    [SerializeField] private GameObject _menuPause;
+
+
+    /* MÉTODOS */
 
     public void Pause()
     {
         Time.timeScale = 0f;
-        buttonPause.SetActive(false);
-        menuPause.SetActive(true);
+        _buttonPause.SetActive(false);
+        _menuPause.SetActive(true);
     }
 
     public void Resume()
     {
         Time.timeScale = 1f;
-        buttonPause.SetActive(true);
-        menuPause.SetActive(false);
+        _buttonPause.SetActive(true);
+        _menuPause.SetActive(false);
     }
 
     public void Restart()
@@ -34,7 +39,7 @@ public class PauseMenuController : MonoBehaviour
     public void Quit()
     {
         Time.timeScale = 1f;
-        menuPause.SetActive(false);
+        _menuPause.SetActive(false);
 
         string sceneName = "MenuScene";
         SceneManager.LoadScene(sceneName);

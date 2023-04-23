@@ -1,5 +1,5 @@
 /*
- * Armazenar os estados gerais que ocorrem durante o jogo
+ * Armazenar os estados gerais que ocorrem durante o jogo.
 */
 public enum GameState
 {

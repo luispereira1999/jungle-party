@@ -7,12 +7,17 @@ using UnityEngine;
 */
 public class BombController : MonoBehaviour
 {
+    /* ATRIBUTOS */
+
     // referência do jogador que tem a bomba
     private GameObject _player;
 
-    public void SetPlayer(GameObject player)
+
+    /* MÉTODOS */
+
+    public void SetPlayer(GameObject currentPlayer)
     {
-        _player = player;
+        _player = currentPlayer;
     }
 
     public void SetLocalPosition(Vector3 position)
