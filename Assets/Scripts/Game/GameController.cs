@@ -9,84 +9,92 @@ using UnityEngine;
 */
 public class GameController : MonoBehaviour
 {
+    /* ATRIBUTOS PRIVADOS */
+
     // variáveis para guardar os prefabs dos jogadores
-    public GameObject player1Prefab;
-    public GameObject player2Prefab;
-    public List<PlayerModel> players;
-    public int currentLevelID;
+    [SerializeField] private GameObject _player1Prefab;
+    [SerializeField] private GameObject _player2Prefab;
+    private List<PlayerModel> _players = new List<PlayerModel>();
+    private int _currentLevelID = -1;
 
     // para controlar em qual estado e cena o jogo está no momento
-    public GameState gameState;
+    [SerializeField] private GameState _gameState = GameState.MAIN_MENU;
 
     // guarda a instância única desta classe
-    private static GameController instance;
+    private static GameController _instance;
 
-    public static GameController GetInstance()
+
+    /* PROPRIEDADES PÚBLICAS */
+
+    public List<PlayerModel> Players
     {
-        return instance;
+        get { return _players; }
+        set { _players = value; }
     }
 
+    public int CurrentLevelID
+    {
+        get { return _currentLevelID; }
+        set { _currentLevelID = value; }
+    }
+
+    public GameState GameState
+    {
+        get { return _gameState; }
+        set { _gameState = value; }
+    }
+
+    public static GameController Instance
+    {
+        get { return _instance; }
+        set { _instance = value; }
+    }
+
+
+    /* MÉTODOS */
 
     /*
      * É executado antes da função Start().
     */
     void Awake()
     {
-        if (instance != null)
+        if (_instance != null)
         {
             return;
         }
 
         // guardar em memória apenas uma instância desta classe,
         // e cria-la quando ainda não existe, bem como não destrui-la quando a cena muda.
-        instance = this;
+        _instance = this;
         DontDestroyOnLoad(this.gameObject);
-    }
-
-    /*
-     * É executado antes da primeira frame.
-    */
-    void Start()
-    {
-        players = new List<PlayerModel>();
-        currentLevelID = -1;
-        gameState = GameState.MAIN_MENU;
-    }
-
-    /*
-     * É executado uma vez por frame.
-    */
-    void Update()
-    {
-
     }
 
     public void InitiateGame()
     {
-        AddPlayer(player1Prefab, 0f);
-        AddPlayer(player2Prefab, 0f);
+        AddPlayer(_player1Prefab, 0f);
+        AddPlayer(_player2Prefab, 0f);
 
         NextLevel();
-        gameState = GameState.START_GAME;
+        _gameState = GameState.START_GAME;
     }
 
     void AddPlayer(GameObject playerPrefab, float score)
     {
-        players.Add(new PlayerModel(playerPrefab, score));
+        _players.Add(new PlayerModel(playerPrefab, score));
     }
 
     public void NextLevel()
     {
-        currentLevelID++;
-        gameState = GameState.START_LEVEL;
+        _currentLevelID++;
+        _gameState = GameState.START_LEVEL;
 
         // TEST: usar isto enquanto existe apenas o nível 4
-        currentLevelID = 4;
+        _currentLevelID = 4;
 
-        if (currentLevelID > 5)
+        if (_currentLevelID > 5)
         {
-            currentLevelID = -1;
-            gameState = GameState.FINISH_GAME;
+            _currentLevelID = -1;
+            _gameState = GameState.FINISH_GAME;
         }
     }
 
@@ -96,7 +104,7 @@ public class GameController : MonoBehaviour
     */
     public void ResetGame()
     {
-        players.Clear();
-        currentLevelID = -1;
+        _players.Clear();
+        _currentLevelID = -1;
     }
 }

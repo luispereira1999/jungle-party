@@ -6,50 +6,54 @@ using UnityEngine.SceneManagement;
 */
 public class MainMenuController : MonoBehaviour
 {
+    /* ATRIBUTOS */
+
     // variáveis para os objetos do menu
-    [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject controls;
-    [SerializeField] private GameObject credits;
+    [SerializeField] private GameObject _mainMenu;
+    [SerializeField] private GameObject _controls;
+    [SerializeField] private GameObject _credits;
 
     // referência para o controlador de jogo
-    private GameController game;
+    private GameController _game;
 
+
+    /* MÉTODOS */
 
     void Start()
     {
-        game = GameController.GetInstance();
+        _game = GameController.Instance;
     }
 
     public void Play()
     {
-        game.ResetGame();
-        game.InitiateGame();
+        _game.ResetGame();
+        _game.InitiateGame();
 
-        string sceneName = "Level" + game.currentLevelID + "Scene";
+        string sceneName = "Level" + _game.CurrentLevelID + "Scene";
         SceneManager.LoadScene(sceneName);
     }
 
     public void OpenControls()
     {
-        mainMenu.SetActive(false);
-        controls.SetActive(true);
+        _mainMenu.SetActive(false);
+        _controls.SetActive(true);
     }
 
     public void CloseControls()
     {
-        controls.SetActive(false);
-        mainMenu.SetActive(true);
+        _controls.SetActive(false);
+        _mainMenu.SetActive(true);
     }
 
     public void OpenCredits()
     {
-        mainMenu.SetActive(false);
-        credits.SetActive(true);
+        _mainMenu.SetActive(false);
+        _credits.SetActive(true);
     }
 
     public void CloseCredits()
     {
-        credits.SetActive(false);
-        mainMenu.SetActive(true);
+        _credits.SetActive(false);
+        _mainMenu.SetActive(true);
     }
 }

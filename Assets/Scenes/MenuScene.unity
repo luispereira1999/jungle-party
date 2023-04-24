@@ -220,10 +220,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a919ec59148465540b762637741be94a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1Prefab: {fileID: 8061782758230423465, guid: 3a918d084be35774aae3012f21a73fb7, type: 3}
-  player2Prefab: {fileID: 7266379850472434557, guid: fa33d86f90389e54e959673aac82b8de, type: 3}
-  currentLevelID: -1
-  gameState: 2
+  _player1Prefab: {fileID: 8061782758230423465, guid: 3a918d084be35774aae3012f21a73fb7, type: 3}
+  _player2Prefab: {fileID: 7266379850472434557, guid: fa33d86f90389e54e959673aac82b8de, type: 3}
+  _gameState: 0
 --- !u!4 &59546542
 Transform:
   m_ObjectHideFlags: 0
@@ -1579,9 +1578,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d660acb4a86e7b438bed6a3d08af7b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenu: {fileID: 1514648989}
-  controls: {fileID: 1198570638}
-  credits: {fileID: 2038884929}
+  _mainMenu: {fileID: 1514648989}
+  _controls: {fileID: 1198570638}
+  _credits: {fileID: 2038884929}
 --- !u!4 &1211962488
 Transform:
   m_ObjectHideFlags: 0
