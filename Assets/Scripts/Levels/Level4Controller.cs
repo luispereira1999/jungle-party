@@ -14,7 +14,7 @@ public class Level4Controller : MonoBehaviour
     /* ATRIBUTOS PRIVADOS */
 
     // variável para a referência do controlador de jogo
-    private GameController _game = GameController.Instance;
+    private GameController _game;
 
     // variáveis para guardar os jogadores do nível
     private GameObject _player1Object;
@@ -46,13 +46,11 @@ public class Level4Controller : MonoBehaviour
 
     void Start()
     {
+        _game = GameController.Instance;
+
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
         _game.Players = new List<PlayerModel>();
-        _game.CurrentLevelID = -1;
-        _game.GameState = GameState.MAIN_MENU;
-        _game.ResetGame();
         _game.InitiateGame();
-        _game.CurrentLevelID = 4;
 
         // previne que o Random não fique viciado
         Random.InitState(DateTime.Now.Millisecond);

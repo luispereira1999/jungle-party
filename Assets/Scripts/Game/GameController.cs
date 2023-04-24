@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject _player1Prefab;
     [SerializeField] private GameObject _player2Prefab;
     private List<PlayerModel> _players = new List<PlayerModel>();
-    private int _currentLevelID = -1;
+    [SerializeField] private int _currentLevelID;
 
     // para controlar em qual estado e cena o jogo está no momento
     [SerializeField] private GameState _gameState = GameState.MAIN_MENU;
@@ -74,7 +74,6 @@ public class GameController : MonoBehaviour
         AddPlayer(_player1Prefab, 0f);
         AddPlayer(_player2Prefab, 0f);
 
-        NextLevel();
         _gameState = GameState.START_GAME;
     }
 
@@ -87,9 +86,6 @@ public class GameController : MonoBehaviour
     {
         _currentLevelID++;
         _gameState = GameState.START_LEVEL;
-
-        // TEST: usar isto enquanto existe apenas o nível 4
-        _currentLevelID = 4;
 
         if (_currentLevelID > 5)
         {
@@ -105,6 +101,5 @@ public class GameController : MonoBehaviour
     public void ResetGame()
     {
         _players.Clear();
-        _currentLevelID = -1;
     }
 }

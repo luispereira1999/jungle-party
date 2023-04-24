@@ -123,6 +123,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &219965770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 219965771}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &219965771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219965770}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 52.28401, y: 10.759357, z: 65.59027}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &403931578
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,8 +186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 509ce64594fa4094f933194102453d27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPause: {fileID: 815804227}
-  menuPause: {fileID: 1184069330}
+  _buttonPause: {fileID: 0}
+  _menuPause: {fileID: 0}
 --- !u!114 &403931580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1041,10 +1072,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a919ec59148465540b762637741be94a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1Prefab: {fileID: 8061782758230423465, guid: 3a918d084be35774aae3012f21a73fb7, type: 3}
-  player2Prefab: {fileID: 7266379850472434557, guid: fa33d86f90389e54e959673aac82b8de, type: 3}
-  currentLevelID: -1
-  gameState: 2
+  _player1Prefab: {fileID: 8061782758230423465, guid: 3a918d084be35774aae3012f21a73fb7, type: 3}
+  _player2Prefab: {fileID: 7266379850472434557, guid: fa33d86f90389e54e959673aac82b8de, type: 3}
+  _gameState: 0
 --- !u!1 &1184069330
 GameObject:
   m_ObjectHideFlags: 0

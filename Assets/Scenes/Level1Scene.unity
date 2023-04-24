@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 509ce64594fa4094f933194102453d27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPause: {fileID: 815804227}
-  menuPause: {fileID: 1184069330}
+  _buttonPause: {fileID: 0}
+  _menuPause: {fileID: 0}
 --- !u!114 &403931580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,12 +578,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed33b028c67b854ea11120a0e1743ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1Object: {fileID: 0}
-  player2Object: {fileID: 0}
-  bombPrefab: {fileID: 9166698033008333861, guid: b52d0e769fdb7ca4c87bb5e8527bb677, type: 3}
-  bombObject: {fileID: 0}
-  bombController: {fileID: 0}
-  collisionOccurred: 0
+  _ballPrefab: {fileID: 0}
+  _goalPrefab: {fileID: 0}
 --- !u!1 &800158587
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,10 +1042,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a919ec59148465540b762637741be94a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1Prefab: {fileID: 8061782758230423465, guid: 3a918d084be35774aae3012f21a73fb7, type: 3}
-  player2Prefab: {fileID: 7266379850472434557, guid: fa33d86f90389e54e959673aac82b8de, type: 3}
-  currentLevelID: -1
-  gameState: 2
+  _player1Prefab: {fileID: 8061782758230423465, guid: 3a918d084be35774aae3012f21a73fb7, type: 3}
+  _player2Prefab: {fileID: 7266379850472434557, guid: fa33d86f90389e54e959673aac82b8de, type: 3}
+  _gameState: 0
 --- !u!1 &1184069330
 GameObject:
   m_ObjectHideFlags: 0
