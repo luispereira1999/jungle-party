@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isFrozen)
         {
-            bool actionInput = Input.GetButtonDown("Action" + _playerID);
+            bool actionInput = GetCurrentActionInput();
 
             if (actionInput)
             {
@@ -86,11 +86,11 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (_currentAction is KickController)  // nível 1
+                if (_currentAction is KickController)  // quando é o nível 1
                 {
                     _currentAction.Exit();
                 }
-                if (_currentAction is ThrowController)  // nível 4
+                if (_currentAction is ThrowController)  // quando é o nível 4
                 {
                     _currentAction.Exit();
                 }
@@ -105,14 +105,13 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isFrozen)
         {
-            float horizontalInput = Input.GetAxis("Horizontal" + _playerID);
-            float verticalInput = Input.GetAxis("Vertical" + _playerID);
+            (float horizontal, float vertical) movementInputs = GetCurrentMovementInput();
 
             // se o jogador pressiona uma tecla de movimento
-            if (horizontalInput != 0 || verticalInput != 0)
+            if (movementInputs.horizontal != 0 || movementInputs.vertical != 0)
             {
-                UpdateMovement(horizontalInput, verticalInput);
-                UpdateDirection(horizontalInput, verticalInput);
+                UpdateMovement(movementInputs.horizontal, movementInputs.vertical);
+                UpdateDirection(movementInputs.horizontal, movementInputs.vertical);
 
                 if (!_isWalking)
                 {
@@ -158,6 +157,15 @@ public class PlayerController : MonoBehaviour
                 _currentAction.Collide(collision);
             }
         }
+
+        if (_currentAction is KickController)
+        {
+            // se houver colisão com a bola
+            if (collision.gameObject.CompareTag("Ball"))
+            {
+                _currentAction.Collide(collision);
+            }
+        }
     }
 
 
@@ -168,6 +176,19 @@ public class PlayerController : MonoBehaviour
         _currentAction = action;
         _currentAction.Level = level;
         _currentAction.Player = this;
+    }
+
+    public bool GetCurrentActionInput()
+    {
+        bool action = Input.GetButtonDown("Action" + _playerID);
+        return action;
+    }
+
+    public (float, float) GetCurrentMovementInput()
+    {
+        float horizontal = Input.GetAxis("Horizontal" + _playerID);
+        float vertical = Input.GetAxis("Vertical" + _playerID);
+        return (horizontal, vertical);
     }
 
     void UpdateMovement(float horizontalInput, float verticalInput)

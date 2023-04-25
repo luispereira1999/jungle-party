@@ -13,6 +13,12 @@ public class KickController : MonoBehaviour, IPlayerAction
     // para controlar as animações
     private Animator _animator;
 
+    // referência do controlador da bola
+    private GameObject _ballObject;
+
+    // para a força que a bola é empurrada ou chutada
+    private float _force = 5f;
+
 
     /* PROPRIEDADES PÚBLICAS */
 
@@ -32,6 +38,7 @@ public class KickController : MonoBehaviour, IPlayerAction
     public void Start()
     {
         _animator = GetComponent<Animator>();
+        _ballObject = GameObject.FindGameObjectsWithTag("Ball")[0];
     }
 
     public void Enter()
@@ -46,6 +53,16 @@ public class KickController : MonoBehaviour, IPlayerAction
 
     public void Collide(Collision collision)
     {
+        PushBall(collision);
+    }
 
+    public void PushBall(Collision collision)
+    {
+        Vector3 direction = collision.contacts[0].point - transform.position;
+        // garante que a direção será sempre correta, independente da força aplicada
+        direction = direction.normalized;
+
+        Rigidbody rigidbodyBall = _ballObject.GetComponent<Rigidbody>();
+        rigidbodyBall.AddForce(direction * _force, ForceMode.Impulse);
     }
 }
