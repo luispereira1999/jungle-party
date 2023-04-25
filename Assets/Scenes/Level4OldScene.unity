@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 509ce64594fa4094f933194102453d27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttonPause: {fileID: 0}
-  _menuPause: {fileID: 0}
+  _buttonPause: {fileID: 815804227}
+  _menuPause: {fileID: 1184069330}
 --- !u!114 &403931580
 MonoBehaviour:
   m_ObjectHideFlags: 0
