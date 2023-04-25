@@ -8,9 +8,11 @@ public class TimerController : MonoBehaviour
 {
     // ATRIBUTOS
 
+    // variáveis para o tempo iniciar e o atual 
     [SerializeField] private float _startingTime;
     private float _currentTime = 0f;
 
+    // a label de texto onde será mostrado o tempo
     private Text _countdownText;
 
 

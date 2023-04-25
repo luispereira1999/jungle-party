@@ -1737,7 +1737,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8061782758230423465}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 184, y: 69, z: 91}
+  m_LocalPosition: {x: 184, y: 69, z: 110}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1810,12 +1810,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerID: 1
-  _moveSpeed: 4.25
+  _moveSpeed: 60
   _jumpForce: 4.25
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
   _groundDistance: 0.1
+  _arenaCollider: {fileID: 860145724114102082, guid: c0bc63eda51a28e4d810433a180cba0a, type: 3}
 --- !u!1 &8289076706372950934
 GameObject:
   m_ObjectHideFlags: 0
