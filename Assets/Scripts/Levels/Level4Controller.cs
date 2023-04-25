@@ -32,6 +32,9 @@ public class Level4Controller : MonoBehaviour
     // para definir a ação dos jogadores neste nível
     private ThrowController _throwController;
 
+    [SerializeField] private GameObject _powerUp;
+    private int _i = 185;
+
 
     /* PROPRIEDADES PÚBLICAS */
 
@@ -71,7 +74,14 @@ public class Level4Controller : MonoBehaviour
 
     void Update()
     {
-
+        // TEST: Spawn power ups
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log("Entrei aqui!!");
+            GameObject instantiatedObject = Instantiate(_powerUp, new Vector3(transform.position.x, Terrain.activeTerrain.SampleHeight(transform.position), transform.position.z), Quaternion.identity);
+            instantiatedObject.name = "Robot " + _i.ToString();
+            //_i += i;
+        }
     }
 
     void SpawnPlayer1()
