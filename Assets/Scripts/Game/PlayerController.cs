@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _groundDistance;
 
+    // para o colisor do mapa onde o jogador pode andar
+
+
     // para verificar se o personagem está congelado
     private bool _isFrozen = false;
     private float _freezingTime = 3f;
@@ -133,6 +136,12 @@ public class PlayerController : MonoBehaviour
     */
     void OnCollisionEnter(Collision collision)
     {
+        // se houver colisão com alguma parede
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            Debug.Log("Colidiu com parede");
+        }
+
         // se houver colisão com alguma power up
         if (collision.gameObject.CompareTag("PowerUp"))
         {

@@ -8,7 +8,7 @@ public class KickController : MonoBehaviour, IPlayerAction
     /* ATRIBUTOS PRIVADOS */
 
     // referência ao nível 1
-    private Level4Controller _level1;
+    private Level1Controller _level1;
 
     // para controlar as animações
     private Animator _animator;
@@ -19,11 +19,11 @@ public class KickController : MonoBehaviour, IPlayerAction
     // propriedade para ter acesso ao controlador do jogador
     public PlayerController Player { get; set; }
 
-    // para ter acesso ao nível 4
+    // para ter acesso ao nível 1
     public MonoBehaviour Level
     {
         get { return _level1; }
-        set { _level1 = (Level4Controller)value; }
+        set { _level1 = (Level1Controller)value; }
     }
 
 
