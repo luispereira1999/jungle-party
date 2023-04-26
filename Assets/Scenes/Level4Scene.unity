@@ -4234,7 +4234,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bombPrefab: {fileID: 9166698033008333861, guid: b52d0e769fdb7ca4c87bb5e8527bb677, type: 3}
-  _powerUp: {fileID: 0}
+  powerUp: {fileID: 919132149155446097, guid: 557490a6fbfe06f4ca0d7320b4ec78fd, type: 3}
+  powerDown: {fileID: 919132149155446097, guid: 391414abcedc42d429d7813e0ef7be01, type: 3}
 --- !u!4 &1657739617
 Transform:
   m_ObjectHideFlags: 0
@@ -4286,7 +4287,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 21.948639, y: 366.87366}
+  m_AnchoredPosition: {x: 21.948608, y: 366.87366}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1660497026

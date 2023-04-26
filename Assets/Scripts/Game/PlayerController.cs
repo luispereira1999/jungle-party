@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 /*
  * Armazena dados sobre cada personagem criada, no início do jogo.
@@ -134,6 +135,9 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else {
+            _animator.SetBool("isWalking", false);
+        }
     }
 
     /*
@@ -144,14 +148,26 @@ public class PlayerController : MonoBehaviour
         // se houver colisão com alguma power up
         if (collision.gameObject.CompareTag("PowerUp"))
         {
-            Destroy(collision.gameObject);
-            _speed = _doubleSpeed;
+            System.Random rnd = new System.Random();
+            int value = rnd.Next(3);
 
-        }
-        else if (collision.gameObject.CompareTag("PowerDown"))
-        {
             Destroy(collision.gameObject);
-            _speed = _halfSpeed;
+
+            switch(value)
+            {
+                case (int) PowerUpAction.SPEED:
+                    _speed = _doubleSpeed;
+                    Invoke("NormalSpeed", _freezingTime);
+                    break;
+                case (int) PowerUpAction.SLOW:
+                    _speed = _halfSpeed;
+                    Invoke("NormalSpeed", _freezingTime);
+                    break;
+                case (int) PowerUpAction.STUN:
+                    _isWalking = false;
+                    Freeze(_freezingTime);
+                    break;
+            }
 
         }
 
@@ -222,5 +238,10 @@ public class PlayerController : MonoBehaviour
     public void Unfreeze()
     {
         _isFrozen = false;
+    }
+
+    public void NormalSpeed()
+    {
+        _speed = _moveSpeed;
     }
 }

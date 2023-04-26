@@ -38,7 +38,6 @@ public class Level4Controller : MonoBehaviour
     private List<GameObject> powerUps;
 
     [SerializeField] GameObject powerUp;
-    [SerializeField] GameObject powerDown;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -89,27 +88,14 @@ public class Level4Controller : MonoBehaviour
     void createPowerUp()
     {
         System.Random rnd = new System.Random();
-        int xValue = rnd.Next(40, 60);
-        int zValue = rnd.Next(70, 90);
+        int xValue = rnd.Next(72, 440);
+        int zValue = rnd.Next(62, 430);
 
-        int powerUpToDisplayVal = rnd.Next(2);
-
-        bool isPowerUp = powerUpToDisplayVal == 0;
-
-        GameObject powerUpToDisplay = isPowerUp ? powerUp : powerDown;
-
-        GameObject instantiatedObject = Instantiate(powerUpToDisplay, new Vector3(xValue, 6, zValue), Quaternion.identity);
-        instantiatedObject.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+        GameObject instantiatedObject = Instantiate(powerUp, new Vector3(xValue, 55, zValue), Quaternion.identity);
+        instantiatedObject.transform.localScale = new Vector3(4f, 4f, 4f);
         instantiatedObject.AddComponent<BoxCollider>();
-
-        if (isPowerUp)
-        {
-            instantiatedObject.tag = "PowerUp";
-        }
-        else
-        {
-            instantiatedObject.tag = "PowerDown";
-        }
+       instantiatedObject.tag = "PowerUp";
+        
         //instantiatedObject.tag = isPowerUp ? "PowerUp" : "PowerDown";
 
 
