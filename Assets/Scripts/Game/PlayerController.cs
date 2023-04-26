@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
 
+    private float _halfSpeed;
+    private float _doubleSpeed;
+    private float _speed;
+
     // para controlar as animações
     private Animator _animator;
     private bool _isWalking = false;
@@ -56,6 +60,10 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+
+        _speed = _moveSpeed;
+        _halfSpeed = _moveSpeed / 2;
+        _doubleSpeed = _moveSpeed * 2;
     }
 
     /*
@@ -137,6 +145,14 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("PowerUp"))
         {
             Destroy(collision.gameObject);
+            _speed = _doubleSpeed;
+
+        }
+        else if (collision.gameObject.CompareTag("PowerDown"))
+        {
+            Destroy(collision.gameObject);
+            _speed = _halfSpeed;
+
         }
 
         string oppositePlayerTag = GetOppositePlayer().tag;
@@ -163,7 +179,7 @@ public class PlayerController : MonoBehaviour
 
     void UpdateMovement(float horizontalInput, float verticalInput)
     {
-        Vector3 movement = _moveSpeed * Time.fixedDeltaTime * new Vector3(horizontalInput, 0f, verticalInput);
+        Vector3 movement = _speed * Time.fixedDeltaTime * new Vector3(horizontalInput, 0f, verticalInput);
         _rigidbody.MovePosition(transform.position + movement);
     }
 

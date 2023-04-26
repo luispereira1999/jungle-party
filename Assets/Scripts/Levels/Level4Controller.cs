@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -16,6 +17,8 @@ public class Level4Controller : MonoBehaviour
     // variável para a referência do controlador de jogo
     private GameController _game;
 
+    private int i = 0;
+
     // variáveis para guardar os jogadores do nível
     private GameObject _player1Object;
     private GameObject _player2Object;
@@ -32,8 +35,10 @@ public class Level4Controller : MonoBehaviour
     // para definir a ação dos jogadores neste nível
     private ThrowController _throwController;
 
-    [SerializeField] private GameObject _powerUp;
-    private int _i = 185;
+    private List<GameObject> powerUps;
+
+    [SerializeField] GameObject powerUp;
+    [SerializeField] GameObject powerDown;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -51,6 +56,7 @@ public class Level4Controller : MonoBehaviour
     {
         _game = GameController.Instance;
 
+        powerUps = new List<GameObject>();
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
         _game.Players = new List<PlayerModel>();
         _game.InitiateGame();
@@ -70,18 +76,44 @@ public class Level4Controller : MonoBehaviour
 
         SpawnBomb();
         AssignBomb();
+
+        InvokeRepeating("createPowerUp", 5f, 10f);
     }
 
     void Update()
     {
-        // TEST: Spawn power ups
-        if (Input.GetKeyDown(KeyCode.C))
+
+    }
+
+
+    void createPowerUp()
+    {
+        System.Random rnd = new System.Random();
+        int xValue = rnd.Next(40, 60);
+        int zValue = rnd.Next(70, 90);
+
+        int powerUpToDisplayVal = rnd.Next(2);
+
+        bool isPowerUp = powerUpToDisplayVal == 0;
+
+        GameObject powerUpToDisplay = isPowerUp ? powerUp : powerDown;
+
+        GameObject instantiatedObject = Instantiate(powerUpToDisplay, new Vector3(xValue, 6, zValue), Quaternion.identity);
+        instantiatedObject.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+        instantiatedObject.AddComponent<BoxCollider>();
+
+        if (isPowerUp)
         {
-            Debug.Log("Entrei aqui!!");
-            GameObject instantiatedObject = Instantiate(_powerUp, new Vector3(transform.position.x, Terrain.activeTerrain.SampleHeight(transform.position), transform.position.z), Quaternion.identity);
-            instantiatedObject.name = "Robot " + _i.ToString();
-            //_i += i;
+            instantiatedObject.tag = "PowerUp";
         }
+        else
+        {
+            instantiatedObject.tag = "PowerDown";
+        }
+        //instantiatedObject.tag = isPowerUp ? "PowerUp" : "PowerDown";
+
+
+        i++;
     }
 
     void SpawnPlayer1()
