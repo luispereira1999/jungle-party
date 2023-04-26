@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 /*
  * Armazena dados sobre cada personagem criada, no início do jogo.
@@ -135,7 +134,8 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        else {
+        else
+        {
             _animator.SetBool("isWalking", false);
         }
     }
@@ -153,17 +153,17 @@ public class PlayerController : MonoBehaviour
 
             Destroy(collision.gameObject);
 
-            switch(value)
+            switch (value)
             {
-                case (int) PowerUpAction.SPEED:
+                case (int)PowerUpAction.SPEED:
                     _speed = _doubleSpeed;
                     Invoke("NormalSpeed", _freezingTime);
                     break;
-                case (int) PowerUpAction.SLOW:
+                case (int)PowerUpAction.SLOW:
                     _speed = _halfSpeed;
                     Invoke("NormalSpeed", _freezingTime);
                     break;
-                case (int) PowerUpAction.STUN:
+                case (int)PowerUpAction.STUN:
                     _isWalking = false;
                     Freeze(_freezingTime);
                     break;

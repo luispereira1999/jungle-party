@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -35,9 +34,9 @@ public class Level4Controller : MonoBehaviour
     // para definir a ação dos jogadores neste nível
     private ThrowController _throwController;
 
-    private List<GameObject> powerUps;
+    private List<GameObject> _powerUps;
 
-    [SerializeField] GameObject powerUp;
+    [SerializeField] GameObject _powerUp;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -55,10 +54,11 @@ public class Level4Controller : MonoBehaviour
     {
         _game = GameController.Instance;
 
-        powerUps = new List<GameObject>();
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
         _game.Players = new List<PlayerModel>();
         _game.InitiateGame();
+
+        _powerUps = new List<GameObject>();
 
         // previne que o Random não fique viciado
         Random.InitState(DateTime.Now.Millisecond);
@@ -76,7 +76,7 @@ public class Level4Controller : MonoBehaviour
         SpawnBomb();
         AssignBomb();
 
-        InvokeRepeating("createPowerUp", 5f, 10f);
+        InvokeRepeating("CreatePowerUp", 5f, 10f);
     }
 
     void Update()
@@ -84,20 +84,14 @@ public class Level4Controller : MonoBehaviour
 
     }
 
-
-    void createPowerUp()
+    void CreatePowerUp()
     {
         System.Random rnd = new System.Random();
         int xValue = rnd.Next(72, 440);
         int zValue = rnd.Next(62, 430);
 
-        GameObject instantiatedObject = Instantiate(powerUp, new Vector3(xValue, 55, zValue), Quaternion.identity);
-        instantiatedObject.transform.localScale = new Vector3(4f, 4f, 4f);
-        instantiatedObject.AddComponent<BoxCollider>();
-       instantiatedObject.tag = "PowerUp";
-        
+        GameObject instantiatedObject = Instantiate(_powerUp, new Vector3(xValue, _powerUp.transform.position.y, zValue), Quaternion.identity);
         //instantiatedObject.tag = isPowerUp ? "PowerUp" : "PowerDown";
-
 
         i++;
     }
