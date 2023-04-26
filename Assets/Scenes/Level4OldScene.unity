@@ -564,7 +564,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bombPrefab: {fileID: 9166698033008333861, guid: b52d0e769fdb7ca4c87bb5e8527bb677, type: 3}
-  _powerUp: {fileID: 0}
+  powerUp: {fileID: 919132149155446097, guid: 557490a6fbfe06f4ca0d7320b4ec78fd, type: 3}
+  powerDown: {fileID: 919132149155446097, guid: 391414abcedc42d429d7813e0ef7be01, type: 3}
 --- !u!4 &721894622
 Transform:
   m_ObjectHideFlags: 0

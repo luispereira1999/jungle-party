@@ -16,6 +16,8 @@ public class Level4Controller : MonoBehaviour
     // variável para a referência do controlador de jogo
     private GameController _game;
 
+    private int i = 0;
+
     // variáveis para guardar os jogadores do nível
     private GameObject _player1Object;
     private GameObject _player2Object;
@@ -32,8 +34,9 @@ public class Level4Controller : MonoBehaviour
     // para definir a ação dos jogadores neste nível
     private ThrowController _throwController;
 
-    [SerializeField] private GameObject _powerUp;
-    private int _i = 185;
+    private List<GameObject> _powerUps;
+
+    [SerializeField] GameObject _powerUp;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -55,6 +58,8 @@ public class Level4Controller : MonoBehaviour
         _game.Players = new List<PlayerModel>();
         _game.InitiateGame();
 
+        _powerUps = new List<GameObject>();
+
         // previne que o Random não fique viciado
         Random.InitState(DateTime.Now.Millisecond);
 
@@ -70,18 +75,25 @@ public class Level4Controller : MonoBehaviour
 
         SpawnBomb();
         AssignBomb();
+
+        InvokeRepeating("CreatePowerUp", 5f, 10f);
     }
 
     void Update()
     {
-        // TEST: Spawn power ups
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            Debug.Log("Entrei aqui!!");
-            GameObject instantiatedObject = Instantiate(_powerUp, new Vector3(transform.position.x, Terrain.activeTerrain.SampleHeight(transform.position), transform.position.z), Quaternion.identity);
-            instantiatedObject.name = "Robot " + _i.ToString();
-            //_i += i;
-        }
+
+    }
+
+    void CreatePowerUp()
+    {
+        System.Random rnd = new System.Random();
+        int xValue = rnd.Next(72, 440);
+        int zValue = rnd.Next(62, 430);
+
+        GameObject instantiatedObject = Instantiate(_powerUp, new Vector3(xValue, _powerUp.transform.position.y, zValue), Quaternion.identity);
+        //instantiatedObject.tag = isPowerUp ? "PowerUp" : "PowerDown";
+
+        i++;
     }
 
     void SpawnPlayer1()

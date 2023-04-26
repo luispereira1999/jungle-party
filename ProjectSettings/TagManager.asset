@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UI
   - PowerUp
+  - PowerDown
   - Terrain
   - Bomb
   - LevelController
