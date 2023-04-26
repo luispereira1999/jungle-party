@@ -11,6 +11,7 @@ TagManager:
   - LevelController
   - Player1
   - Player2
+  - PowerDown
   layers:
   - Default
   - TransparentFX
