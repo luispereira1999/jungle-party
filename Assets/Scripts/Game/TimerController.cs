@@ -15,6 +15,9 @@ public class TimerController : MonoBehaviour
     // a label de texto onde será mostrado o tempo
     private Text _countdownText;
 
+    // barra de progresso do tempo
+    [SerializeField] ProgressBarCircle _ProgressBar;
+
 
     // MÉTODOS
 
@@ -22,6 +25,11 @@ public class TimerController : MonoBehaviour
     {
         _countdownText = GetComponent<Text>();
         _currentTime = _startingTime;
+    }
+
+    void Start()
+    {
+        _ProgressBar.BarValue = 0;
     }
 
     void Update()
@@ -37,6 +45,19 @@ public class TimerController : MonoBehaviour
         float seconds = Mathf.FloorToInt(_currentTime % 60);
 
         _countdownText.text = convertToDisplay(minutes) + ":" + convertToDisplay(seconds);
+    }
+
+    void FixedUpdate()
+    {
+        if (Input.GetKey(KeyCode.G))
+        {
+            _ProgressBar.BarValue += 1;
+        }
+
+        if (Input.GetKey(KeyCode.F))
+        {
+            _ProgressBar.BarValue -= 1;
+        }
     }
 
     string convertToDisplay(float value)
