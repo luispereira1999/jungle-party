@@ -11,12 +11,13 @@ public class ProgressBarCircle : MonoBehaviour
     public Font TitleFont;
 
     [Header("Bar Setting")]
+    public float maxValue;
     public Color BarColor;
     public Color BarBackGroundColor;
     public Color MaskColor;
     public Sprite BarBackGroundSprite;
-    [Range(1f, 60f)]
-    public int Alert = 60 - 15;
+    //[Range(1f, 60f)]
+    [SerializeField] private int _alertTime = 15;
     public Color BarAlertColor;
 
     [Header("Sound Alert")]
@@ -36,7 +37,7 @@ public class ProgressBarCircle : MonoBehaviour
 
         set
         {
-            value = Mathf.Clamp(value, 0, 60);
+            value = Mathf.Clamp(value, 0, maxValue);
             barValue = value;
             UpdateValue(barValue);
         }
@@ -51,7 +52,7 @@ public class ProgressBarCircle : MonoBehaviour
         Mask = transform.Find("Mask").GetComponent<Image>();
     }
 
-    private void Start()
+    void Start()
     {
         txtTitle.text = Title;
         txtTitle.color = TitleColor;
@@ -62,16 +63,16 @@ public class ProgressBarCircle : MonoBehaviour
         barBackground.color = BarBackGroundColor;
         barBackground.sprite = BarBackGroundSprite;
 
-        UpdateValue(barValue);
+        UpdateValue(BarValue);
     }
 
-    void UpdateValue(float val)
+    public void UpdateValue(float val)
     {
-        bar.fillAmount = -(val / 60) + 1f;
+        bar.fillAmount = -(val / maxValue) + 1f;
 
-        txtTitle.text = Title + "00:00" + "\n" + "Ronda: 1";
+        txtTitle.text = Title + val + "\n" + "Ronda: 1";
 
-        if (Alert >= val)
+        if (_alertTime >= val)
         {
             barBackground.color = BarAlertColor;
         }
@@ -95,7 +96,7 @@ public class ProgressBarCircle : MonoBehaviour
         }
         else
         {
-            if (Alert >= barValue && Time.time > nextPlay)
+            if (_alertTime >= barValue && Time.time > nextPlay)
             {
                 nextPlay = Time.time + RepearRate;
                 audiosource.PlayOneShot(sound);
