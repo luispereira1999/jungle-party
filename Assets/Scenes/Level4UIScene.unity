@@ -6088,6 +6088,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buttonPause: {fileID: 1660497024}
   _menuPause: {fileID: 932110635}
+  _BackgroundMusicController: {fileID: 1382167920}
 --- !u!4 &1910358834
 Transform:
   m_ObjectHideFlags: 0
