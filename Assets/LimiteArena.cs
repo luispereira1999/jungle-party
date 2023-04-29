@@ -9,7 +9,7 @@ public class LimiteArena : MonoBehaviour
         {
             Debug.Log("aa");
             // Ativa um flag no  jogador indicando que ele está dentro da arena
-            other.GetComponent<PlayerController>().estaDentroDaArena = true;
+            //other.GetComponent<PlayerController>().estaDentroDaArena = true;
         }
     }
 
@@ -21,7 +21,7 @@ public class LimiteArena : MonoBehaviour
             Debug.Log("bb");
 
             // Desativa o flag indicando que o jogador está dentro da arena
-            other.GetComponent<PlayerController>().estaDentroDaArena = false;
+            //other.GetComponent<PlayerController>().estaDentroDaArena = false;
         }
     }
 }
