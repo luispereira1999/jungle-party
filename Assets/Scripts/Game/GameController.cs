@@ -71,15 +71,15 @@ public class GameController : MonoBehaviour
 
     public void InitiateGame()
     {
-        AddPlayer(_player1Prefab, 0f);
-        AddPlayer(_player2Prefab, 0f);
+        AddPlayer(_player1Prefab, 0f, 1);
+        AddPlayer(_player2Prefab, 0f, 2);
 
         _gameState = GameState.START_GAME;
     }
 
-    void AddPlayer(GameObject playerPrefab, float score)
+    void AddPlayer(GameObject playerPrefab, float score, int id)
     {
-        _players.Add(new PlayerModel(playerPrefab, score));
+        _players.Add(new PlayerModel(playerPrefab, score, id));
     }
 
     public void NextLevel()

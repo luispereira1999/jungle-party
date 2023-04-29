@@ -16,6 +16,10 @@ TagManager:
   - Ball
   - InitBtn
   - Rounds
+  - PopUp
+  - PopUpText
+  - ScoreP1Text
+  - ScoreP2Text
   layers:
   - Default
   - TransparentFX
