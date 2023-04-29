@@ -12,6 +12,7 @@ public class PauseMenuController : MonoBehaviour
     // variáveis para os objetos deste menu
     [SerializeField] private GameObject _buttonPause;
     [SerializeField] private GameObject _menuPause;
+    [SerializeField] private GameObject _BackgroundMusicController;
 
 
     /* MÉTODOS */
@@ -19,21 +20,19 @@ public class PauseMenuController : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0f;
+
         _buttonPause.SetActive(false);
         _menuPause.SetActive(true);
+        _BackgroundMusicController.GetComponent<AudioSource>().Stop();
     }
 
     public void Resume()
     {
         Time.timeScale = 1f;
+
         _buttonPause.SetActive(true);
         _menuPause.SetActive(false);
-    }
-
-    public void Restart()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        _BackgroundMusicController.GetComponent<AudioSource>().Play();
     }
 
     public void Quit()

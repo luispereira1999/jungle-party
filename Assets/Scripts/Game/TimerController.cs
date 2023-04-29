@@ -1,19 +1,18 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 /*
- * Controla o relógio que existe em cada nível.
+ * Controla o relÃ³gio que existe em cada nÃ­vel.
 */
 public class TimerController : MonoBehaviour
 {
-    // ATRIBUTOS
+    /* ATRIBUTOS */
 
-    // variáveis para o tempo iniciar e o atual 
+    // variÃ¡veis para o tempo inicial e atual (o tempo Ã© em segundos)
     [SerializeField] private float _startingTime;
     private float _currentTime = 0f;
 
-    // a label de texto onde será mostrado o tempo
-    private Text _countdownText;
+    // barra de progresso do tempo
+    [SerializeField] private ProgressBarCircleController _progressBar;
 
     private static TimerController _instance;
 
@@ -24,11 +23,13 @@ public class TimerController : MonoBehaviour
     }
 
 
-    // MÉTODOS
+    /* MÃ‰TODOS */
 
-    void Awake()
+    void Start()
     {
-        _countdownText = GetComponent<Text>();
+        _progressBar.MaxValue = _currentTime;
+        _progressBar.BarValue = _progressBar.MaxValue;
+    
         _currentTime = _startingTime;
 
         if (_instance != null)
@@ -51,26 +52,21 @@ public class TimerController : MonoBehaviour
 
     void Update()
     {
-        _currentTime -= 1 * Time.deltaTime;
+        _currentTime -= Time.deltaTime;
 
-        if (_currentTime < 0)
+        // quando o tempo terminar
+        if (_currentTime < 0f)
         {
             _currentTime = 0f;
         }
 
-        float minutes = Mathf.FloorToInt(_currentTime / 60);
-        float seconds = Mathf.FloorToInt(_currentTime % 60);
-
-        _countdownText.text = convertToDisplay(minutes) + ":" + convertToDisplay(seconds);
+        // atualiza a barra de progresso
+        int timeWithoutDecimals = GetTimeWithoutDecimals();
+        _progressBar.UpdateValue(timeWithoutDecimals);
     }
 
-    string convertToDisplay(float value)
+    int GetTimeWithoutDecimals()
     {
-        if (value < 10)
-        {
-            return "0" + value.ToString();
-        }
-
-        return value.ToString();
+        return Mathf.FloorToInt(_currentTime);
     }
 }
