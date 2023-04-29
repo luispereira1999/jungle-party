@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -157,6 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buttonPause: {fileID: 815804227}
   _menuPause: {fileID: 1184069330}
+  _BackgroundMusicController: {fileID: 0}
 --- !u!114 &403931580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,8 +565,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bombPrefab: {fileID: 9166698033008333861, guid: b52d0e769fdb7ca4c87bb5e8527bb677, type: 3}
-  powerUp: {fileID: 919132149155446097, guid: 557490a6fbfe06f4ca0d7320b4ec78fd, type: 3}
-  powerDown: {fileID: 919132149155446097, guid: 391414abcedc42d429d7813e0ef7be01, type: 3}
+  _powerUp: {fileID: 0}
+  _timer: {fileID: 0}
+  _rounds: 0
+  _roundsComponent: {fileID: 0}
+  _introPanel: {fileID: 0}
 --- !u!4 &721894622
 Transform:
   m_ObjectHideFlags: 0
