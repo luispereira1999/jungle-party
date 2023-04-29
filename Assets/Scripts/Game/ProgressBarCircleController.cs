@@ -74,15 +74,13 @@ public class ProgressBarCircleController : MonoBehaviour
         _mask.color = _textBackgroundColor;
         _barBackground.color = _barBackgroundColor;
         _barBackground.sprite = _barBackgroundSprite;
-
-        UpdateValue(BarValue);
     }
 
     public void UpdateValue(float val)
     {
         _bar.fillAmount = -(val / _maxValue) + 1f;
 
-        _textTitle.text = _title + val + "\n" + "Ronda: 1";
+        _textTitle.text = _title + val;
 
         if (_alertTime >= val)
         {
@@ -91,21 +89,6 @@ public class ProgressBarCircleController : MonoBehaviour
         else
         {
             _barBackground.color = _barBackgroundColor;
-        }
-    }
-
-    void Update()
-    {
-        if (!Application.isPlaying)
-        {
-            UpdateValue(0);
-
-            _textTitle.color = _titleColor;
-            _textTitle.font = _titleFont;
-            _mask.color = _textBackgroundColor;
-            _bar.color = _barColor;
-            _barBackground.color = _barBackgroundColor;
-            _barBackground.sprite = _barBackgroundSprite;
         }
     }
 }

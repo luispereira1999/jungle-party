@@ -19,16 +19,16 @@ public class PauseMenuController : MonoBehaviour
 
     public void Pause()
     {
-        Time.timeScale = 0f;
+        TimerController.Freeze();
 
         _buttonPause.SetActive(false);
         _menuPause.SetActive(true);
-        _BackgroundMusicController.GetComponent<AudioSource>().Stop();
+        _BackgroundMusicController.GetComponent<AudioSource>().Pause();
     }
 
     public void Resume()
     {
-        Time.timeScale = 1f;
+        TimerController.Unfreeze();
 
         _buttonPause.SetActive(true);
         _menuPause.SetActive(false);
@@ -37,7 +37,7 @@ public class PauseMenuController : MonoBehaviour
 
     public void Quit()
     {
-        Time.timeScale = 1f;
+        TimerController.Unfreeze();
         _menuPause.SetActive(false);
 
         string sceneName = "MenuScene";

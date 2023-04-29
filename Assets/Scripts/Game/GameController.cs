@@ -85,7 +85,7 @@ public class GameController : MonoBehaviour
     public void NextLevel()
     {
         _currentLevelID++;
-        _gameState = GameState.START_LEVEL;
+        _gameState = GameState.IN_GAME;
 
         if (_currentLevelID > 5)
         {

@@ -14,40 +14,44 @@ public class TimerController : MonoBehaviour
     // barra de progresso do tempo
     [SerializeField] private ProgressBarCircleController _progressBar;
 
-    private static TimerController _instance;
-
-    public static TimerController Instance
+    public ProgressBarCircleController ProgressBar
     {
-        get { return _instance; }
-        set { _instance = value; }
+        get { return _progressBar; }
+        set { _progressBar = value; }
+    }
+
+    public float CurrentTime
+    {
+        get { return _currentTime; }
+        set { _currentTime = value; }
     }
 
 
     /* MÉTODOS */
 
+    void Awake()
+    {
+
+    }
+
     void Start()
     {
+        _currentTime = _startingTime;
         _progressBar.MaxValue = _currentTime;
         _progressBar.BarValue = _progressBar.MaxValue;
-    
-        _currentTime = _startingTime;
-
-        if (_instance != null)
-        {
-            return;
-        }
-
-        _instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        Debug.Log("A:" + _progressBar.BarValue);
     }
 
     public void Restart()
     {
         _currentTime = _startingTime;
+        _progressBar.MaxValue = _currentTime;
+        _progressBar.BarValue = _progressBar.MaxValue;
     }
 
-    public bool hasFinished() {
-        return _currentTime == 0f;
+    public bool HasFinished()
+    {
+        return _currentTime <= 0f;
     }
 
     void Update()
@@ -65,8 +69,18 @@ public class TimerController : MonoBehaviour
         _progressBar.UpdateValue(timeWithoutDecimals);
     }
 
-    int GetTimeWithoutDecimals()
+    public int GetTimeWithoutDecimals()
     {
         return Mathf.FloorToInt(_currentTime);
+    }
+
+    public static void Freeze()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public static void Unfreeze()
+    {
+        Time.timeScale = 1f;
     }
 }

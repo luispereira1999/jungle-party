@@ -14,7 +14,7 @@ public class Level1Controller : MonoBehaviour
     // variável para a referência do controlador de jogo
     private GameController _game;
 
-    // variáveis para guardar os jogadores do nível
+    // variáveis para guardar os jogadores
     private GameObject _player1Object;
     private GameObject _player2Object;
     private int _playerIDWithBomb = -1;
@@ -52,9 +52,6 @@ public class Level1Controller : MonoBehaviour
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
         _game.Players = new List<PlayerModel>();
         _game.InitiateGame();
-
-        // previne que o Random não fique viciado
-        Random.InitState(DateTime.Now.Millisecond);
 
         int randomID = GenerateFirstPlayerToPlay();
         _playerIDWithBomb = randomID;
@@ -99,6 +96,9 @@ public class Level1Controller : MonoBehaviour
 
     int GenerateFirstPlayerToPlay()
     {
+        // previne que o Random não fique viciado
+        Random.InitState(DateTime.Now.Millisecond);
+
         return Random.Range(1, 3);
     }
 

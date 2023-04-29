@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 
 /*
@@ -18,7 +16,7 @@ public class Level3Controller : MonoBehaviour
     // variável para a referência do controlador de jogo
     private GameController _game;
 
-    // variáveis para guardar os jogadores do nível
+    // variáveis para guardar os jogadores
     private GameObject _player1Object;
     private GameObject _player2Object;
 
