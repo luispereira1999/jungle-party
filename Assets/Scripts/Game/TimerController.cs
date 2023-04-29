@@ -36,7 +36,6 @@ public class TimerController : MonoBehaviour
 
     void Start()
     {
-
         _currentTime = _startingTime;
         _progressBar.MaxValue = _currentTime;
         _progressBar.BarValue = _progressBar.MaxValue;
@@ -45,13 +44,6 @@ public class TimerController : MonoBehaviour
     void Awake()
     {
         _instance = this;
-    }
-
-    public void Restart()
-    {
-        _currentTime = _startingTime;
-        _progressBar.MaxValue = _currentTime;
-        _progressBar.BarValue = _progressBar.MaxValue;
     }
 
     void Update()
@@ -63,7 +55,8 @@ public class TimerController : MonoBehaviour
 
         _currentTime -= Time.deltaTime;
 
-        if (_currentTime < 0f) {
+        if (_currentTime < 0f)
+        {
             _currentTime = 0f;
         }
 
@@ -72,12 +65,20 @@ public class TimerController : MonoBehaviour
         _progressBar.UpdateValue(timeWithoutDecimals);
     }
 
+    public void Restart()
+    {
+        _currentTime = _startingTime;
+        _progressBar.MaxValue = _currentTime;
+        _progressBar.BarValue = _progressBar.MaxValue;
+    }
+
     public int GetTimeWithoutDecimals()
     {
         return Mathf.FloorToInt(_currentTime);
     }
 
-    public bool hasFinished() {
+    public bool HasFinished()
+    {
         return _currentTime == 0f;
     }
 

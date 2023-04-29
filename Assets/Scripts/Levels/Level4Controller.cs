@@ -1,29 +1,29 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using Random = UnityEngine.Random;
 
 /*
- * Controla o n�vel 4.
- * O n�vel consiste em trocar de bomba de jogador para jogador,
- * at� que o tempo acabe e quem tem a bomba perde.
- * O n�vel � constituido por v�rias rondas.
+ * Controla o nível 4.
+ * O nível consiste em trocar de bomba de jogador para jogador,
+ * até que o tempo acabe e quem tem a bomba perde.
+ * O nível é constituido por várias rondas.
 */
 public class Level4Controller : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
 
-    // vari�vel para a refer�ncia do controlador de jogo
+    // variável para a referência do controlador de jogo
     private GameController _game;
 
-    // vari�veis para guardar os jogadores
+    // variáveis para guardar os jogadores
     private GameObject _player1Object;
     private GameObject _player2Object;
     private int _playerIDWithBomb = -1;
 
-    // para os objetos do n�vel - bomba e power ups
+    // para os objetos do nível - bomba e power ups
     [SerializeField] private GameObject _bombPrefab;
     private GameObject _bombObject;
     private BombController _bombController;
@@ -37,28 +37,25 @@ public class Level4Controller : MonoBehaviour
 
     private List<LevelPlayerModel> levelPlayers;
 
-    // para definir a a��o dos jogadores neste n�vel
+    // para definir a ação dos jogadores neste nível
     private ThrowController _throwController;
 
-    // para o tempo, rondas e pontua��o
+    // para o tempo, rondas e pontuação
     private TimerController _timer;
 
     [SerializeField] int _rounds;
     [SerializeField] int _roundPoints;
     [SerializeField] private Text _roundsComponent;
-    [SerializeField] GameObject _popUpWinner;
     private int _currentRound = 0;
 
-    private int _points;
+    // para a popup do fim de nível
+    [SerializeField] GameObject _popUpWinner;
 
-    // para o painel de introdu��o do n�vel, que � mostrado antes do jogo come�ar
+    // para o painel de introdução do nível, que é mostrado antes do jogo começar
     [SerializeField] private GameObject _introPanel;
 
-    // para o estado do n�vel
-    LevelState _currentLevelState;
 
-
-    /* PROPRIEDADES P�BLICAS */
+    /* PROPRIEDADES PÚBLICAS */
 
     public bool CollisionOccurred
     {
@@ -67,27 +64,26 @@ public class Level4Controller : MonoBehaviour
     }
 
 
-    /* M�TODOS */
+    /* MÉTODOS */
 
     void Start()
     {
         _game = GameController.Instance;
 
-        // TEST: usar isto enquanto � testado apenas o n�vel atual (sem iniciar pelo menu)
+        // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
         _game.Players = new List<PlayerModel>();
         _game.InitiateGame();
 
         levelPlayers = new List<LevelPlayerModel>();
         _timer = TimerController.Instance;
 
-        foreach (PlayerModel player in _game.Players) {
+        foreach (PlayerModel player in _game.Players)
+        {
             LevelPlayerModel levelPlayer = new LevelPlayerModel();
 
             levelPlayer.Id = player.id;
             levelPlayers.Add(levelPlayer);
         }
-
-        _currentLevelState = LevelState.INTRO_LEVEL;
 
         TimerController.Freeze();
 
@@ -101,12 +97,10 @@ public class Level4Controller : MonoBehaviour
     }
 
     /*
-     * � executado ao clicar no bot�o de iniciar, no painel de introdu��o do n�vel.
+     * É executado ao clicar no botão de iniciar, no painel de introdução do nível.
     */
     public void InitAfterIntro()
     {
-        _currentLevelState = LevelState.START_ROUND;
-
         TimerController.Unfreeze();
 
         _currentRound++;
@@ -115,18 +109,6 @@ public class Level4Controller : MonoBehaviour
         Destroy(_introPanel);
 
         InvokeRepeating("SpawnPowerUp", 5f, 10f);
-    }
-
-    void NextRound()
-    {
-        _currentLevelState = LevelState.START_ROUND;
-
-        TimerController.Unfreeze();
-        _timer.Restart();
-
-        _currentRound++;
-        _roundsComponent.text = _currentRound.ToString();
-
     }
 
     void CreateObjectInScene()
@@ -143,14 +125,13 @@ public class Level4Controller : MonoBehaviour
 
     void Update()
     {
-        if (!_timer.hasFinished())
+        if (!_timer.HasFinished())
         {
             return;
         }
-        
+
         if (_rounds == _currentRound && !_freezeComponents)
         {
-            
             _freezeComponents = true;
             _popUpWinner.SetActive(true);
 
@@ -169,11 +150,10 @@ public class Level4Controller : MonoBehaviour
 
             popUpText[0].GetComponent<TextMeshProUGUI>().text = textPoints;
 
-
             SetInitialPosition();
-
-        } else if (!_freezeComponents) {
-
+        }
+        else if (!_freezeComponents)
+        {
             float freezeTime = 5f;
             _freezeComponents = true;
 
@@ -205,7 +185,6 @@ public class Level4Controller : MonoBehaviour
 
         GameObject[] objectsToDestroy = GameObject.FindGameObjectsWithTag("PowerUp");
 
-        // Loop through each object and destroy it
         foreach (GameObject obj in objectsToDestroy)
         {
             Destroy(obj);
@@ -223,8 +202,8 @@ public class Level4Controller : MonoBehaviour
         Instantiate(_powerUp, new Vector3(xValue, _powerUp.transform.position.y, zValue), Quaternion.identity);
     }
 
-    void SetLevelPoints() {
-
+    void SetLevelPoints()
+    {
         int winnerId = _playerIDWithBomb == 1 ? 2 : 1;
 
         LevelPlayerModel levelPlayer = levelPlayers[winnerId - 1];
@@ -261,7 +240,7 @@ public class Level4Controller : MonoBehaviour
     }
 
     /*
-     * Adiciona o script da a��o ao objeto do jogador, para definir essa a��o ao personagem.
+     * Adiciona o script da ação ao objeto do jogador, para definir essa ação ao personagem.
     */
     void AddActionToPlayer1()
     {
@@ -277,7 +256,7 @@ public class Level4Controller : MonoBehaviour
 
     int GenerateFirstPlayerToPlay()
     {
-        // previne que o Random n�o fique viciado
+        // previne que o Random não fique viciado
         Random.InitState(DateTime.Now.Millisecond);
 
         return Random.Range(1, 3);
