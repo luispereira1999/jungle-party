@@ -14,6 +14,14 @@ public class TimerController : MonoBehaviour
     // barra de progresso do tempo
     [SerializeField] private ProgressBarCircleController _progressBar;
 
+    private static TimerController _instance;
+
+    public static TimerController Instance
+    {
+        get { return _instance; }
+        set { _instance = value; }
+    }
+
 
     /* PROPRIEDADES PÚBLICAS */
 
@@ -28,9 +36,15 @@ public class TimerController : MonoBehaviour
 
     void Start()
     {
+
         _currentTime = _startingTime;
         _progressBar.MaxValue = _currentTime;
         _progressBar.BarValue = _progressBar.MaxValue;
+    }
+
+    void Awake()
+    {
+        _instance = this;
     }
 
     public void Restart()
@@ -49,6 +63,10 @@ public class TimerController : MonoBehaviour
 
         _currentTime -= Time.deltaTime;
 
+        if (_currentTime < 0f) {
+            _currentTime = 0f;
+        }
+
         // atualiza a barra de progresso
         int timeWithoutDecimals = GetTimeWithoutDecimals();
         _progressBar.UpdateValue(timeWithoutDecimals);
@@ -57,6 +75,10 @@ public class TimerController : MonoBehaviour
     public int GetTimeWithoutDecimals()
     {
         return Mathf.FloorToInt(_currentTime);
+    }
+
+    public bool hasFinished() {
+        return _currentTime == 0f;
     }
 
     bool IsFrozen()

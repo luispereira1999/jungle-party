@@ -8,10 +8,12 @@ public class PlayerModel
 {
     public GameObject prefab;
     public float score;
+    public int id;
 
-    public PlayerModel(GameObject prefab, float score)
+    public PlayerModel(GameObject prefab, float score, int id)
     {
         this.prefab = prefab;
         this.score = score;
+        this.id = id;
     }
 }
