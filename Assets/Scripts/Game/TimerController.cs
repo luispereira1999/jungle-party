@@ -5,7 +5,7 @@ using UnityEngine;
 */
 public class TimerController : MonoBehaviour
 {
-    /* ATRIBUTOS */
+    /* ATRIBUTOS PRIVADOS */
 
     // variáveis para o tempo inicial e atual (o tempo é em segundos)
     [SerializeField] private float _startingTime;
@@ -14,11 +14,8 @@ public class TimerController : MonoBehaviour
     // barra de progresso do tempo
     [SerializeField] private ProgressBarCircleController _progressBar;
 
-    public ProgressBarCircleController ProgressBar
-    {
-        get { return _progressBar; }
-        set { _progressBar = value; }
-    }
+
+    /* PROPRIEDADES PÚBLICAS */
 
     public float CurrentTime
     {
@@ -29,17 +26,11 @@ public class TimerController : MonoBehaviour
 
     /* MÉTODOS */
 
-    void Awake()
-    {
-
-    }
-
     void Start()
     {
         _currentTime = _startingTime;
         _progressBar.MaxValue = _currentTime;
         _progressBar.BarValue = _progressBar.MaxValue;
-        Debug.Log("A:" + _progressBar.BarValue);
     }
 
     public void Restart()
@@ -49,20 +40,14 @@ public class TimerController : MonoBehaviour
         _progressBar.BarValue = _progressBar.MaxValue;
     }
 
-    public bool HasFinished()
-    {
-        return _currentTime <= 0f;
-    }
-
     void Update()
     {
-        _currentTime -= Time.deltaTime;
-
-        // quando o tempo terminar
-        if (_currentTime < 0f)
+        if (IsFrozen())
         {
-            _currentTime = 0f;
+            return;
         }
+
+        _currentTime -= Time.deltaTime;
 
         // atualiza a barra de progresso
         int timeWithoutDecimals = GetTimeWithoutDecimals();
@@ -72,6 +57,11 @@ public class TimerController : MonoBehaviour
     public int GetTimeWithoutDecimals()
     {
         return Mathf.FloorToInt(_currentTime);
+    }
+
+    bool IsFrozen()
+    {
+        return Time.timeScale == 0f;
     }
 
     public static void Freeze()

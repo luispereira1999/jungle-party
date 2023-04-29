@@ -41,7 +41,7 @@ public class Level4Controller : MonoBehaviour
 
     [SerializeField] int _rounds;
     [SerializeField] private Text _roundsComponent;
-    private int _currentRound = 1;
+    private int _currentRound = 0;
 
     private int _points;
 
@@ -63,11 +63,6 @@ public class Level4Controller : MonoBehaviour
 
     /* MÉTODOS */
 
-    private void Awake()
-    {
-        TimerController.Freeze();
-    }
-
     void Start()
     {
         _game = GameController.Instance;
@@ -84,7 +79,6 @@ public class Level4Controller : MonoBehaviour
 
         int randomID = GenerateFirstPlayerToPlay();
         _playerIDWithBomb = randomID;
-        Debug.Log("B:" + _timer.ProgressBar.BarValue);
 
         // exibir objetos na cena
         CreateObjectInScene();
@@ -123,7 +117,6 @@ public class Level4Controller : MonoBehaviour
 
     void FinishRound()
     {
-        // espera 4 segundos para voltar a iniciar outra ronda
         TimerController.Freeze();
         Invoke("NextRound", 4f * Time.timeScale);
     }
