@@ -14,6 +14,8 @@ TagManager:
   - Player2
   - Wall
   - Ball
+  - InitBtn
+  - Rounds
   layers:
   - Default
   - TransparentFX
