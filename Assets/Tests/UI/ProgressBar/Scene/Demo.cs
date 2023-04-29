@@ -3,7 +3,7 @@
 public class Demo : MonoBehaviour
 {
     public ProgressBar Pb;
-    public ProgressBarCircle PbC;
+    public ProgressBarCircleController PbC;
 
     private void Start()
     {

@@ -5,23 +5,23 @@ using UnityEngine;
 */
 public class TimerController : MonoBehaviour
 {
-    // ATRIBUTOS
+    /* ATRIBUTOS */
 
     // variáveis para o tempo inicial e atual (o tempo é em segundos)
     [SerializeField] private float _startingTime;
     private float _currentTime = 0f;
 
     // barra de progresso do tempo
-    [SerializeField] private ProgressBarCircle _progressBar;
+    [SerializeField] private ProgressBarCircleController _progressBar;
 
 
-    // MÉTODOS
+    /* MÉTODOS */
 
     void Start()
     {
         _currentTime = _startingTime;
-        _progressBar.maxValue = _currentTime;
-        _progressBar.BarValue = _progressBar.maxValue;
+        _progressBar.MaxValue = _currentTime;
+        _progressBar.BarValue = _progressBar.MaxValue;
     }
 
     void Update()
