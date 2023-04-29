@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 /*
@@ -16,17 +18,23 @@ public class Level4Controller : MonoBehaviour
     // variável para a referência do controlador de jogo
     private GameController _game;
 
-    private int i = 0;
-
     // variáveis para guardar os jogadores do nível
     private GameObject _player1Object;
     private GameObject _player2Object;
     private int _playerIDWithBomb = -1;
 
+    [SerializeField] int _rounds;
+    [SerializeField] int _points;
+    private int _currentRound;
+
     // referências para a bomba
     [SerializeField] private GameObject _bombPrefab;
+
     private GameObject _bombObject;
     private BombController _bombController;
+    private TimerController _timer;
+    private Text _roundsComponent;
+    const string _roundsText = "Round {0}";
 
     // para saber se os jogadores colidiram
     private bool _collisionOccurred = false;
@@ -35,6 +43,8 @@ public class Level4Controller : MonoBehaviour
     private ThrowController _throwController;
 
     private List<GameObject> _powerUps;
+
+    private TimerController timer;
 
     [SerializeField] GameObject _powerUp;
 
@@ -50,8 +60,7 @@ public class Level4Controller : MonoBehaviour
 
     /* MÉTODOS */
 
-    void Start()
-    {
+    void Start() {
         _game = GameController.Instance;
 
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
@@ -59,6 +68,14 @@ public class Level4Controller : MonoBehaviour
         _game.InitiateGame();
 
         _powerUps = new List<GameObject>();
+
+        _timer = TimerController.Instance;
+
+        _currentRound = 1;
+        Time.timeScale = 0f;
+
+        _roundsComponent = GameObject.Find("Rounds").GetComponent<Text>();
+        _roundsComponent.text = String.Format(_roundsText, _currentRound);
 
         // previne que o Random não fique viciado
         Random.InitState(DateTime.Now.Millisecond);
@@ -75,12 +92,62 @@ public class Level4Controller : MonoBehaviour
 
         SpawnBomb();
         AssignBomb();
-
-        InvokeRepeating("CreatePowerUp", 5f, 10f);
     }
 
     void Update()
     {
+        if (_timer.hasFinished()) {
+
+            _timer.Restart();
+            _currentRound++;
+
+            _roundsComponent.text = String.Format(_roundsText, _currentRound);
+
+            Time.timeScale = 0f;
+
+            Invoke("RestartRound", 5f);
+
+            //StartCoroutine(MyCoroutine());
+        }
+    }
+
+    public void Init()
+    {
+        Time.timeScale = 1f;
+
+        Destroy(GameObject.Find("IntroPanel"));
+
+        InvokeRepeating("CreatePowerUp", 5f, 10f);
+    }
+
+    void RestartRound()
+    {
+        Time.timeScale = 1f;
+
+        GameObject[] objectsToDestroy = GameObject.FindGameObjectsWithTag("PowerUp");
+
+        // Loop through each object and destroy it
+        foreach (GameObject obj in objectsToDestroy)
+        {
+            Destroy(obj);
+        }
+    }
+
+    IEnumerator MyCoroutine()
+    {
+        
+
+        yield return new WaitForSeconds(3);
+
+        GameObject[] objectsToDestroy = GameObject.FindGameObjectsWithTag("PowerUp");
+
+        // Loop through each object and destroy it
+        foreach (GameObject obj in objectsToDestroy)
+        {
+            Destroy(obj);
+        }
+
+        
 
     }
 
@@ -90,10 +157,7 @@ public class Level4Controller : MonoBehaviour
         int xValue = rnd.Next(72, 440);
         int zValue = rnd.Next(62, 430);
 
-        GameObject instantiatedObject = Instantiate(_powerUp, new Vector3(xValue, _powerUp.transform.position.y, zValue), Quaternion.identity);
-        //instantiatedObject.tag = isPowerUp ? "PowerUp" : "PowerDown";
-
-        i++;
+        Instantiate(_powerUp, new Vector3(xValue, _powerUp.transform.position.y, zValue), Quaternion.identity);
     }
 
     void SpawnPlayer1()

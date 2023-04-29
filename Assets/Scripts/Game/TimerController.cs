@@ -15,6 +15,14 @@ public class TimerController : MonoBehaviour
     // a label de texto onde será mostrado o tempo
     private Text _countdownText;
 
+    private static TimerController _instance;
+
+    public static TimerController Instance
+    {
+        get { return _instance; }
+        set { _instance = value; }
+    }
+
 
     // MÉTODOS
 
@@ -22,6 +30,23 @@ public class TimerController : MonoBehaviour
     {
         _countdownText = GetComponent<Text>();
         _currentTime = _startingTime;
+
+        if (_instance != null)
+        {
+            return;
+        }
+
+        _instance = this;
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    public void Restart()
+    {
+        _currentTime = _startingTime;
+    }
+
+    public bool hasFinished() {
+        return _currentTime == 0f;
     }
 
     void Update()
