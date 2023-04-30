@@ -51,10 +51,10 @@ public class Level4Controller : MonoBehaviour
     // para a popup do fim de nível
     [SerializeField] GameObject _popUpWinner;
 
-    // para o painel de introdução do nível, que é mostrado antes do jogo começar
-    // para os componentes da UI - painel de introdução e botão de pause
+    // para os componentes da UI - painel de introdução, botão de pause e 
     [SerializeField] private GameObject _introPanel;
     [SerializeField] private GameObject _buttonPause;
+    [SerializeField] private GameObject _nextRoundObject;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -166,6 +166,10 @@ public class Level4Controller : MonoBehaviour
             _player1Object.GetComponent<PlayerController>().Freeze(freezeTime);
             _player2Object.GetComponent<PlayerController>().Freeze(freezeTime);
 
+            _currentRound++;
+
+            _nextRoundObject.SetActive(true);
+            _nextRoundObject.GetComponent<Text>().text = "Ronda: " + _currentRound.ToString();
             Invoke(nameof(RestartRound), freezeTime);
         }
     }
@@ -181,8 +185,9 @@ public class Level4Controller : MonoBehaviour
 
     void RestartRound()
     {
+        _nextRoundObject.SetActive(false);
+
         _timer.Restart();
-        _currentRound++;
         _freezeComponents = false;
 
         SetInitialPosition();
@@ -214,7 +219,7 @@ public class Level4Controller : MonoBehaviour
 
         levelPlayer.LevelScore += _roundPoints;
 
-        string scoreText = winnerId == 1 ? "ScoreP1Text" : "ScoreP2Text";
+        string scoreText = winnerId == 1 ? "ScoreP2Text" : "ScoreP1Text";
 
         GameObject[] scoreTextComp = GameObject.FindGameObjectsWithTag(scoreText);
         scoreTextComp[0].GetComponent<TextMeshProUGUI>().text = levelPlayer.LevelScore.ToString();
