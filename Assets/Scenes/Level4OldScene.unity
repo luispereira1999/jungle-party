@@ -1901,8 +1901,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a919ec59148465540b762637741be94a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player1Prefab: {fileID: 8061782758230423465, guid: 3a918d084be35774aae3012f21a73fb7, type: 3}
-  _player2Prefab: {fileID: 7266379850472434557, guid: fa33d86f90389e54e959673aac82b8de, type: 3}
+  _player1Prefab: {fileID: 8061782758230423465, guid: 137fe96665d729a4bb6cb77efd63081b, type: 3}
+  _player2Prefab: {fileID: 7266379850472434557, guid: 298bc4cd0fc5bbb4a99369f603d70575, type: 3}
   _currentLevelID: 4
   _gameState: 0
 --- !u!4 &569824008
@@ -5621,6 +5621,7 @@ MonoBehaviour:
   _roundsComponent: {fileID: 270061834}
   _popUpWinner: {fileID: 2029819348}
   _introPanel: {fileID: 500791206}
+  _buttonPause: {fileID: 456126767}
 --- !u!4 &1657739617
 Transform:
   m_ObjectHideFlags: 0

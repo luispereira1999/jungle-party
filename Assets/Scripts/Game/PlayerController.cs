@@ -1,4 +1,5 @@
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /*
  * Armazena dados sobre cada personagem criada, no início do jogo.
@@ -16,10 +17,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
 
-    private float _halfSpeed;
-    private float _doubleSpeed;
-    private float _speed;
-
     // para controlar as animações
     private Animator _animator;
     private bool _isWalking = false;
@@ -33,10 +30,16 @@ public class PlayerController : MonoBehaviour
 
     // para verificar se o personagem está congelado
     private bool _isFrozen = false;
-    private float _freezingTime = 3f;
+    private readonly float _freezingTime = 3f;
 
     // guarda qual ação o jogador deve executar
     private IPlayerAction _currentAction;
+
+    // para os efeitos das power ups no jogador
+    private readonly float _effectTime = 3f;
+    private float _normalSpeed;
+    private float _halfSpeed;
+    private float _doubleSpeed;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -64,7 +67,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
-        _speed = _moveSpeed;
+        _normalSpeed = _moveSpeed;
         _halfSpeed = _moveSpeed / 2;
         _doubleSpeed = _moveSpeed * 2;
     }
@@ -78,6 +81,7 @@ public class PlayerController : MonoBehaviour
         {
             bool actionInput = GetCurrentActionInput();
 
+            // se o jogador pressiona a tecla de ação
             if (actionInput)
             {
                 if (_currentAction is KickController)  // nível 1
@@ -113,13 +117,13 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isFrozen)
         {
-            (float horizontal, float vertical) movementInputs = GetCurrentMovementInput();
+            (float horizontalInput, float verticalInput) = GetCurrentMovementInput();
 
             // se o jogador pressiona uma tecla de movimento
-            if (movementInputs.horizontal != 0 || movementInputs.vertical != 0)
+            if (horizontalInput != 0 || verticalInput != 0)
             {
-                UpdateMovement(movementInputs.horizontal, movementInputs.vertical);
-                UpdateDirection(movementInputs.horizontal, movementInputs.vertical);
+                UpdateMovement(horizontalInput, verticalInput);
+                UpdateDirection(horizontalInput, verticalInput);
 
                 if (!_isWalking)
                 {
@@ -147,41 +151,18 @@ public class PlayerController : MonoBehaviour
     */
     void OnCollisionEnter(Collision collision)
     {
-        // se houver colisão com alguma parede
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            Debug.Log("Colidiu com parede");
-        }
-
-        // se houver colisão com alguma power up
+        // colisão com alguma power up - destroi a power up e aplica o efeito ao jogador
         if (collision.gameObject.CompareTag("PowerUp"))
         {
-            System.Random rnd = new System.Random();
-            int value = rnd.Next(3);
-
             Destroy(collision.gameObject);
 
-            switch (value)
-            {
-                case (int)PowerUpAction.SPEED:
-                    _speed = _doubleSpeed;
-                    Invoke("NormalSpeed", _freezingTime);
-                    break;
-                case (int)PowerUpAction.SLOW:
-                    _speed = _halfSpeed;
-                    Invoke("NormalSpeed", _freezingTime);
-                    break;
-                case (int)PowerUpAction.STUN:
-                    _isWalking = false;
-                    Freeze(_freezingTime);
-                    break;
-            }
-
+            int value = GenerateEffect();
+            ApplyEffect(value);
         }
 
         string oppositePlayerTag = GetOppositePlayer().tag;
 
-        // se houver colisão com o outro jogador
+        // colisão com o outro jogador
         if (collision.gameObject.CompareTag(oppositePlayerTag))
         {
             if (_currentAction is ThrowController)
@@ -192,7 +173,7 @@ public class PlayerController : MonoBehaviour
 
         if (_currentAction is KickController)
         {
-            // se houver colisão com a bola
+            // colisão com a bola
             if (collision.gameObject.CompareTag("Ball"))
             {
                 _currentAction.Collide(collision);
@@ -225,7 +206,7 @@ public class PlayerController : MonoBehaviour
 
     void UpdateMovement(float horizontalInput, float verticalInput)
     {
-        Vector3 movement = _speed * Time.fixedDeltaTime * new Vector3(horizontalInput, 0f, verticalInput);
+        Vector3 movement = _moveSpeed * Time.fixedDeltaTime * new Vector3(horizontalInput, 0f, verticalInput);
         _rigidbody.MovePosition(transform.position + movement);
     }
 
@@ -262,7 +243,7 @@ public class PlayerController : MonoBehaviour
     public void Freeze(float freezingTime)
     {
         _isFrozen = true;
-        Invoke("Unfreeze", freezingTime);
+        Invoke(nameof(Unfreeze), freezingTime);
     }
 
     public void Unfreeze()
@@ -270,8 +251,34 @@ public class PlayerController : MonoBehaviour
         _isFrozen = false;
     }
 
-    public void NormalSpeed()
+    int GenerateEffect()
     {
-        _speed = _moveSpeed;
+        return Random.Range(1, 4);
+    }
+
+    void ApplyEffect(int value)
+    {
+        switch (value)
+        {
+            case (int)PowerUpAction.SPEED:
+                _moveSpeed = _doubleSpeed;
+                Invoke(nameof(SetNormalSpeed), _effectTime);
+                break;
+
+            case (int)PowerUpAction.SLOW:
+                _moveSpeed = _halfSpeed;
+                Invoke(nameof(SetNormalSpeed), _effectTime);
+                break;
+
+            case (int)PowerUpAction.STUN:
+                _isWalking = false;
+                Freeze(_freezingTime);
+                break;
+        }
+    }
+
+    public void SetNormalSpeed()
+    {
+        _moveSpeed = _normalSpeed;
     }
 }

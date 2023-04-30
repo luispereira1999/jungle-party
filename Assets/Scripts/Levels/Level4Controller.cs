@@ -28,7 +28,7 @@ public class Level4Controller : MonoBehaviour
     private GameObject _bombObject;
     private BombController _bombController;
 
-    private List<GameObject> _powerUps = new List<GameObject>();
+    private readonly List<GameObject> _powerUps = new();
     [SerializeField] private GameObject _powerUp;
     private bool _freezeComponents = false;
 
@@ -81,7 +81,7 @@ public class Level4Controller : MonoBehaviour
 
         foreach (PlayerModel player in _game.Players)
         {
-            LevelPlayerModel levelPlayer = new LevelPlayerModel();
+            LevelPlayerModel levelPlayer = new();
 
             levelPlayer.Id = player.id;
             levelPlayers.Add(levelPlayer);
@@ -109,9 +109,10 @@ public class Level4Controller : MonoBehaviour
         _roundsComponent.text = _currentRound.ToString();
 
         _buttonPause.SetActive(true);
+
         Destroy(_introPanel);
 
-        InvokeRepeating("SpawnPowerUp", 5f, 10f);
+        InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
     }
 
     void CreateObjectInScene()
@@ -138,7 +139,7 @@ public class Level4Controller : MonoBehaviour
             _freezeComponents = true;
             _popUpWinner.SetActive(true);
 
-            CancelInvoke("CreatePowerUp");
+            CancelInvoke(nameof(CreatePowerUp));
 
             SetLevelPoints();
 
@@ -165,7 +166,7 @@ public class Level4Controller : MonoBehaviour
             _player1Object.GetComponent<PlayerController>().Freeze(freezeTime);
             _player2Object.GetComponent<PlayerController>().Freeze(freezeTime);
 
-            Invoke("RestartRound", freezeTime);
+            Invoke(nameof(RestartRound), freezeTime);
         }
     }
 
@@ -175,7 +176,7 @@ public class Level4Controller : MonoBehaviour
 
         Destroy(GameObject.Find("IntroPanel"));
 
-        InvokeRepeating("CreatePowerUp", 5f, 10f);
+        InvokeRepeating(nameof(CreatePowerUp), 5f, 10f);
     }
 
     void RestartRound()
@@ -198,7 +199,7 @@ public class Level4Controller : MonoBehaviour
 
     void CreatePowerUp()
     {
-        System.Random rnd = new System.Random();
+        System.Random rnd = new();
         int xValue = rnd.Next(72, 440);
         int zValue = rnd.Next(62, 430);
 
@@ -306,9 +307,9 @@ public class Level4Controller : MonoBehaviour
 
     void SpawnPowerUp()
     {
-        System.Random rnd = new System.Random();
-        int xValue = rnd.Next(72, 440);
-        int zValue = rnd.Next(62, 430);
+        System.Random rnd = new();
+        int xValue = rnd.Next(42, 58);
+        int zValue = rnd.Next(71, 84);
 
         Instantiate(_powerUp, new Vector3(xValue, _powerUp.transform.position.y, zValue), Quaternion.identity);
     }
