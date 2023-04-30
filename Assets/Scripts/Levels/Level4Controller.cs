@@ -52,7 +52,9 @@ public class Level4Controller : MonoBehaviour
     [SerializeField] GameObject _popUpWinner;
 
     // para o painel de introdução do nível, que é mostrado antes do jogo começar
+    // para os componentes da UI - painel de introdução e botão de pause
     [SerializeField] private GameObject _introPanel;
+    [SerializeField] private GameObject _buttonPause;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -106,6 +108,7 @@ public class Level4Controller : MonoBehaviour
         _currentRound++;
         _roundsComponent.text = _currentRound.ToString();
 
+        _buttonPause.SetActive(true);
         Destroy(_introPanel);
 
         InvokeRepeating("SpawnPowerUp", 5f, 10f);
