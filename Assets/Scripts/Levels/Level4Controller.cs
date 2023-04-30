@@ -152,7 +152,7 @@ public class Level4Controller : MonoBehaviour
                 textPoints += "Jogador " + levelPlayer.Id + ": " + levelPlayer.LevelScore + "\n";
             }
 
-            popUpText[0].GetComponent<TextMeshProUGUI>().text = textPoints;
+            popUpText[0].GetComponent<Text>().text = textPoints;
 
             SetInitialPosition();
         }
