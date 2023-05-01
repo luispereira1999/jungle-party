@@ -139,7 +139,7 @@ public class Level4Controller : MonoBehaviour
             _freezeComponents = true;
             _popUpWinner.SetActive(true);
 
-            CancelInvoke(nameof(CreatePowerUp));
+            CancelInvoke(nameof(SpawnPowerUp));
 
             SetLevelPoints();
 
@@ -180,7 +180,7 @@ public class Level4Controller : MonoBehaviour
 
         Destroy(GameObject.Find("IntroPanel"));
 
-        InvokeRepeating(nameof(CreatePowerUp), 5f, 10f);
+        InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
     }
 
     void RestartRound()
@@ -200,15 +200,6 @@ public class Level4Controller : MonoBehaviour
         }
 
         _roundsComponent.text = _currentRound.ToString();
-    }
-
-    void CreatePowerUp()
-    {
-        System.Random rnd = new();
-        int xValue = rnd.Next(72, 440);
-        int zValue = rnd.Next(62, 430);
-
-        Instantiate(_powerUp, new Vector3(xValue, _powerUp.transform.position.y, zValue), Quaternion.identity);
     }
 
     void SetLevelPoints()

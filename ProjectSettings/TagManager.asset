@@ -20,6 +20,7 @@ TagManager:
   - PopUpText
   - ScoreP1Text
   - ScoreP2Text
+  - Arena
   layers:
   - Default
   - TransparentFX
