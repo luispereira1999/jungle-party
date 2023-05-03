@@ -181,6 +181,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Wall"))
+        {
+            // O jogador está fora da arena
+            // Adicione o código para impedir o movimento do jogador aqui
+
+            // Obtém a direção da colisão
+            Vector3 direction = transform.position - other.ClosestPoint(transform.position);
+
+            // Move o jogador de volta na direção oposta
+            transform.position += direction.normalized * 0.5f;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Wall"))
+        {
+
+        }
+    }
+
 
     /* MÉTODOS DO PLAYERCONTROLLER */
 
