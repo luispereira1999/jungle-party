@@ -11,19 +11,20 @@ public class TimerController : MonoBehaviour
     [SerializeField] private float _startingTime;
     private float _currentTime = 0f;
 
-    // barra de progresso do tempo
+    // referência para a barra de progresso do tempo visível no nível
     [SerializeField] private ProgressBarCircleController _progressBar;
 
+    // para guardar uma instância única desta classe
     private static TimerController _instance;
+
+
+    /* PROPRIEDADES PÚBLICAS */
 
     public static TimerController Instance
     {
         get { return _instance; }
         set { _instance = value; }
     }
-
-
-    /* PROPRIEDADES PÚBLICAS */
 
     public float CurrentTime
     {
@@ -34,16 +35,27 @@ public class TimerController : MonoBehaviour
 
     /* MÉTODOS */
 
+    void Awake()
+    {
+        if (_instance != null)
+        {
+            return;
+        }
+
+        // guarda em memória apenas uma instância desta classe
+        _instance = this;
+    }
+
     void Start()
+    {
+        SetInitialTime();
+    }
+
+    public void SetInitialTime()
     {
         _currentTime = _startingTime;
         _progressBar.MaxValue = _currentTime;
         _progressBar.BarValue = _progressBar.MaxValue;
-    }
-
-    void Awake()
-    {
-        _instance = this;
     }
 
     void Update()
@@ -55,7 +67,7 @@ public class TimerController : MonoBehaviour
 
         _currentTime -= Time.deltaTime;
 
-        if (_currentTime < 0f)
+        if (HasFinished())
         {
             _currentTime = 0f;
         }
@@ -65,13 +77,6 @@ public class TimerController : MonoBehaviour
         _progressBar.UpdateValue(timeWithoutDecimals);
     }
 
-    public void Restart()
-    {
-        _currentTime = _startingTime;
-        _progressBar.MaxValue = _currentTime;
-        _progressBar.BarValue = _progressBar.MaxValue;
-    }
-
     public int GetTimeWithoutDecimals()
     {
         return Mathf.FloorToInt(_currentTime);
@@ -79,7 +84,7 @@ public class TimerController : MonoBehaviour
 
     public bool HasFinished()
     {
-        return _currentTime == 0f;
+        return _currentTime <= 0f;
     }
 
     bool IsFrozen()

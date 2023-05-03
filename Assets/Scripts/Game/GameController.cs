@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     // para controlar em qual estado e cena o jogo está no momento
     [SerializeField] private GameState _gameState = GameState.MAIN_MENU;
 
-    // guarda a instância única desta classe
+    // para guardar uma instância única desta classe
     private static GameController _instance;
 
 
@@ -63,8 +63,8 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        // guardar em memória apenas uma instância desta classe,
-        // e cria-la quando ainda não existe, bem como não destrui-la quando a cena muda.
+        // guarda em memória apenas uma instância desta classe,
+        // e cria-la quando ainda não existe, tal como não destrui-la quando a cena muda.
         _instance = this;
         DontDestroyOnLoad(this.gameObject);
     }

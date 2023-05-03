@@ -43,13 +43,13 @@ public class Level4Controller : MonoBehaviour
     // para o tempo, rondas e pontuação
     private TimerController _timer;
 
-    [SerializeField] int _rounds;
-    [SerializeField] int _roundPoints;
+    [SerializeField] private int _rounds;
+    [SerializeField] private int _roundPoints;
     [SerializeField] private Text _roundsComponent;
     private int _currentRound = 0;
 
     // para a popup do fim de nível
-    [SerializeField] GameObject _popUpWinner;
+    [SerializeField] private GameObject _popUpWinner;
 
     // para os componentes da UI - painel de introdução, botão de pause e 
     [SerializeField] private GameObject _introPanel;
@@ -187,7 +187,7 @@ public class Level4Controller : MonoBehaviour
     {
         _nextRoundObject.SetActive(false);
 
-        _timer.Restart();
+        _timer.SetInitialTime();
         _freezeComponents = false;
 
         SetInitialPosition();

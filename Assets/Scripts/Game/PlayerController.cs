@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /*
-     * Trata das colisões que acontecem em cada jogador.
+     * É executado quando existe alguma colisão do jogador com outro objeto.
     */
     void OnCollisionEnter(Collision collision)
     {
@@ -181,26 +181,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*
+     * É executado quando o jogador colide com algum objeto que tem o "isTrigger" ativado no seu colisor.
+    */
     void OnTriggerEnter(Collider other)
     {
+        // colisão com alguma parede da arena - impede que o jogador saia da arena
         if (other.CompareTag("Wall"))
         {
-            // O jogador está fora da arena
-            // Adicione o código para impedir o movimento do jogador aqui
-
-            // Obtém a direção da colisão
-            Vector3 direction = transform.position - other.ClosestPoint(transform.position);
-
-            // Move o jogador de volta na direção oposta
-            transform.position += direction.normalized * 0.5f;
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Wall"))
-        {
-
+            // atualiza a posição do jogador para entrar novamente na arena
+            Vector3 oppositeDirection = transform.position - other.ClosestPoint(transform.position);
+            transform.position += oppositeDirection.normalized * 0.1f;
         }
     }
 
