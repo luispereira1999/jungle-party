@@ -25,9 +25,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _groundDistance;
 
-    // para o colisor do mapa onde o jogador pode andar
-
-
     // para verificar se o personagem está congelado
     private bool _isFrozen = false;
     private readonly float _freezingTime = 3f;
@@ -191,7 +188,7 @@ public class PlayerController : MonoBehaviour
         {
             // atualiza a posição do jogador para entrar novamente na arena
             Vector3 oppositeDirection = transform.position - other.ClosestPoint(transform.position);
-            transform.position += oppositeDirection.normalized * 0.1f;
+            transform.position += oppositeDirection.normalized * 0.2f;
         }
     }
 
