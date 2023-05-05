@@ -75,13 +75,13 @@ public class Level1Controller : MonoBehaviour
         _game = GameController.Instance;
 
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
-        _game.Players = new List<PlayerModel>();
+        _game.Players = new List<GamePlayerModel>();
         _game.InitiateGame();
 
         levelPlayers = new List<LevelPlayerModel>();
         _timer = TimerController.Instance;
 
-        foreach (PlayerModel player in _game.Players)
+        foreach (GamePlayerModel player in _game.Players)
         {
             LevelPlayerModel levelPlayer = new();
 

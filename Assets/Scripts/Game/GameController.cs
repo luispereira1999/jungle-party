@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     // variáveis para guardar os prefabs dos jogadores
     [SerializeField] private GameObject _player1Prefab;
     [SerializeField] private GameObject _player2Prefab;
-    private List<PlayerModel> _players = new List<PlayerModel>();
+    private List<GamePlayerModel> _players = new();
     [SerializeField] private int _currentLevelID;
 
     // para controlar em qual estado e cena o jogo está no momento
@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
 
     /* PROPRIEDADES PÚBLICAS */
 
-    public List<PlayerModel> Players
+    public List<GamePlayerModel> Players
     {
         get { return _players; }
         set { _players = value; }
@@ -79,7 +79,7 @@ public class GameController : MonoBehaviour
 
     void AddPlayer(GameObject playerPrefab, float score, int id)
     {
-        _players.Add(new PlayerModel(playerPrefab, score, id));
+        _players.Add(new GamePlayerModel(playerPrefab, score, id));
     }
 
     public void NextLevel()

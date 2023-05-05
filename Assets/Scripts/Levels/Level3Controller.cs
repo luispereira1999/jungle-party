@@ -27,7 +27,7 @@ public class Level3Controller : MonoBehaviour
         _game = GameController.Instance;
 
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
-        _game.Players = new List<PlayerModel>();
+        _game.Players = new List<GamePlayerModel>();
         _game.InitiateGame();
 
 

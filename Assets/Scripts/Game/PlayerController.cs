@@ -188,7 +188,7 @@ public class PlayerController : MonoBehaviour
         {
             // atualiza a posição do jogador para entrar novamente na arena
             Vector3 oppositeDirection = transform.position - other.ClosestPoint(transform.position);
-            transform.position += oppositeDirection.normalized * 0.2f;
+            transform.position += oppositeDirection.normalized * 0.11f;
         }
     }
 

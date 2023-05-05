@@ -16,7 +16,7 @@ public class Level4Controller : MonoBehaviour
     /* ATRIBUTOS PRIVADOS */
 
     // variável para a referência do controlador de jogo
-    private GameController _game;
+    private GameController _gameController;
 
     // variáveis para guardar os jogadores
     private GameObject _player1Object;
@@ -40,13 +40,11 @@ public class Level4Controller : MonoBehaviour
     // para definir a ação dos jogadores neste nível
     private ThrowController _throwController;
 
-    // para o tempo, rondas e pontuação
-    private TimerController _timer;
+    // para controlar o relógio
+    private TimerController _timerController;
 
-    [SerializeField] private int _rounds;
-    [SerializeField] private int _roundPoints;
-    [SerializeField] private Text _roundsComponent;
-    private int _currentRound = 0;
+    // para controlar as rondas
+    [SerializeField] private RoundController _roundController;
 
     // para a popup do fim de nível
     [SerializeField] private GameObject _popUpWinner;
@@ -54,7 +52,6 @@ public class Level4Controller : MonoBehaviour
     // para os componentes da UI - painel de introdução, botão de pause e 
     [SerializeField] private GameObject _introPanel;
     [SerializeField] private GameObject _buttonPause;
-    [SerializeField] private GameObject _nextRoundObject;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -66,20 +63,19 @@ public class Level4Controller : MonoBehaviour
     }
 
 
-    /* MÉTODOS */
+    /* MÉTODOS DO MONOBEHAVIOUR */
 
     void Start()
     {
-        _game = GameController.Instance;
+        _gameController = GameController.Instance;
 
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
-        _game.Players = new List<PlayerModel>();
-        _game.InitiateGame();
+        _gameController.Players = new List<GamePlayerModel>();
+        _gameController.InitiateGame();
 
         levelPlayers = new List<LevelPlayerModel>();
-        _timer = TimerController.Instance;
 
-        foreach (PlayerModel player in _game.Players)
+        foreach (GamePlayerModel player in _gameController.Players)
         {
             LevelPlayerModel levelPlayer = new();
 
@@ -87,15 +83,15 @@ public class Level4Controller : MonoBehaviour
             levelPlayers.Add(levelPlayer);
         }
 
+        _timerController = TimerController.Instance;
         TimerController.Freeze();
 
-        _roundsComponent.text = _currentRound.ToString();
+        _roundController.DisplayCurrentRound();
 
         int randomID = GenerateFirstPlayerToPlay();
         _playerIDWithBomb = randomID;
 
-        // exibir objetos na cena
-        CreateObjectInScene();
+        DisplayObjectInScene();
     }
 
     /*
@@ -105,8 +101,8 @@ public class Level4Controller : MonoBehaviour
     {
         TimerController.Unfreeze();
 
-        _currentRound++;
-        _roundsComponent.text = _currentRound.ToString();
+        _roundController.NextRound();
+        _roundController.DisplayCurrentRound();
 
         _buttonPause.SetActive(true);
 
@@ -115,26 +111,14 @@ public class Level4Controller : MonoBehaviour
         InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
     }
 
-    void CreateObjectInScene()
-    {
-        SpawnPlayer1();
-        SpawnPlayer2();
-
-        AddActionToPlayer1();
-        AddActionToPlayer2();
-
-        SpawnBomb();
-        AssignBomb();
-    }
-
     void Update()
     {
-        if (!_timer.HasFinished())
+        if (!_timerController.HasFinished())
         {
             return;
         }
 
-        if (_rounds == _currentRound && !_freezeComponents)
+        if (_roundController.NumberOfRounds == _roundController.CurrentRound && !_freezeComponents)
         {
             _freezeComponents = true;
             _popUpWinner.SetActive(true);
@@ -166,13 +150,16 @@ public class Level4Controller : MonoBehaviour
             _player1Object.GetComponent<PlayerController>().Freeze(freezeTime);
             _player2Object.GetComponent<PlayerController>().Freeze(freezeTime);
 
-            _currentRound++;
+            _roundController.NextRound();
 
-            _nextRoundObject.SetActive(true);
-            _nextRoundObject.GetComponent<Text>().text = "Ronda: " + _currentRound.ToString();
+            _roundController.DisplayNextRoundIntro();
+
             Invoke(nameof(RestartRound), freezeTime);
         }
     }
+
+
+    /* MÉTODOS DO LEVEL4CONTROLLER */
 
     public void Init()
     {
@@ -185,10 +172,10 @@ public class Level4Controller : MonoBehaviour
 
     void RestartRound()
     {
-        _nextRoundObject.SetActive(false);
-
-        _timer.SetInitialTime();
+        _timerController.SetInitialTime();
         _freezeComponents = false;
+
+        _roundController.DisableNextRoundIntro();
 
         SetInitialPosition();
 
@@ -199,7 +186,7 @@ public class Level4Controller : MonoBehaviour
             Destroy(obj);
         }
 
-        _roundsComponent.text = _currentRound.ToString();
+        _roundController.DisplayCurrentRound();
     }
 
     void SetLevelPoints()
@@ -208,7 +195,7 @@ public class Level4Controller : MonoBehaviour
 
         LevelPlayerModel levelPlayer = levelPlayers[winnerId - 1];
 
-        levelPlayer.LevelScore += _roundPoints;
+        levelPlayer.LevelScore += _roundController.PointsPerRound;
 
         string scoreText = winnerId == 1 ? "ScoreP2Text" : "ScoreP1Text";
 
@@ -225,16 +212,28 @@ public class Level4Controller : MonoBehaviour
         _player2Object.transform.rotation = levelPlayers[1].InitialRotation;
     }
 
+    void DisplayObjectInScene()
+    {
+        SpawnPlayer1();
+        SpawnPlayer2();
+
+        AddActionToPlayer1();
+        AddActionToPlayer2();
+
+        SpawnBomb();
+        AssignBomb();
+    }
+
     void SpawnPlayer1()
     {
-        _player1Object = Instantiate(_game.Players[0].prefab);
+        _player1Object = Instantiate(_gameController.Players[0].prefab);
         levelPlayers[0].InitialPosition = _player1Object.transform.position;
         levelPlayers[0].InitialRotation = _player1Object.transform.rotation;
     }
 
     void SpawnPlayer2()
     {
-        _player2Object = Instantiate(_game.Players[1].prefab);
+        _player2Object = Instantiate(_gameController.Players[1].prefab);
         levelPlayers[1].InitialPosition = _player2Object.transform.position;
         levelPlayers[1].InitialRotation = _player2Object.transform.rotation;
     }
