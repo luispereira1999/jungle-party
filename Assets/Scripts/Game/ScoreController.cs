@@ -5,9 +5,9 @@ using UnityEngine;
 */
 public class ScoreController : MonoBehaviour
 {
-    /* ATRIBUTOS */
+    /* ATRIBUTOS PRIVADOS */
 
-    // referência da pontuação do jogador
+    // para a pontuação do jogador
     private int _score;
 
 

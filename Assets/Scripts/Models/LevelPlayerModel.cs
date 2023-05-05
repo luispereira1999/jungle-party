@@ -2,22 +2,22 @@ using UnityEngine;
 
 public class LevelPlayerModel
 {
-    private int _levelScore;
     private int _id;
+    private int _levelScore;
     private bool _hasBomb;
     private Vector3 _initialPosition;
     private Quaternion _initialRotation;
-
-    public int LevelScore
-    {
-        get { return _levelScore; }
-        set { _levelScore = value; }
-    }
 
     public int Id
     {
         get { return _id; }
         set { _id = value; }
+    }
+
+    public int LevelScore
+    {
+        get { return _levelScore; }
+        set { _levelScore = value; }
     }
 
     public bool HasBomb

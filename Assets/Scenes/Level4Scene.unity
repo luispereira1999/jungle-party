@@ -421,7 +421,7 @@ GameObject:
   - component: {fileID: 133407139}
   - component: {fileID: 133407141}
   m_Layer: 5
-  m_Name: FinishedLevelPopUp
+  m_Name: FinishedLevelPopup
   m_TagString: PopUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3447,9 +3447,9 @@ MonoBehaviour:
   _bombPrefab: {fileID: 9166698033008333861, guid: b52d0e769fdb7ca4c87bb5e8527bb677, type: 3}
   _powerUp: {fileID: 2919045375745229412, guid: 908aaf363cad07f43858bedbf8eb8599, type: 3}
   _roundController: {fileID: 786400503}
-  _popUpWinner: {fileID: 133407138}
   _introPanel: {fileID: 406697437}
   _buttonPause: {fileID: 1605501637}
+  _finishedLevelPopup: {fileID: 0}
 --- !u!4 &1811539967
 Transform:
   m_ObjectHideFlags: 0

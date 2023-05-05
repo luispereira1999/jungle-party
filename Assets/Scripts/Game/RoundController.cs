@@ -3,17 +3,19 @@ using UnityEngine.UI;
 
 /*
  * Controla cada ronda do nível.
- * Mostrando a ronda atual e a introdução da próxima ronda.
+ * Mostrando a ronda atual e o texto de introdução da próxima ronda.
 */
 public class RoundController : MonoBehaviour
 {
     // ATRIBUTOS PRIVADOS
 
+    // variáveis sobre as rondas
     private int _currentRound = 0;
     [SerializeField] private int _numberOfRounds;
     [SerializeField] private int _pointsPerRound;
-    [SerializeField] private Text _roundsComponent;
 
+    // referências para a UI - texto da ronda atual e objeto que mostra o texto de introdução da próxima ronda
+    [SerializeField] private Text _roundsComponent;
     [SerializeField] private GameObject _nextRoundIntro;
 
 
@@ -59,5 +61,10 @@ public class RoundController : MonoBehaviour
     public void DisableNextRoundIntro()
     {
         _nextRoundIntro.SetActive(false);
+    }
+
+    public bool IsLastRound()
+    {
+        return _currentRound == _numberOfRounds;
     }
 }
