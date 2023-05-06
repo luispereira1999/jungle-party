@@ -4,7 +4,7 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 
 /*
- * Configura uma barra de progresso circular.
+ * Configura o componente de UI da barra de progresso circular.
 */
 public class ProgressBarCircleController : MonoBehaviour
 {
@@ -76,13 +76,13 @@ public class ProgressBarCircleController : MonoBehaviour
         _barBackground.sprite = _barBackgroundSprite;
     }
 
-    public void UpdateValue(float val)
+    public void UpdateValue(float currentValue)
     {
-        _bar.fillAmount = -(val / _maxValue) + 1f;
+        _bar.fillAmount = -(currentValue / _maxValue) + 1f;
 
-        _textTitle.text = _title + val;
+        _textTitle.text = _title + currentValue;
 
-        if (_alertTime >= val)
+        if (_alertTime >= currentValue)
         {
             _barBackground.color = _barAlertColor;
         }

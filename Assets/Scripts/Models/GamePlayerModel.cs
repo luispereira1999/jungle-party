@@ -36,7 +36,7 @@ public class GamePlayerModel
 
     // CONSTRUTOR
 
-    public GamePlayerModel(GameObject prefab, int globalScore, int id)
+    public GamePlayerModel(int id, GameObject prefab, int globalScore)
     {
         _id = id;
         _prefab = prefab;

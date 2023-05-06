@@ -1533,7 +1533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439c09262a7480f45ae162a95166e722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfRounds: 2
+  _numberOfRounds: 3
   _roundsComponent: {fileID: 186043169}
   _nextRoundIntro: {fileID: 92866853}
 --- !u!4 &786400504
@@ -3786,7 +3786,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaa54621eb1d094693c281339874c5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingTime: 5
+  _startingTime: 60
   _progressBar: {fileID: 1214456879}
 --- !u!4 &2129306063
 Transform:

@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 /*
- * É responsável por tratar da pontuação de cada jogador.
+ * É responsável por tratar da pontuação de cada jogador e exibir-la no ecrã.
 */
 public class ScoreController : MonoBehaviour
 {
@@ -16,16 +16,12 @@ public class ScoreController : MonoBehaviour
     [SerializeField] private GameObject _scorePlayer2;
 
 
-    // PROPRIEDADES PÚBLICAS
-
-    public int PointsPerRound
-    {
-        get { return _pointsPerRound; }
-        set { _pointsPerRound = value; }
-    }
-
-
     /* MÉTODOS */
+
+    public int AddScore()
+    {
+        return _pointsPerRound;
+    }
 
     public void DisplayScoreObjectText(int winnerID, int score)
     {

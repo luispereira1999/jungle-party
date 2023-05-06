@@ -10,7 +10,7 @@ public class LevelPlayerModel
 
     private int _id;
     private int _levelScore;
-    private bool _hasBomb;
+    private GameObject _object;
     private Vector3 _initialPosition;
     private Quaternion _initialRotation;
 
@@ -29,10 +29,10 @@ public class LevelPlayerModel
         set { _levelScore = value; }
     }
 
-    public bool HasBomb
+    public GameObject Object
     {
-        get { return _hasBomb; }
-        set { _hasBomb = value; }
+        get { return _object; }
+        set { _object = value; }
     }
 
     public Vector3 InitialPosition
@@ -50,9 +50,11 @@ public class LevelPlayerModel
 
     // CONSTRUTOR
 
-    public LevelPlayerModel(int id, int levelScore)
+    public LevelPlayerModel(int id, int levelScore, Vector3 initialPosition, Quaternion initialRotation)
     {
         _id = id;
         _levelScore = levelScore;
+        _initialPosition = initialPosition;
+        _initialRotation = initialRotation;
     }
 }

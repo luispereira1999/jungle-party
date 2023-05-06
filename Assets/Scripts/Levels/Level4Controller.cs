@@ -18,8 +18,7 @@ public class Level4Controller : MonoBehaviour
     private GameController _gameController;
 
     // variáveis sobre os jogadores
-    private GameObject _player1Object;
-    private GameObject _player2Object;
+    private List<LevelPlayerModel> _levelPlayers = new();
     private int _playerIDWithBomb = -1;
 
     // para saber se os jogadores colidiram
@@ -48,9 +47,6 @@ public class Level4Controller : MonoBehaviour
 
     // para detetar que os objetos estão congelados quando a ronda acaba
     private bool _freezeObjects = false;
-
-    // para o modelo de dados do jogador referente ao nível
-    private List<LevelPlayerModel> levelPlayers = new();
 
     // para os componentes da UI - painel de introdução, botão de pause e painel do fim de nível
     [SerializeField] private GameObject _introPanel;
@@ -116,7 +112,7 @@ public class Level4Controller : MonoBehaviour
             if (_roundController.IsLastRound())
             {
                 string finishedLevelText = "";
-                foreach (LevelPlayerModel levelPlayer in levelPlayers)
+                foreach (LevelPlayerModel levelPlayer in _levelPlayers)
                 {
                     finishedLevelText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
                 }
@@ -169,8 +165,8 @@ public class Level4Controller : MonoBehaviour
     {
         foreach (GamePlayerModel gamePlayer in _gameController.GamePlayers)
         {
-            LevelPlayerModel levelPlayer = new(gamePlayer.ID, 0);
-            levelPlayers.Add(levelPlayer);
+            LevelPlayerModel levelPlayer = new(gamePlayer.ID, 0, gamePlayer.Prefab.transform.position, gamePlayer.Prefab.transform.rotation);
+            _levelPlayers.Add(levelPlayer);
         }
     }
 
@@ -191,6 +187,24 @@ public class Level4Controller : MonoBehaviour
         AssignBomb();
     }
 
+    void SpawnPlayers()
+    {
+        _levelPlayers[0].Object = Instantiate(_gameController.GamePlayers[0].Prefab);
+        _levelPlayers[1].Object = Instantiate(_gameController.GamePlayers[1].Prefab);
+    }
+
+    /*
+     * Adiciona o script da ação a cada um dos objetos dos jogadores, para definir essa ação ao personagem.
+    */
+    void AddActionToPlayers()
+    {
+        _throwAction = _levelPlayers[0].Object.AddComponent<ThrowAction>();
+        _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
+
+        _throwAction = _levelPlayers[1].Object.AddComponent<ThrowAction>();
+        _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
+    }
+
     void SpawnBomb()
     {
         _bombObject = Instantiate(_bombPrefab, _bombPrefab.transform.position, Quaternion.identity);
@@ -206,33 +220,10 @@ public class Level4Controller : MonoBehaviour
         _bombController.SetLocalScale(new Vector3(85f, 85f, 85f));
     }
 
-    void SpawnPlayers()
-    {
-        _player1Object = Instantiate(_gameController.GamePlayers[0].Prefab);
-        levelPlayers[0].InitialPosition = _player1Object.transform.position;
-        levelPlayers[0].InitialRotation = _player1Object.transform.rotation;
-
-        _player2Object = Instantiate(_gameController.GamePlayers[1].Prefab);
-        levelPlayers[1].InitialPosition = _player2Object.transform.position;
-        levelPlayers[1].InitialRotation = _player2Object.transform.rotation;
-    }
-
-    /*
-     * Adiciona o script da ação a cada um dos objetos dos jogadores, para definir essa ação ao personagem.
-    */
-    void AddActionToPlayers()
-    {
-        _throwAction = _player1Object.AddComponent<ThrowAction>();
-        _player1Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
-
-        _throwAction = _player2Object.AddComponent<ThrowAction>();
-        _player2Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
-    }
-
     void FreezePlayers(float freezingTime)
     {
-        _player1Object.GetComponent<PlayerController>().Freeze(freezingTime);
-        _player2Object.GetComponent<PlayerController>().Freeze(freezingTime);
+        _levelPlayers[0].Object.GetComponent<PlayerController>().Freeze(freezingTime);
+        _levelPlayers[1].Object.GetComponent<PlayerController>().Freeze(freezingTime);
     }
 
     /*
@@ -242,8 +233,8 @@ public class Level4Controller : MonoBehaviour
     {
         int winnerID = GetWinnerID();
 
-        levelPlayers[winnerID - 1].LevelScore += _scoreController.PointsPerRound;
-        _scoreController.DisplayScoreObjectText(winnerID, levelPlayers[winnerID - 1].LevelScore);
+        _levelPlayers[winnerID - 1].LevelScore += _scoreController.AddScore();
+        _scoreController.DisplayScoreObjectText(winnerID, _levelPlayers[winnerID - 1].LevelScore);
     }
 
     int GetWinnerID()
@@ -270,11 +261,11 @@ public class Level4Controller : MonoBehaviour
 
     void SetInitialPosition()
     {
-        _player1Object.transform.position = levelPlayers[0].InitialPosition;
-        _player2Object.transform.position = levelPlayers[1].InitialPosition;
+        _levelPlayers[0].Object.transform.position = _levelPlayers[0].InitialPosition;
+        _levelPlayers[0].Object.transform.rotation = _levelPlayers[0].InitialRotation;
 
-        _player1Object.transform.rotation = levelPlayers[0].InitialRotation;
-        _player2Object.transform.rotation = levelPlayers[1].InitialRotation;
+        _levelPlayers[1].Object.transform.position = _levelPlayers[1].InitialPosition;
+        _levelPlayers[1].Object.transform.rotation = _levelPlayers[1].InitialRotation;
     }
 
     void DestroyAllPowerUps()
@@ -290,11 +281,11 @@ public class Level4Controller : MonoBehaviour
     {
         if (_playerIDWithBomb == 1)
         {
-            return _player1Object;
+            return _levelPlayers[0].Object;
         }
         else
         {
-            return _player2Object;
+            return _levelPlayers[1].Object;
         }
     }
 
@@ -315,6 +306,6 @@ public class Level4Controller : MonoBehaviour
     */
     public void FinishLevel()
     {
-        _gameController.NextLevel(levelPlayers[0].LevelScore, levelPlayers[1].LevelScore);
+        _gameController.NextLevel(_levelPlayers[0].LevelScore, _levelPlayers[1].LevelScore);
     }
 }

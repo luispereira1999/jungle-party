@@ -65,13 +65,13 @@ public class GameController : MonoBehaviour
 
     public void InitiateGame()
     {
-        AddPlayer(_player1Prefab, 0, 1);
-        AddPlayer(_player2Prefab, 0, 2);
+        AddPlayer(1, _player1Prefab, 0);
+        AddPlayer(2, _player2Prefab, 0);
     }
 
-    void AddPlayer(GameObject playerPrefab, int score, int id)
+    void AddPlayer(int id, GameObject prefab, int globalScore)
     {
-        _gamePlayers.Add(new GamePlayerModel(playerPrefab, score, id));
+        _gamePlayers.Add(new GamePlayerModel(id, prefab, globalScore));
     }
 
     /*
