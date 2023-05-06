@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
  * Existe apenas uma instância desta classe durante a execução do jogo.
@@ -11,13 +12,13 @@ public class GameController : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
 
-    // variáveis para guardar os prefabs dos jogadores
+    // variáveis sobre os jogadores
     [SerializeField] private GameObject _player1Prefab;
     [SerializeField] private GameObject _player2Prefab;
-    private List<GamePlayerModel> _players = new();
+    private List<GamePlayerModel> _gamePlayers = new();
 
     // para identificar o nível atual
-    private int _currentLevelID = 1;
+    [SerializeField] private int _currentLevelID = 1;
 
     // para guardar uma instância única desta classe
     private static GameController _instance;
@@ -25,10 +26,10 @@ public class GameController : MonoBehaviour
 
     /* PROPRIEDADES PÚBLICAS */
 
-    public List<GamePlayerModel> Players
+    public List<GamePlayerModel> GamePlayers
     {
-        get { return _players; }
-        set { _players = value; }
+        get { return _gamePlayers; }
+        set { _gamePlayers = value; }
     }
 
     public int CurrentLevelID
@@ -70,25 +71,43 @@ public class GameController : MonoBehaviour
 
     void AddPlayer(GameObject playerPrefab, int score, int id)
     {
-        _players.Add(new GamePlayerModel(playerPrefab, score, id));
+        _gamePlayers.Add(new GamePlayerModel(playerPrefab, score, id));
     }
 
-    public void NextLevel()
+    /*
+     * É executado quando é clicado o botão de próximo nível, no painel de fim de nível,
+     * mas é chamado na função "FinishLevel" no controlador de nível.
+    */
+    public void NextLevel(int scorePlayer1, int scorePlayer2)
     {
         _currentLevelID++;
+
+        UpdateGlobalScore(scorePlayer1, scorePlayer2);
+
+        string sceneName = "Level" + _currentLevelID + "Scene";
+        SceneManager.LoadScene(sceneName);
 
         if (_currentLevelID > 5)
         {
             _currentLevelID = -1;
+
+            sceneName = "MenuScene";
+            SceneManager.LoadScene(sceneName);
         }
     }
 
+    void UpdateGlobalScore(int scorePlayer1, int scorePlayer2)
+    {
+        _gamePlayers[0].GlobalScore += scorePlayer1;
+        _gamePlayers[1].GlobalScore += scorePlayer2;
+    }
+
     /*
-     * Chamar esta função sempre que um novo jogo se iniciar novamente,
+     * Chamar esta função sempre que um novo jogo iniciar,
      * para alterar os valores atuais para os valores originais
     */
     public void ResetGame()
     {
-        _players.Clear();
+        _gamePlayers.Clear();
     }
 }

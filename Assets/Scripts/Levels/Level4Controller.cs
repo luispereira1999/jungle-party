@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -18,7 +17,7 @@ public class Level4Controller : MonoBehaviour
     // variável para a referência do controlador de jogo
     private GameController _gameController;
 
-    // variáveis para guardar os jogadores
+    // variáveis sobre os jogadores
     private GameObject _player1Object;
     private GameObject _player2Object;
     private int _playerIDWithBomb = -1;
@@ -43,6 +42,9 @@ public class Level4Controller : MonoBehaviour
 
     // referência do controlador das rondas
     [SerializeField] private RoundController _roundController;
+
+    // referência do controlador da pontuação
+    [SerializeField] private ScoreController _scoreController;
 
     // para detetar que os objetos estão congelados quando a ronda acaba
     private bool _freezeObjects = false;
@@ -73,7 +75,7 @@ public class Level4Controller : MonoBehaviour
         _gameController = GameController.Instance;
 
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
-        _gameController.Players = new List<GamePlayerModel>();
+        _gameController.GamePlayers = new();
         _gameController.InitiateGame();
 
         // armazenar dados de cada jogador neste nível,
@@ -108,7 +110,7 @@ public class Level4Controller : MonoBehaviour
 
             CancelInvoke(nameof(SpawnPowerUp));
 
-            SetWinnerPoints();
+            UpdateWinnerScore();
 
             // se estiver na última ronda - mostrar o painel do fim de nível
             if (_roundController.IsLastRound())
@@ -139,6 +141,7 @@ public class Level4Controller : MonoBehaviour
 
     /*
      * É executado ao clicar no botão de iniciar, no painel de introdução do nível.
+     * Permite que os jogadores comecem de facto a jogar.
     */
     public void InitAfterIntro()
     {
@@ -153,19 +156,104 @@ public class Level4Controller : MonoBehaviour
         InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
     }
 
+    void SpawnPowerUp()
+    {
+        System.Random rnd = new();
+        int xValue = rnd.Next(42, 58);
+        int zValue = rnd.Next(71, 84);
+
+        Instantiate(_powerUp, new Vector3(xValue, _powerUp.transform.position.y, zValue), Quaternion.identity);
+    }
+
     void CreatePlayersDataForLevel()
     {
-        foreach (GamePlayerModel gamePlayer in _gameController.Players)
+        foreach (GamePlayerModel gamePlayer in _gameController.GamePlayers)
         {
             LevelPlayerModel levelPlayer = new(gamePlayer.ID, 0);
             levelPlayers.Add(levelPlayer);
         }
     }
 
+    int GenerateFirstPlayerWithBomb()
+    {
+        // previne que o Random não fique viciado
+        Random.InitState(DateTime.Now.Millisecond);
+
+        return Random.Range(1, 3);
+    }
+
+    void DisplayObjectInScene()
+    {
+        SpawnPlayers();
+        AddActionToPlayers();
+
+        SpawnBomb();
+        AssignBomb();
+    }
+
+    void SpawnBomb()
+    {
+        _bombObject = Instantiate(_bombPrefab, _bombPrefab.transform.position, Quaternion.identity);
+    }
+
+    public void AssignBomb()
+    {
+        _bombController = _bombObject.GetComponent<BombController>();
+        _bombController.SetPlayer(this.GetPlayerWithBomb());
+        _bombController.SetPlayerAsParent(this.GetPlayerWithBomb());
+        _bombController.SetLocalPosition(new Vector3(0.042f, 0.39f, 0.352f));
+        _bombController.SetLocalRotation(Quaternion.Euler(270f, 0f, 0f));
+        _bombController.SetLocalScale(new Vector3(85f, 85f, 85f));
+    }
+
+    void SpawnPlayers()
+    {
+        _player1Object = Instantiate(_gameController.GamePlayers[0].Prefab);
+        levelPlayers[0].InitialPosition = _player1Object.transform.position;
+        levelPlayers[0].InitialRotation = _player1Object.transform.rotation;
+
+        _player2Object = Instantiate(_gameController.GamePlayers[1].Prefab);
+        levelPlayers[1].InitialPosition = _player2Object.transform.position;
+        levelPlayers[1].InitialRotation = _player2Object.transform.rotation;
+    }
+
+    /*
+     * Adiciona o script da ação a cada um dos objetos dos jogadores, para definir essa ação ao personagem.
+    */
+    void AddActionToPlayers()
+    {
+        _throwAction = _player1Object.AddComponent<ThrowAction>();
+        _player1Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
+
+        _throwAction = _player2Object.AddComponent<ThrowAction>();
+        _player2Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
+    }
+
+    void FreezePlayers(float freezingTime)
+    {
+        _player1Object.GetComponent<PlayerController>().Freeze(freezingTime);
+        _player2Object.GetComponent<PlayerController>().Freeze(freezingTime);
+    }
+
+    /*
+     * Atribui os pontos do vencedor e atualiza no ecrã.
+    */
+    void UpdateWinnerScore()
+    {
+        int winnerID = GetWinnerID();
+
+        levelPlayers[winnerID - 1].LevelScore += _scoreController.PointsPerRound;
+        _scoreController.DisplayScoreObjectText(winnerID, levelPlayers[winnerID - 1].LevelScore);
+    }
+
+    int GetWinnerID()
+    {
+        return _playerIDWithBomb == 1 ? 2 : 1;
+    }
+
     /*
      * É executado após o intervalo de espera para iniciar outra ronda.
-     * Responsável por inicializar novamente os componentes necessários para que a ronda comece
-     * (relógio, posição dos jogadores, ocultar intro da ronda e remover power ups anteriores).
+     * Responsável por inicializar novamente os componentes necessários para que a ronda comece.
     */
     void RestartRound()
     {
@@ -178,30 +266,6 @@ public class Level4Controller : MonoBehaviour
         SetInitialPosition();
 
         DestroyAllPowerUps();
-    }
-
-    void SetWinnerPoints()
-    {
-        int winnerID = GetWinnerID();
-
-        LevelPlayerModel playerWinner = levelPlayers[winnerID - 1];
-        playerWinner.LevelScore += _roundController.PointsPerRound;
-
-        string scoreText = winnerID == 1 ? "ScorePlayer1" : "ScorePlayer2";
-
-        GameObject[] scoreObject = GameObject.FindGameObjectsWithTag(scoreText);
-        scoreObject[0].GetComponent<TextMeshProUGUI>().text = playerWinner.LevelScore.ToString();
-    }
-
-    int GetWinnerID()
-    {
-        return _playerIDWithBomb == 1 ? 2 : 1;
-    }
-
-    void FreezePlayers(float freezingTime)
-    {
-        _player1Object.GetComponent<PlayerController>().Freeze(freezingTime);
-        _player2Object.GetComponent<PlayerController>().Freeze(freezingTime);
     }
 
     void SetInitialPosition()
@@ -220,46 +284,6 @@ public class Level4Controller : MonoBehaviour
         {
             Destroy(obj);
         }
-    }
-
-    void DisplayObjectInScene()
-    {
-        SpawnPlayers();
-        AddActionToPlayers();
-
-        SpawnBomb();
-        AssignBomb();
-    }
-
-    void SpawnPlayers()
-    {
-        _player1Object = Instantiate(_gameController.Players[0].Prefab);
-        levelPlayers[0].InitialPosition = _player1Object.transform.position;
-        levelPlayers[0].InitialRotation = _player1Object.transform.rotation;
-
-        _player2Object = Instantiate(_gameController.Players[1].Prefab);
-        levelPlayers[1].InitialPosition = _player2Object.transform.position;
-        levelPlayers[1].InitialRotation = _player2Object.transform.rotation;
-    }
-
-    /*
-     * Adiciona o script da ação a cada um dos objetos dos jogadores, para definir essa ação ao personagem.
-    */
-    void AddActionToPlayers()
-    {
-        _throwAction = _player1Object.AddComponent<ThrowAction>();
-        _player1Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
-
-        _throwAction = _player2Object.AddComponent<ThrowAction>();
-        _player2Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
-    }
-
-    int GenerateFirstPlayerWithBomb()
-    {
-        // previne que o Random não fique viciado
-        Random.InitState(DateTime.Now.Millisecond);
-
-        return Random.Range(1, 3);
     }
 
     public GameObject GetPlayerWithBomb()
@@ -286,27 +310,11 @@ public class Level4Controller : MonoBehaviour
         }
     }
 
-    void SpawnBomb()
+    /*
+     * É executado quando é clicado o botão de próximo nível, no painel de fim de nível.
+    */
+    public void FinishLevel()
     {
-        _bombObject = Instantiate(_bombPrefab, _bombPrefab.transform.position, Quaternion.identity);
-    }
-
-    public void AssignBomb()
-    {
-        _bombController = _bombObject.GetComponent<BombController>();
-        _bombController.SetPlayer(this.GetPlayerWithBomb());
-        _bombController.SetPlayerAsParent(this.GetPlayerWithBomb());
-        _bombController.SetLocalPosition(new Vector3(0.042f, 0.39f, 0.352f));
-        _bombController.SetLocalRotation(Quaternion.Euler(270f, 0f, 0f));
-        _bombController.SetLocalScale(new Vector3(85f, 85f, 85f));
-    }
-
-    void SpawnPowerUp()
-    {
-        System.Random rnd = new();
-        int xValue = rnd.Next(42, 58);
-        int zValue = rnd.Next(71, 84);
-
-        Instantiate(_powerUp, new Vector3(xValue, _powerUp.transform.position.y, zValue), Quaternion.identity);
+        _gameController.NextLevel(levelPlayers[0].LevelScore, levelPlayers[1].LevelScore);
     }
 }

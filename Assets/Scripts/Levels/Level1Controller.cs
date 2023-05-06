@@ -12,10 +12,9 @@ public class Level1Controller : MonoBehaviour
     // variável para a referência do controlador de jogo
     private GameController _gameController;
 
-    // variáveis para guardar os jogadores
+    // variáveis sobre os jogadores
     private GameObject _player1Object;
     private GameObject _player2Object;
-    private int _playerIDWithBomb = -1;
 
     // para saber se os jogadores colidiram
     private bool _collisionOccurred = false;
@@ -78,5 +77,13 @@ public class Level1Controller : MonoBehaviour
     public void InitAfterIntro()
     {
 
+    }
+
+    /*
+     * É executado quando é clicado o botão de próximo nível, no painel de fim de nível.
+    */
+    public void FinishLevel()
+    {
+        _gameController.NextLevel(levelPlayers[0].LevelScore, levelPlayers[1].LevelScore);
     }
 }

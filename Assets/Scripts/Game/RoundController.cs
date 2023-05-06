@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /*
- * Controla cada ronda do nível.
+ * Trata de cada ronda de um nível.
+ * Permite atualizar o número de rondas, atualizar a UI e determinar se é a última ronda.
 */
 public class RoundController : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class RoundController : MonoBehaviour
     // variáveis sobre as rondas
     private int _currentRound = 0;
     [SerializeField] private int _numberOfRounds;
-    [SerializeField] private int _pointsPerRound;
 
     // referências para a UI - texto da ronda atual e objeto que mostra o texto de introdução da próxima ronda
     [SerializeField] private Text _roundsComponent;
@@ -30,12 +30,6 @@ public class RoundController : MonoBehaviour
     {
         get { return _numberOfRounds; }
         set { _numberOfRounds = value; }
-    }
-
-    public int PointsPerRound
-    {
-        get { return _pointsPerRound; }
-        set { _pointsPerRound = value; }
     }
 
 
