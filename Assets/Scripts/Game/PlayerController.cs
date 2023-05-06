@@ -81,11 +81,11 @@ public class PlayerController : MonoBehaviour
             // se o jogador pressiona a tecla de ação
             if (actionInput)
             {
-                if (_currentAction is KickController)  // nível 1
+                if (_currentAction is KickAction)  // significa que é o nível 1
                 {
                     _currentAction.Enter();
                 }
-                if (_currentAction is ThrowController)  // nível 4
+                if (_currentAction is ThrowAction)  // significa que é o nível 4
                 {
                     if (!_isWalking)
                     {
@@ -95,11 +95,11 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (_currentAction is KickController)  // quando é o nível 1
+                if (_currentAction is KickAction)
                 {
                     _currentAction.Exit();
                 }
-                if (_currentAction is ThrowController)  // quando é o nível 4
+                if (_currentAction is ThrowAction)
                 {
                     _currentAction.Exit();
                 }
@@ -162,13 +162,13 @@ public class PlayerController : MonoBehaviour
         // colisão com o outro jogador
         if (collision.gameObject.CompareTag(oppositePlayerTag))
         {
-            if (_currentAction is ThrowController)
+            if (_currentAction is ThrowAction)
             {
                 _currentAction.Collide(collision);
             }
         }
 
-        if (_currentAction is KickController)
+        if (_currentAction is KickAction)
         {
             // colisão com a bola
             if (collision.gameObject.CompareTag("Ball"))
@@ -271,17 +271,17 @@ public class PlayerController : MonoBehaviour
     {
         switch (value)
         {
-            case (int)PowerUpAction.SPEED:
+            case (int)PowerUpEffect.SPEED:
                 _moveSpeed = _doubleSpeed;
                 Invoke(nameof(SetNormalSpeed), _effectTime);
                 break;
 
-            case (int)PowerUpAction.SLOW:
+            case (int)PowerUpEffect.SLOW:
                 _moveSpeed = _halfSpeed;
                 Invoke(nameof(SetNormalSpeed), _effectTime);
                 break;
 
-            case (int)PowerUpAction.STUN:
+            case (int)PowerUpEffect.STUN:
                 _isWalking = false;
                 Freeze(_freezingTime);
                 break;

@@ -15,10 +15,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject _player1Prefab;
     [SerializeField] private GameObject _player2Prefab;
     private List<GamePlayerModel> _players = new();
-    [SerializeField] private int _currentLevelID;
 
-    // para controlar em qual estado e cena o jogo está no momento
-    [SerializeField] private GameState _gameState = GameState.MAIN_MENU;
+    // para identificar o nível atual
+    private int _currentLevelID = 1;
 
     // para guardar uma instância única desta classe
     private static GameController _instance;
@@ -36,12 +35,6 @@ public class GameController : MonoBehaviour
     {
         get { return _currentLevelID; }
         set { _currentLevelID = value; }
-    }
-
-    public GameState GameState
-    {
-        get { return _gameState; }
-        set { _gameState = value; }
     }
 
     public static GameController Instance
@@ -71,13 +64,11 @@ public class GameController : MonoBehaviour
 
     public void InitiateGame()
     {
-        AddPlayer(_player1Prefab, 0f, 1);
-        AddPlayer(_player2Prefab, 0f, 2);
-
-        _gameState = GameState.START_GAME;
+        AddPlayer(_player1Prefab, 0, 1);
+        AddPlayer(_player2Prefab, 0, 2);
     }
 
-    void AddPlayer(GameObject playerPrefab, float score, int id)
+    void AddPlayer(GameObject playerPrefab, int score, int id)
     {
         _players.Add(new GamePlayerModel(playerPrefab, score, id));
     }
@@ -85,12 +76,10 @@ public class GameController : MonoBehaviour
     public void NextLevel()
     {
         _currentLevelID++;
-        _gameState = GameState.IN_GAME;
 
         if (_currentLevelID > 5)
         {
             _currentLevelID = -1;
-            _gameState = GameState.FINISH_GAME;
         }
     }
 

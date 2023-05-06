@@ -36,7 +36,7 @@ public class Level4Controller : MonoBehaviour
     [SerializeField] private GameObject _powerUp;
 
     // para definir a ação dos jogadores neste nível
-    private ThrowController _throwController;
+    private ThrowAction _throwAction;
 
     // referência do controlador do relógio
     private TimerController _timerController;
@@ -76,20 +76,16 @@ public class Level4Controller : MonoBehaviour
         _gameController.Players = new List<GamePlayerModel>();
         _gameController.InitiateGame();
 
-        foreach (GamePlayerModel player in _gameController.Players)
-        {
-            LevelPlayerModel levelPlayer = new();
-
-            levelPlayer.Id = player.id;
-            levelPlayers.Add(levelPlayer);
-        }
+        // armazenar dados de cada jogador neste nível,
+        // sabendo que um jogo tem vários níveis e já existem dados que passam de nível para nível, como a pontuação
+        CreatePlayersDataForLevel();
 
         _timerController = TimerController.Instance;
         TimerController.Freeze();
 
         _roundController.DisplayCurrentRound();
 
-        int randomID = GenerateFirstPlayerToPlay();
+        int randomID = GenerateFirstPlayerWithBomb();
         _playerIDWithBomb = randomID;
 
         DisplayObjectInScene();
@@ -103,7 +99,7 @@ public class Level4Controller : MonoBehaviour
             return;
         }
 
-        // se a ronda acabou - congelar objetos, cancelar spawn de power ups e atribuir pontos
+        // se a ronda acaba - congelar objetos, cancelar spawn de power ups e atribuir pontos
         if (!_freezeObjects)
         {
             _freezeObjects = true;
@@ -117,20 +113,22 @@ public class Level4Controller : MonoBehaviour
             // se estiver na última ronda - mostrar o painel do fim de nível
             if (_roundController.IsLastRound())
             {
-                string textPoints = "";
+                string finishedLevelText = "";
                 foreach (LevelPlayerModel levelPlayer in levelPlayers)
                 {
-                    textPoints += "Jogador " + levelPlayer.Id + ": " + levelPlayer.LevelScore + "\n";
+                    finishedLevelText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
                 }
 
                 _finishedLevelPanel.SetActive(true);
-                _finishedLevelDescription.GetComponent<Text>().text = textPoints;
+                _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
             }
             // senão iniciar outra ronda
             else
             {
                 _roundController.NextRound();
                 _roundController.DisplayNextRoundIntro();
+                _roundController.DisplayCurrentRound();
+
                 Invoke(nameof(RestartRound), freezingTime);
             }
         }
@@ -155,32 +153,49 @@ public class Level4Controller : MonoBehaviour
         InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
     }
 
+    void CreatePlayersDataForLevel()
+    {
+        foreach (GamePlayerModel gamePlayer in _gameController.Players)
+        {
+            LevelPlayerModel levelPlayer = new(gamePlayer.ID, 0);
+            levelPlayers.Add(levelPlayer);
+        }
+    }
+
+    /*
+     * É executado após o intervalo de espera para iniciar outra ronda.
+     * Responsável por inicializar novamente os componentes necessários para que a ronda comece
+     * (relógio, posição dos jogadores, ocultar intro da ronda e remover power ups anteriores).
+    */
     void RestartRound()
     {
-        _timerController.SetInitialTime();
         _freezeObjects = false;
+
+        _timerController.SetInitialTime();
 
         _roundController.DisableNextRoundIntro();
 
         SetInitialPosition();
 
         DestroyAllPowerUps();
-
-        _roundController.DisplayCurrentRound();
     }
 
     void SetWinnerPoints()
     {
-        int winnerId = _playerIDWithBomb == 1 ? 2 : 1;
+        int winnerID = GetWinnerID();
 
-        LevelPlayerModel levelPlayer = levelPlayers[winnerId - 1];
+        LevelPlayerModel playerWinner = levelPlayers[winnerID - 1];
+        playerWinner.LevelScore += _roundController.PointsPerRound;
 
-        levelPlayer.LevelScore += _roundController.PointsPerRound;
+        string scoreText = winnerID == 1 ? "ScorePlayer1" : "ScorePlayer2";
 
-        string scoreText = winnerId == 1 ? "ScoreP2Text" : "ScoreP1Text";
+        GameObject[] scoreObject = GameObject.FindGameObjectsWithTag(scoreText);
+        scoreObject[0].GetComponent<TextMeshProUGUI>().text = playerWinner.LevelScore.ToString();
+    }
 
-        GameObject[] scoreTextComp = GameObject.FindGameObjectsWithTag(scoreText);
-        scoreTextComp[0].GetComponent<TextMeshProUGUI>().text = levelPlayer.LevelScore.ToString();
+    int GetWinnerID()
+    {
+        return _playerIDWithBomb == 1 ? 2 : 1;
     }
 
     void FreezePlayers(float freezingTime)
@@ -218,11 +233,11 @@ public class Level4Controller : MonoBehaviour
 
     void SpawnPlayers()
     {
-        _player1Object = Instantiate(_gameController.Players[0].prefab);
+        _player1Object = Instantiate(_gameController.Players[0].Prefab);
         levelPlayers[0].InitialPosition = _player1Object.transform.position;
         levelPlayers[0].InitialRotation = _player1Object.transform.rotation;
 
-        _player2Object = Instantiate(_gameController.Players[1].prefab);
+        _player2Object = Instantiate(_gameController.Players[1].Prefab);
         levelPlayers[1].InitialPosition = _player2Object.transform.position;
         levelPlayers[1].InitialRotation = _player2Object.transform.rotation;
     }
@@ -232,14 +247,14 @@ public class Level4Controller : MonoBehaviour
     */
     void AddActionToPlayers()
     {
-        _throwController = _player1Object.AddComponent<ThrowController>();
-        _player1Object.GetComponent<PlayerController>().SetAction(_throwController, this);
+        _throwAction = _player1Object.AddComponent<ThrowAction>();
+        _player1Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
 
-        _throwController = _player2Object.AddComponent<ThrowController>();
-        _player2Object.GetComponent<PlayerController>().SetAction(_throwController, this);
+        _throwAction = _player2Object.AddComponent<ThrowAction>();
+        _player2Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
     }
 
-    int GenerateFirstPlayerToPlay()
+    int GenerateFirstPlayerWithBomb()
     {
         // previne que o Random não fique viciado
         Random.InitState(DateTime.Now.Millisecond);
@@ -251,11 +266,11 @@ public class Level4Controller : MonoBehaviour
     {
         if (_playerIDWithBomb == 1)
         {
-            return _player2Object;
+            return _player1Object;
         }
         else
         {
-            return _player1Object;
+            return _player2Object;
         }
     }
 
@@ -265,7 +280,7 @@ public class Level4Controller : MonoBehaviour
         {
             _playerIDWithBomb = 2;
         }
-        else if (_playerIDWithBomb == 2)
+        else
         {
             _playerIDWithBomb = 1;
         }

@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 /*
  * Controla cada ronda do nível.
- * Mostrando a ronda atual e o texto de introdução da próxima ronda.
 */
 public class RoundController : MonoBehaviour
 {

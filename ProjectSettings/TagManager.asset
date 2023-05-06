@@ -14,12 +14,10 @@ TagManager:
   - Player2
   - Wall
   - Ball
-  - InitBtn
   - Rounds
-  - PopUp
-  - PopUpText
-  - ScoreP1Text
-  - ScoreP2Text
+  - FinishedLevelText
+  - ScorePlayer1
+  - ScorePlayer2
   layers:
   - Default
   - TransparentFX

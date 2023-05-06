@@ -41,12 +41,12 @@ public class Level3Controller : MonoBehaviour
     }
     void SpawnPlayer1()
     {
-        _player1Object = Instantiate(_game.Players[0].prefab);
+        _player1Object = Instantiate(_game.Players[0].Prefab);
     }
 
     void SpawnPlayer2()
     {
-        _player2Object = Instantiate(_game.Players[1].prefab);
+        _player2Object = Instantiate(_game.Players[1].Prefab);
     }
 
     // Update is called once per frame

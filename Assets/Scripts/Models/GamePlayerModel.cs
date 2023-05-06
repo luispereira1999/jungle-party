@@ -6,14 +6,40 @@ using UnityEngine;
 */
 public class GamePlayerModel
 {
-    public GameObject prefab;
-    public float score;
-    public int id;
+    // ATRIBUTOS PRIVADOS
 
-    public GamePlayerModel(GameObject prefab, float score, int id)
+    private int _id;
+    private GameObject _prefab;
+    private int _globalScore;
+
+
+    // PROPRIEDADES PÚBLICAS
+
+    public int ID
     {
-        this.prefab = prefab;
-        this.score = score;
-        this.id = id;
+        get { return _id; }
+        set { _id = value; }
+    }
+
+    public GameObject Prefab
+    {
+        get { return _prefab; }
+        set { _prefab = value; }
+    }
+
+    public int GlobalScore
+    {
+        get { return _globalScore; }
+        set { _globalScore = value; }
+    }
+
+
+    // CONSTRUTOR
+
+    public GamePlayerModel(GameObject prefab, int globalScore, int id)
+    {
+        _id = id;
+        _prefab = prefab;
+        _globalScore = globalScore;
     }
 }
