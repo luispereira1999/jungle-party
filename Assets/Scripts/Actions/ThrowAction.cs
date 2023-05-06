@@ -31,22 +31,28 @@ public class ThrowAction : MonoBehaviour, IPlayerAction
         set { _player = value; }
     }
 
+    public Animator Animator
+    {
+        get { return _animator; }
+        set { _animator = value; }
+    }
+
 
     /* MÉTODOS */
 
     public void Start()
     {
-        _animator = GetComponent<Animator>();
+        // nada para ser implementado
     }
 
     public void Enter()
     {
-        _animator.SetBool("isThrowing", true);
+        // nada para ser implementado
     }
 
     public void Exit()
     {
-        _animator.SetBool("isThrowing", false);
+        // nada para ser implementado
     }
 
     public void Collide(Collision collision)

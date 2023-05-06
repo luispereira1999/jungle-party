@@ -10,6 +10,9 @@ public class KickAction : MonoBehaviour, IPlayerAction
     // referência ao nível 1
     private Level1Controller _level1;
 
+    // referência ao controlador do jogador
+    private PlayerController _player;
+
     // para controlar as animações
     private Animator _animator;
 
@@ -22,14 +25,22 @@ public class KickAction : MonoBehaviour, IPlayerAction
 
     /* PROPRIEDADES PÚBLICAS */
 
-    // propriedade para ter acesso ao controlador do jogador
-    public PlayerController Player { get; set; }
-
-    // para ter acesso ao nível 1
     public MonoBehaviour Level
     {
         get { return _level1; }
         set { _level1 = (Level1Controller)value; }
+    }
+
+    public PlayerController Player
+    {
+        get { return _player; }
+        set { _player = value; }
+    }
+
+    public Animator Animator
+    {
+        get { return _animator; }
+        set { _animator = value; }
     }
 
 
@@ -59,6 +70,7 @@ public class KickAction : MonoBehaviour, IPlayerAction
     public void PushBall(Collision collision)
     {
         Vector3 direction = collision.contacts[0].point - transform.position;
+
         // garante que a direção será sempre correta, independente da força aplicada
         direction = direction.normalized;
 

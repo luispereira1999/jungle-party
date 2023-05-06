@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
     private bool _isFrozen = false;
     private readonly float _freezingTime = 3f;
 
+    // guarda a ação de andar do jogador (é igual para todos os níveis)
+    private WalkAction _walkAction;
+
     // guarda qual ação o jogador deve executar
     private IPlayerAction _currentAction;
 
@@ -64,6 +67,8 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
+        _walkAction = gameObject.AddComponent<WalkAction>();
+
         _normalSpeed = _moveSpeed;
         _halfSpeed = _moveSpeed / 2;
         _doubleSpeed = _moveSpeed * 2;
@@ -81,11 +86,11 @@ public class PlayerController : MonoBehaviour
             // se o jogador pressiona a tecla de ação
             if (actionInput)
             {
-                if (_currentAction is KickAction)  // significa que é o nível 1
+                if (_currentAction is KickAction)  // significa que está no nível 1
                 {
                     _currentAction.Enter();
                 }
-                if (_currentAction is ThrowAction)  // significa que é o nível 4
+                if (_currentAction is ThrowAction)  // significa que está no nível 4
                 {
                     if (!_isWalking)
                     {
@@ -124,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
                 if (!_isWalking)
                 {
-                    _animator.SetBool("isWalking", true);
+                    _walkAction.Enter();
                     _isWalking = true;
                 }
             }
@@ -132,14 +137,14 @@ public class PlayerController : MonoBehaviour
             {
                 if (_isWalking)
                 {
-                    _animator.SetBool("isWalking", false);
+                    _walkAction.Exit();
                     _isWalking = false;
                 }
             }
         }
         else
         {
-            _animator.SetBool("isWalking", false);
+            _walkAction.Exit();
         }
     }
 

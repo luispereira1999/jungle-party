@@ -7,6 +7,7 @@ public interface IPlayerAction
 {
     MonoBehaviour Level { get; set; }
     PlayerController Player { get; set; }
+    Animator Animator { get; set; }
 
     void Start();
     void Enter();
