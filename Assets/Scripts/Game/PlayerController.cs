@@ -179,6 +179,17 @@ public class PlayerController : MonoBehaviour
             if (collision.gameObject.CompareTag("Ball"))
             {
                 _currentAction.Collide(collision);
+
+                bool actionInput = GetCurrentActionInput();
+
+                // se o jogador pressiona a tecla de ação
+                if (actionInput)
+                {
+                    if (_currentAction is KickAction)  // significa que está no nível 1
+                    {
+                        _currentAction.Enter();
+                    }
+                }
             }
         }
     }

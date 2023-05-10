@@ -19,8 +19,11 @@ public class KickAction : MonoBehaviour, IPlayerAction
     // referência do controlador da bola
     private GameObject _ballObject;
 
-    // para a força que a bola é empurrada ou chutada
-    private float _force = 5f;
+    // para a força que a bola é empurrada e chutada
+    private float _pushForce = 6f;
+    private float _kickForce = 10f;
+
+    private bool kickingAndColliding = false;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -55,6 +58,7 @@ public class KickAction : MonoBehaviour, IPlayerAction
     public void Enter()
     {
         _animator.SetBool("isKicking", true);
+        kickingAndColliding = true;
     }
 
     public void Exit()
@@ -64,7 +68,17 @@ public class KickAction : MonoBehaviour, IPlayerAction
 
     public void Collide(Collision collision)
     {
-        PushBall(collision);
+        if (kickingAndColliding)
+        {
+            KickBall(collision);
+            kickingAndColliding = false;
+            Debug.Log("a");
+        }
+        else
+        {
+            PushBall(collision);
+            Debug.Log("b");
+        }
     }
 
     public void PushBall(Collision collision)
@@ -75,6 +89,17 @@ public class KickAction : MonoBehaviour, IPlayerAction
         direction = direction.normalized;
 
         Rigidbody rigidbodyBall = _ballObject.GetComponent<Rigidbody>();
-        rigidbodyBall.AddForce(direction * _force, ForceMode.Impulse);
+        rigidbodyBall.AddForce(direction * _pushForce, ForceMode.Impulse);
+    }
+
+    public void KickBall(Collision collision)
+    {
+        Vector3 direction = collision.contacts[0].point - transform.position;
+
+        // garante que a direção será sempre correta, independente da força aplicada
+        direction = direction.normalized;
+
+        Rigidbody rigidbodyBall = _ballObject.GetComponent<Rigidbody>();
+        rigidbodyBall.AddForce(direction * _kickForce, ForceMode.Impulse);
     }
 }
