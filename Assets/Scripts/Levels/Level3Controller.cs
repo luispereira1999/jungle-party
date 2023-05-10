@@ -21,7 +21,7 @@ public class Level3Controller : MonoBehaviour
     private bool _collisionOccurred = false;
 
     // para definir a ação dos jogadores neste nível
-    private CarryAction _carryAction;
+    private ThrowAction _throwAction;
 
     // referência do controlador do relógio
     private TimerController _timerController;
@@ -38,6 +38,8 @@ public class Level3Controller : MonoBehaviour
     // para os componentes da UI - painel de introdução, botão de pause e painel do fim de nível
     [SerializeField] private GameObject _introPanel;
     [SerializeField] private GameObject _buttonPause;
+    [SerializeField] private GameObject _finishedLevelPanel;
+    [SerializeField] private GameObject _finishedLevelDescription;
 
     /* PROPRIEDADES PÚBLICAS */
 
@@ -84,6 +86,29 @@ public class Level3Controller : MonoBehaviour
             float freezingTime = 5f;
             FreezePlayers(freezingTime);
 
+            // se estiver na última ronda - mostrar o painel do fim de nível
+            if (_roundController.IsLastRound())
+            {
+                string finishedLevelText = "";
+
+                foreach (LevelPlayerModel levelPlayer in _levelPlayers)
+                {
+                    finishedLevelText += "Jogador " + levelPlayer.ID;
+                }
+
+                _finishedLevelPanel.SetActive(true);
+                //_finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
+
+            }
+            // senão iniciar outra ronda
+            else
+            {
+                _roundController.NextRound();
+                _roundController.DisplayNextRoundIntro();
+                _roundController.DisplayCurrentRound();
+
+                Invoke(nameof(RestartRound), freezingTime);
+            }
         }
     }
 
@@ -102,6 +127,15 @@ public class Level3Controller : MonoBehaviour
         _buttonPause.SetActive(true);
         Destroy(_introPanel);
 
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        // colisão com alguma parede da arena - impede que o jogador saia da arena
+        if (other.CompareTag("Wall"))
+        {
+            RestartRound();
+        }
     }
 
     void CreatePlayersDataForLevel()
@@ -130,12 +164,13 @@ public class Level3Controller : MonoBehaviour
  */
     void AddActionToPlayers()
     {
-        _carryAction = _levelPlayers[0].Object.AddComponent<CarryAction>();
-        _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_carryAction, this);
+        _throwAction = _levelPlayers[0].Object.AddComponent<ThrowAction>();
+        _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
 
-        _carryAction = _levelPlayers[1].Object.AddComponent<CarryAction>();
-        _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_carryAction, this);
+        _throwAction = _levelPlayers[1].Object.AddComponent<ThrowAction>();
+        _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
     }
+
 
     void FreezePlayers(float freezingTime)
     {
