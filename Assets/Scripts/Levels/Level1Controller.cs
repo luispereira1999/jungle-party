@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 /*
  * Controla o nível 1.
@@ -13,8 +16,8 @@ public class Level1Controller : MonoBehaviour
     private GameController _gameController;
 
     // variáveis sobre os jogadores
-    private GameObject _player1Object;
-    private GameObject _player2Object;
+    private List<LevelPlayerModel> _levelPlayers = new();
+    private int _playerIDWithBomb = -1;
 
     // para saber se os jogadores colidiram
     private bool _collisionOccurred = false;
@@ -42,11 +45,11 @@ public class Level1Controller : MonoBehaviour
     // referência do controlador das rondas
     [SerializeField] private RoundController _roundController;
 
+    // referência do controlador da pontuação
+    [SerializeField] private ScoreController _scoreController;
+
     // para detetar que os objetos estão congelados quando a ronda acaba
     private bool _freezeObjects = false;
-
-    // para o modelo de dados do jogador referente ao nível
-    private List<LevelPlayerModel> levelPlayers = new();
 
     // para os componentes da UI - painel de introdução, botão de pause e painel do fim de nível
     [SerializeField] private GameObject _introPanel;
@@ -66,17 +69,221 @@ public class Level1Controller : MonoBehaviour
 
     /* MÉTODOS DO MONOBEHAVIOUR */
 
+    void Start()
+    {
+        _gameController = GameController.Instance;
 
+        // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
+        _gameController.GamePlayers = new();
+        _gameController.InitiateGame();
+
+        // armazenar dados de cada jogador neste nível,
+        // sabendo que um jogo tem vários níveis e já existem dados que passam de nível para nível, como a pontuação
+        CreatePlayersDataForLevel();
+
+        _timerController = TimerController.Instance;
+        TimerController.Freeze();
+
+        _roundController.DisplayCurrentRound();
+
+        int randomID = GenerateFirstPlayerWithBomb();
+        _playerIDWithBomb = randomID;
+
+        DisplayObjectInScene();
+    }
+
+    void Update()
+    {
+        // se o tempo da ronda ainda não acabou
+        if (!_timerController.HasFinished())
+        {
+            return;
+        }
+
+        // se a ronda acaba - congelar objetos, cancelar spawn de power ups e atribuir pontos
+        if (!_freezeObjects)
+        {
+            _freezeObjects = true;
+            float freezingTime = 5f;
+            FreezePlayers(freezingTime);
+
+            CancelInvoke(nameof(SpawnPowerUp));
+
+            UpdateWinnerScore();
+
+            // se estiver na última ronda - mostrar o painel do fim de nível
+            if (_roundController.IsLastRound())
+            {
+                string finishedLevelText = "";
+                foreach (LevelPlayerModel levelPlayer in _levelPlayers)
+                {
+                    finishedLevelText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
+                }
+
+                _finishedLevelPanel.SetActive(true);
+                _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
+            }
+            // senão iniciar outra ronda
+            else
+            {
+                _roundController.NextRound();
+                _roundController.DisplayNextRoundIntro();
+                _roundController.DisplayCurrentRound();
+
+                Invoke(nameof(RestartRound), freezingTime);
+            }
+        }
+    }
 
 
     /* MÉTODOS DO LEVEL4CONTROLLER */
 
     /*
      * É executado ao clicar no botão de iniciar, no painel de introdução do nível.
+     * Permite que os jogadores comecem de facto a jogar.
     */
     public void InitAfterIntro()
     {
+        TimerController.Unfreeze();
 
+        _roundController.NextRound();
+        _roundController.DisplayCurrentRound();
+
+        _buttonPause.SetActive(true);
+        Destroy(_introPanel);
+
+        InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
+    }
+
+    void SpawnPowerUp()
+    {
+        System.Random rnd = new();
+        int xValue = rnd.Next(42, 58);
+        int zValue = rnd.Next(71, 84);
+
+        Instantiate(_powerUp, new Vector3(xValue, _powerUp.transform.position.y, zValue), Quaternion.identity);
+    }
+
+    void CreatePlayersDataForLevel()
+    {
+        foreach (GamePlayerModel gamePlayer in _gameController.GamePlayers)
+        {
+            LevelPlayerModel levelPlayer = new(gamePlayer.ID, 0, gamePlayer.Prefab.transform.position, gamePlayer.Prefab.transform.rotation);
+            _levelPlayers.Add(levelPlayer);
+        }
+    }
+
+    int GenerateFirstPlayerWithBomb()
+    {
+        // previne que o Random não fique viciado
+        Random.InitState(DateTime.Now.Millisecond);
+
+        return Random.Range(1, 3);
+    }
+
+    void DisplayObjectInScene()
+    {
+        SpawnPlayers();
+        AddActionToPlayers();
+    }
+
+    void SpawnPlayers()
+    {
+        _levelPlayers[0].Object = Instantiate(_gameController.GamePlayers[0].Prefab);
+        _levelPlayers[1].Object = Instantiate(_gameController.GamePlayers[1].Prefab);
+    }
+
+    /*
+     * Adiciona o script da ação a cada um dos objetos dos jogadores, para definir essa ação ao personagem.
+    */
+    void AddActionToPlayers()
+    {
+        _kickAction = _levelPlayers[0].Object.AddComponent<KickAction>();
+        _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_kickAction, this);
+
+        _kickAction = _levelPlayers[1].Object.AddComponent<KickAction>();
+        _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_kickAction, this);
+    }
+
+    void FreezePlayers(float freezingTime)
+    {
+        _levelPlayers[0].Object.GetComponent<PlayerController>().Freeze(freezingTime);
+        _levelPlayers[1].Object.GetComponent<PlayerController>().Freeze(freezingTime);
+    }
+
+    /*
+     * Atribui os pontos do vencedor e atualiza no ecrã.
+    */
+    void UpdateWinnerScore()
+    {
+        int winnerID = GetWinnerID();
+
+        _levelPlayers[winnerID - 1].LevelScore += _scoreController.AddScore();
+        _scoreController.DisplayScoreObjectText(winnerID, _levelPlayers[winnerID - 1].LevelScore);
+    }
+
+    int GetWinnerID()
+    {
+        return _playerIDWithBomb == 1 ? 2 : 1;
+    }
+
+    /*
+     * É executado após o intervalo de espera para iniciar outra ronda.
+     * Responsável por inicializar novamente os componentes necessários para que a ronda comece.
+    */
+    void RestartRound()
+    {
+        _freezeObjects = false;
+
+        _timerController.SetInitialTime();
+
+        _roundController.DisableNextRoundIntro();
+
+        SetInitialPosition();
+
+        DestroyAllPowerUps();
+    }
+
+    void SetInitialPosition()
+    {
+        _levelPlayers[0].Object.transform.position = _levelPlayers[0].InitialPosition;
+        _levelPlayers[0].Object.transform.rotation = _levelPlayers[0].InitialRotation;
+
+        _levelPlayers[1].Object.transform.position = _levelPlayers[1].InitialPosition;
+        _levelPlayers[1].Object.transform.rotation = _levelPlayers[1].InitialRotation;
+    }
+
+    void DestroyAllPowerUps()
+    {
+        GameObject[] objectsToDestroy = GameObject.FindGameObjectsWithTag("PowerUp");
+        foreach (GameObject obj in objectsToDestroy)
+        {
+            Destroy(obj);
+        }
+    }
+
+    public GameObject GetPlayerWithBomb()
+    {
+        if (_playerIDWithBomb == 1)
+        {
+            return _levelPlayers[0].Object;
+        }
+        else
+        {
+            return _levelPlayers[1].Object;
+        }
+    }
+
+    public void ChangePlayerTurn()
+    {
+        if (_playerIDWithBomb == 1)
+        {
+            _playerIDWithBomb = 2;
+        }
+        else
+        {
+            _playerIDWithBomb = 1;
+        }
     }
 
     /*
@@ -84,6 +291,6 @@ public class Level1Controller : MonoBehaviour
     */
     public void FinishLevel()
     {
-        _gameController.NextLevel(levelPlayers[0].LevelScore, levelPlayers[1].LevelScore);
+        _gameController.NextLevel(_levelPlayers[0].LevelScore, _levelPlayers[1].LevelScore);
     }
 }
