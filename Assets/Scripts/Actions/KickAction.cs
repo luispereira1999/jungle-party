@@ -20,9 +20,10 @@ public class KickAction : MonoBehaviour, IPlayerAction
     private GameObject _ballObject;
 
     // para a força que a bola é empurrada e chutada
-    private float _pushForce = 6f;
-    private float _kickForce = 10f;
+    private float _pushForce = 2f;
+    private float _kickForce = 8f;
 
+    // para saber se a jogador chutou e tocou na bola ao mesmo tempo
     private bool kickingAndColliding = false;
 
 
@@ -72,12 +73,10 @@ public class KickAction : MonoBehaviour, IPlayerAction
         {
             KickBall(collision);
             kickingAndColliding = false;
-            Debug.Log("a");
         }
         else
         {
             PushBall(collision);
-            Debug.Log("b");
         }
     }
 

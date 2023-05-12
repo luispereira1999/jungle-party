@@ -197,13 +197,13 @@ public class PlayerController : MonoBehaviour
     /*
      * É executado quando o jogador colide com algum objeto que tem o "isTrigger" ativado no seu colisor.
     */
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider collider)
     {
         // colisão com alguma parede da arena - impede que o jogador saia da arena
-        if (other.CompareTag("Wall"))
+        if (collider.CompareTag("Wall"))
         {
             // atualiza a posição do jogador para entrar novamente na arena
-            Vector3 oppositeDirection = transform.position - other.ClosestPoint(transform.position);
+            Vector3 oppositeDirection = transform.position - collider.ClosestPoint(transform.position);
             transform.position += oppositeDirection.normalized * 0.11f;
         }
     }

@@ -17,20 +17,14 @@ public class Level1Controller : MonoBehaviour
 
     // variáveis sobre os jogadores
     private List<LevelPlayerModel> _levelPlayers = new();
-    private int _playerIDWithBomb = -1;
-
-    // para saber se os jogadores colidiram
-    private bool _collisionOccurred = false;
 
     // para os objetos do nível - bola
-    [SerializeField] private GameObject _ballPrefab;
-    private GameObject _ballObject;
+    [SerializeField] private GameObject _ballObject;
+    private BallController _ballController;
 
     // para os objetos do nível - balizas
-    [SerializeField] private GameObject _goalPrefab1;
-    [SerializeField] private GameObject _goalPrefab2;
-    private GameObject _goalObject1;
-    private GameObject _goalObject2;
+    [SerializeField] private GameObject _goalObject1;
+    [SerializeField] private GameObject _goalObject2;
 
     // para os objetos do nível - power ups
     private readonly List<GameObject> _powerUps = new();
@@ -58,15 +52,6 @@ public class Level1Controller : MonoBehaviour
     [SerializeField] private GameObject _finishedLevelDescription;
 
 
-    /* PROPRIEDADES PÚBLICAS */
-
-    public bool CollisionOccurred
-    {
-        get { return _collisionOccurred; }
-        set { _collisionOccurred = value; }
-    }
-
-
     /* MÉTODOS DO MONOBEHAVIOUR */
 
     void Start()
@@ -86,22 +71,23 @@ public class Level1Controller : MonoBehaviour
 
         _roundController.DisplayCurrentRound();
 
-        int randomID = GenerateFirstPlayerWithBomb();
-        _playerIDWithBomb = randomID;
-
         DisplayObjectInScene();
+
+        _ballController = _ballObject.GetComponent<BallController>();
     }
 
     void Update()
     {
-        // se o tempo da ronda ainda não acabou
-        if (!_timerController.HasFinished())
+        LevelPlayerModel scorer = DetectGoal();
+
+        // se o tempo da ronda ainda não acabou e ninguém marcou golo
+        if (!_timerController.HasFinished() || scorer == null)
         {
             return;
         }
 
-        // se a ronda acaba - congelar objetos, cancelar spawn de power ups e atribuir pontos
-        if (!_freezeObjects)
+        // se a ronda acaba ou algúem marcou golo - congelar objetos, cancelar spawn de power ups e atribuir pontos
+        if (!_freezeObjects || scorer != null)
         {
             _freezeObjects = true;
             float freezingTime = 5f;
@@ -109,7 +95,7 @@ public class Level1Controller : MonoBehaviour
 
             CancelInvoke(nameof(SpawnPowerUp));
 
-            UpdateWinnerScore();
+            UpdateScore(scorer.ID);
 
             // se estiver na última ronda - mostrar o painel do fim de nível
             if (_roundController.IsLastRound())
@@ -205,6 +191,22 @@ public class Level1Controller : MonoBehaviour
         _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_kickAction, this);
     }
 
+    LevelPlayerModel DetectGoal()
+    {
+        if (_ballController.Player1Scored)
+        {
+            return _levelPlayers[0];
+        }
+        else if (_ballController.Player2Scored)
+        {
+            return _levelPlayers[1];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     void FreezePlayers(float freezingTime)
     {
         _levelPlayers[0].Object.GetComponent<PlayerController>().Freeze(freezingTime);
@@ -214,17 +216,10 @@ public class Level1Controller : MonoBehaviour
     /*
      * Atribui os pontos do vencedor e atualiza no ecrã.
     */
-    void UpdateWinnerScore()
+    void UpdateScore(int scorerID)
     {
-        int winnerID = GetWinnerID();
-
-        _levelPlayers[winnerID - 1].LevelScore += _scoreController.AddScore();
-        _scoreController.DisplayScoreObjectText(winnerID, _levelPlayers[winnerID - 1].LevelScore);
-    }
-
-    int GetWinnerID()
-    {
-        return _playerIDWithBomb == 1 ? 2 : 1;
+        _levelPlayers[scorerID - 1].LevelScore += _scoreController.AddScore();
+        _scoreController.DisplayScoreObjectText(scorerID, _levelPlayers[scorerID - 1].LevelScore);
     }
 
     /*
@@ -259,30 +254,6 @@ public class Level1Controller : MonoBehaviour
         foreach (GameObject obj in objectsToDestroy)
         {
             Destroy(obj);
-        }
-    }
-
-    public GameObject GetPlayerWithBomb()
-    {
-        if (_playerIDWithBomb == 1)
-        {
-            return _levelPlayers[0].Object;
-        }
-        else
-        {
-            return _levelPlayers[1].Object;
-        }
-    }
-
-    public void ChangePlayerTurn()
-    {
-        if (_playerIDWithBomb == 1)
-        {
-            _playerIDWithBomb = 2;
-        }
-        else
-        {
-            _playerIDWithBomb = 1;
         }
     }
 
