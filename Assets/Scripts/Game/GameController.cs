@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/*
- * Existe apenas uma instância desta classe durante a execução do jogo.
- * É inicializada no menu (uma vez) e passada de cena para cena (nível para nível),
- * para preversar dados necessários, como a pontuação ou o estado atual do jogo.
- * Para funcionar corretamente, cada cena deve ter um objeto na hierarquia com este script.
-*/
+
+/// <summary>
+/// Existe apenas uma instância desta classe durante a execução do jogo.
+/// É inicializada no menu (uma vez) e passada de cena para cena (nível para nível),
+/// para preversar dados necessários, como a pontuação ou o estado atual do jogo.
+/// Para funcionar corretamente, cada cena deve ter um objeto na hierarquia com este script.
+/// </summary>
 public class GameController : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
@@ -47,9 +48,9 @@ public class GameController : MonoBehaviour
 
     /* MÉTODOS */
 
-    /*
-     * É executado antes da função Start().
-    */
+    /// <summary>
+    /// É executado antes da função Start().
+    /// </summary>
     void Awake()
     {
         if (_instance != null)
@@ -74,10 +75,10 @@ public class GameController : MonoBehaviour
         _gamePlayers.Add(new GamePlayerModel(id, prefab, globalScore));
     }
 
-    /*
-     * É executado quando é clicado o botão de próximo nível, no painel de fim de nível,
-     * mas é chamado na função "FinishLevel" no controlador de nível.
-    */
+    /// <summary>
+    /// É executado quando é clicado o botão de próximo nível, no painel de fim de nível,
+    /// mas é chamado na função "FinishLevel" no controlador de nível.
+    /// </summary>
     public void NextLevel(int scorePlayer1, int scorePlayer2)
     {
         _currentLevelID++;
@@ -102,10 +103,10 @@ public class GameController : MonoBehaviour
         _gamePlayers[1].GlobalScore += scorePlayer2;
     }
 
-    /*
-     * Chamar esta função sempre que um novo jogo iniciar,
-     * para alterar os valores atuais para os valores originais
-    */
+    /// <summary>
+    /// Chamar esta função sempre que um novo jogo iniciar,
+    /// para alterar os valores atuais para os valores originais.
+    /// </summary>
     public void ResetGame()
     {
         _gamePlayers.Clear();

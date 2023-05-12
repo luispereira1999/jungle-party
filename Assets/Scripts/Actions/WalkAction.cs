@@ -1,8 +1,8 @@
 using UnityEngine;
 
-/*
- * Controla a ação de andar do jogador.
-*/
+/// <summary>
+/// Controla a ação de andar do jogador.
+/// </summary>
 public class WalkAction : MonoBehaviour, IPlayerAction
 {
     /* ATRIBUTOS PRIVADOS */

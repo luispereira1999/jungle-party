@@ -1,9 +1,10 @@
 using UnityEngine;
 
-/*
- * Diferente da classe GamePlayerModel que armazena as informações de cada jogador de forma geral, de nível para nível.
- * Nesta classe são apenas armazenadas as informações no respetivo nível.
-*/
+
+/// <summary>
+/// Diferente da classe GamePlayerModel que armazena as informações de cada jogador de forma geral, de nível para nível.
+/// Nesta classe são apenas armazenadas as informações no respetivo nível.
+/// </summary>
 public class LevelPlayerModel
 {
     // ATRIBUTOS PRIVADOS

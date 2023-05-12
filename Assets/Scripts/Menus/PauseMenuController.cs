@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/*
- * Trata das interações do utilizador com o menu de pausa,
- * existente em cada nível ao clicar no botão de pausa.
-*/
+
+/// <summary>
+/// Trata das interações do utilizador com o menu de pausa,
+/// existente em cada nível ao clicar no botão de pausa.
+/// </summary>
 public class PauseMenuController : MonoBehaviour
 {
     /* ATRIBUTOS */

@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-/*
- * Controla o nível 4.
- * O nível consiste em trocar de bomba de jogador para jogador,
- * até que o tempo acabe e quem tem a bomba perde.
- * O nível é constituido por várias rondas.
-*/
+
+/// <summary>
+/// Controla o nível 4.
+/// O nível consiste em trocar de bomba de jogador para jogador,
+/// até que o tempo acabe e quem tem a bomba perde.
+/// O nível é constituido por várias rondas.
+/// </summary>
 public class Level4Controller : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
@@ -135,10 +136,10 @@ public class Level4Controller : MonoBehaviour
 
     /* MÉTODOS DO LEVEL4CONTROLLER */
 
-    /*
-     * É executado ao clicar no botão de iniciar, no painel de introdução do nível.
-     * Permite que os jogadores comecem de facto a jogar.
-    */
+    /// <summary>
+    /// É executado ao clicar no botão de iniciar, no painel de introdução do nível.
+    /// Permite que os jogadores comecem de facto a jogar.
+    /// </summary>
     public void InitAfterIntro()
     {
         TimerController.Unfreeze();
@@ -193,9 +194,9 @@ public class Level4Controller : MonoBehaviour
         _levelPlayers[1].Object = Instantiate(_gameController.GamePlayers[1].Prefab);
     }
 
-    /*
-     * Adiciona o script da ação a cada um dos objetos dos jogadores, para definir essa ação ao personagem.
-    */
+    /// <summary>
+    /// Adiciona o script da ação a cada um dos objetos dos jogadores, para definir essa ação ao personagem.
+    /// </summary>
     void AddActionToPlayers()
     {
         _throwAction = _levelPlayers[0].Object.AddComponent<ThrowAction>();
@@ -226,9 +227,9 @@ public class Level4Controller : MonoBehaviour
         _levelPlayers[1].Object.GetComponent<PlayerController>().Freeze(freezingTime);
     }
 
-    /*
-     * Atribui os pontos do vencedor e atualiza no ecrã.
-    */
+    /// <summary>
+    /// Atribui os pontos do vencedor e atualiza no ecrã.
+    /// </summary>
     void UpdateWinnerScore()
     {
         int winnerID = GetWinnerID();
@@ -242,10 +243,10 @@ public class Level4Controller : MonoBehaviour
         return _playerIDWithBomb == 1 ? 2 : 1;
     }
 
-    /*
-     * É executado após o intervalo de espera para iniciar outra ronda.
-     * Responsável por inicializar novamente os componentes necessários para que a ronda comece.
-    */
+    /// <summary>
+    /// É executado após o intervalo de espera para iniciar outra ronda.
+    /// Responsável por inicializar novamente os componentes necessários para que a ronda comece.
+    /// </summary>
     void RestartRound()
     {
         _freezeObjects = false;
@@ -301,9 +302,9 @@ public class Level4Controller : MonoBehaviour
         }
     }
 
-    /*
-     * É executado quando é clicado o botão de próximo nível, no painel de fim de nível.
-    */
+    /// <summary>
+    /// É executado quando é clicado o botão de próximo nível, no painel de fim de nível.
+    /// </summary>
     public void FinishLevel()
     {
         _gameController.NextLevel(_levelPlayers[0].LevelScore, _levelPlayers[1].LevelScore);

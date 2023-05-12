@@ -1,10 +1,11 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-/*
- * Armazena dados sobre cada personagem criada, no início do jogo.
- * E controla os movimentos, ações e características do mesmo.
-*/
+
+/// <summary>
+/// Armazena dados sobre cada personagem criada, no início do jogo.
+/// E controla os movimentos, ações e características do mesmo.
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
@@ -59,9 +60,9 @@ public class PlayerController : MonoBehaviour
 
     /* MÉTODOS DO MONOBEHAVIOUR */
 
-    /*
-     * É executado antes da primeira frame.
-    */
+    /// <summary>
+    /// É executado antes da primeira frame.
+    /// </summary>
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -74,9 +75,9 @@ public class PlayerController : MonoBehaviour
         _doubleSpeed = _moveSpeed * 2;
     }
 
-    /*
-     * É executado uma vez por frame.
-    */
+    /// <summary>
+    /// É executado uma vez por frame.
+    /// </summary>
     void Update()
     {
         if (!_isFrozen)
@@ -112,9 +113,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*
-     * É executado em intervalos fixos.
-    */
+    /// <summary>
+    /// É executado em intervalos fixos.
+    /// </summary>
     void FixedUpdate()
     {
         if (!_isFrozen)
@@ -148,9 +149,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*
-     * É executado quando existe alguma colisão do jogador com outro objeto.
-    */
+    /// <summary>
+    /// É executado quando existe alguma colisão do jogador com outro objeto.
+    /// </summary>
     void OnCollisionEnter(Collision collision)
     {
         // colisão com alguma power up - destroi a power up e aplica o efeito ao jogador
@@ -194,9 +195,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*
-     * É executado quando o jogador colide com algum objeto que tem o "isTrigger" ativado no seu colisor.
-    */
+    /// <summary>
+    /// É executado quando o jogador colide com algum objeto que tem o "isTrigger" ativado no seu colisor.
+    /// </summary>
     void OnTriggerEnter(Collider collider)
     {
         // colisão com alguma parede da arena - impede que o jogador saia da arena
@@ -267,10 +268,15 @@ public class PlayerController : MonoBehaviour
         return _freezingTime;
     }
 
+    /// <param name="freezingTime">Tempo de congelamento. "-1" congela para sempre.</param>
     public void Freeze(float freezingTime)
     {
         _isFrozen = true;
-        Invoke(nameof(Unfreeze), freezingTime);
+
+        if (freezingTime != -1)
+        {
+            Invoke(nameof(Unfreeze), freezingTime);
+        }
     }
 
     public void Unfreeze()

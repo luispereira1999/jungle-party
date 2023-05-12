@@ -1,8 +1,8 @@
 using UnityEngine;
 
-/*
- * Controla a ação do jogador de lançar a bomba no nível 4.
-*/
+/// <summary>
+/// Controla a ação do jogador de lançar a bomba no nível 4.
+/// </summary>
 public class ThrowAction : MonoBehaviour, IPlayerAction
 {
     /* ATRIBUTOS PRIVADOS */

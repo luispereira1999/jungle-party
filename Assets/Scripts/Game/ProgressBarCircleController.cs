@@ -1,11 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
 
-/*
- * Configura o componente de UI da barra de progresso circular.
-*/
+/// <summary>
+/// Configura o componente de UI da barra de progresso circular.
+/// </summary>
 public class ProgressBarCircleController : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS MAS PÚBLICOS NO EDITOR */

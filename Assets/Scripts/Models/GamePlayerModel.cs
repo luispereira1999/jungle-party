@@ -1,9 +1,10 @@
 using UnityEngine;
 
-/*
- * Armazenar informações de cada jogador.
- * Necessário para manter os dados dos jogadores (pontuação, etc.) entre cenas.
-*/
+
+/// <summary>
+/// Armazenar informações de cada jogador.
+/// Necessário para manter os dados dos jogadores (pontuação, etc.) entre cenas.
+/// </summary>
 public class GamePlayerModel
 {
     // ATRIBUTOS PRIVADOS

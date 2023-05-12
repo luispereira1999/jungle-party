@@ -1,8 +1,9 @@
 using UnityEngine;
 
-/*
- * Define as propriedades e métodos que as classes das ações dos jogadores devem implementar.
-*/
+
+/// <summary>
+/// Define as propriedades e métodos que as classes das ações dos jogadores devem implementar.
+/// </summary>
 public interface IPlayerAction
 {
     MonoBehaviour Level { get; set; }

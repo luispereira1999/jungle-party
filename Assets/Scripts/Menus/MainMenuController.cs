@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/*
- * Trata das interações do utilizador com o menu principal.
-*/
+
+/// <summary>
+/// Trata das interações do utilizador com o menu principal.
+/// </summary>
 public class MainMenuController : MonoBehaviour
 {
     /* ATRIBUTOS */

@@ -1,8 +1,9 @@
 using UnityEngine;
 
-/*
- * Controla as power ups existentes e que são geradas em cada nível.
-*/
+
+/// <summary>
+/// Controla as power ups existentes e que são geradas em cada nível.
+/// </summary>
 public class PowerUpController : MonoBehaviour
 {
     /* ATRIBUTOS */

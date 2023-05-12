@@ -1,8 +1,9 @@
 using UnityEngine;
 
-/*
- * Controla o relógio que existe em cada nível.
-*/
+
+/// <summary>
+/// Controla o relógio que existe em cada nível.
+/// </summary>
 public class TimerController : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */

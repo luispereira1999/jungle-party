@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-/*
- * Trata de cada ronda de um nível.
- * Permite atualizar o número de rondas, atualizar a UI e determinar se é a última ronda.
-*/
+
+/// <summary>
+/// Trata de cada ronda de um nível.
+/// Permite atualizar o número de rondas, atualizar a UI e determinar se é a última ronda.
+/// </summary>
 public class RoundController : MonoBehaviour
 {
     // ATRIBUTOS PRIVADOS

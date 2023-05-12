@@ -1,9 +1,10 @@
 using TMPro;
 using UnityEngine;
 
-/*
- * É responsável por tratar da pontuação de cada jogador e exibir-la no ecrã.
-*/
+
+/// <summary>
+/// É responsável por tratar da pontuação de cada jogador e exibir-la no ecrã.
+/// </summary>
 public class ScoreController : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
