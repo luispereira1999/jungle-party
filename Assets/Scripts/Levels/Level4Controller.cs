@@ -102,8 +102,6 @@ public class Level4Controller : MonoBehaviour
         if (!_freezeObjects)
         {
             _freezeObjects = true;
-            float freezingTime = 5f;
-            FreezePlayers(freezingTime);
 
             CancelInvoke(nameof(SpawnPowerUp));
 
@@ -112,6 +110,9 @@ public class Level4Controller : MonoBehaviour
             // se estiver na última ronda - mostrar o painel do fim de nível
             if (_roundController.IsLastRound())
             {
+                // congela para sempre
+                FreezePlayers(-1);
+
                 string finishedLevelText = "";
                 foreach (LevelPlayerModel levelPlayer in _levelPlayers)
                 {
@@ -120,10 +121,15 @@ public class Level4Controller : MonoBehaviour
 
                 _finishedLevelPanel.SetActive(true);
                 _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
+
+                _buttonPause.SetActive(false);
             }
             // senão iniciar outra ronda
             else
             {
+                float freezingTime = 5f;
+                FreezePlayers(freezingTime);
+
                 _roundController.NextRound();
                 _roundController.DisplayNextRoundIntro();
                 _roundController.DisplayCurrentRound();

@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-/*
- * Controla o nível 1.
- * O nível consiste em uma partida de futebol com várias rondas.
-*/
+
+/// <summary>
+/// Controla o nível 1.
+/// O nível consiste em uma partida de futebol com várias rondas.
+/// </summary>
 public class Level1Controller : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
@@ -45,6 +46,10 @@ public class Level1Controller : MonoBehaviour
     // para detetar que os objetos estão congelados quando a ronda acaba
     private bool _freezeObjects = false;
 
+    // para saber o número atual e o número máximo de golos permitido
+    private int _currentNumberOfGoals = 0;
+    [SerializeField] private int _maxNumberOfGoals;
+
     // para os componentes da UI - painel de introdução, botão de pause e painel do fim de nível
     [SerializeField] private GameObject _introPanel;
     [SerializeField] private GameObject _buttonPause;
@@ -78,56 +83,59 @@ public class Level1Controller : MonoBehaviour
 
     void Update()
     {
-        LevelPlayerModel scorer = DetectGoal();
-
-        // se o tempo da ronda ainda não acabou e ninguém marcou golo
-        if (!_timerController.HasFinished() || scorer == null)
+        // se alguém marcou golo
+        // - congelar objetos, cancelar spawn de power ups, atribuir pontos e iniciar nova ronda
+        if (!_freezeObjects && _ballController.IsGoalScored())
         {
-            return;
-        }
-
-        // se a ronda acaba ou algúem marcou golo - congelar objetos, cancelar spawn de power ups e atribuir pontos
-        if (!_freezeObjects || scorer != null)
-        {
+            Debug.Log("Marcou golo");
             _freezeObjects = true;
             float freezingTime = 5f;
             FreezePlayers(freezingTime);
 
             CancelInvoke(nameof(SpawnPowerUp));
 
+            LevelPlayerModel scorer = GetScorer();
             UpdateScore(scorer.ID);
 
-            // se estiver na última ronda - mostrar o painel do fim de nível
-            if (_roundController.IsLastRound())
-            {
-                string finishedLevelText = "";
-                foreach (LevelPlayerModel levelPlayer in _levelPlayers)
-                {
-                    finishedLevelText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
-                }
+            _roundController.NextRound();
+            _roundController.DisplayNextRoundIntro();
+            _roundController.DisplayCurrentRound();
 
-                _finishedLevelPanel.SetActive(true);
-                _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
-            }
-            // senão iniciar outra ronda
-            else
-            {
-                _roundController.NextRound();
-                _roundController.DisplayNextRoundIntro();
-                _roundController.DisplayCurrentRound();
+            Invoke(nameof(RestartRound), freezingTime);
+        }
 
-                Invoke(nameof(RestartRound), freezingTime);
+        // se o tempo global acabou ou o número máximo de golos foi atingido
+        // - congelar objetos, cancelar spawn de power ups, atribuir pontos e mostrar o painel do fim de nível
+        if (!_freezeObjects && _timerController.HasFinished() || IsMaxGoals())
+        {
+            Debug.Log("tempo global acabou ou é maximo de golos marcados");
+            _freezeObjects = true;
+
+            // congela para sempre
+            FreezePlayers(-1);
+
+            CancelInvoke(nameof(SpawnPowerUp));
+
+            string finishedLevelText = "";
+            foreach (LevelPlayerModel levelPlayer in _levelPlayers)
+            {
+                finishedLevelText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
             }
+
+            _finishedLevelPanel.SetActive(true);
+            _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
+
+            _buttonPause.SetActive(false);
         }
     }
 
 
     /* MÉTODOS DO LEVEL4CONTROLLER */
 
-    /*
-     * É executado ao clicar no botão de iniciar, no painel de introdução do nível.
-     * Permite que os jogadores comecem de facto a jogar.
-    */
+    /// <summary>
+    /// É executado ao clicar no botão de iniciar, no painel de introdução do nível.
+    /// Permite que os jogadores comecem de facto a jogar.
+    /// </summary>
     public void InitAfterIntro()
     {
         TimerController.Unfreeze();
@@ -179,9 +187,9 @@ public class Level1Controller : MonoBehaviour
         _levelPlayers[1].Object = Instantiate(_gameController.GamePlayers[1].Prefab);
     }
 
-    /*
-     * Adiciona o script da ação a cada um dos objetos dos jogadores, para definir essa ação ao personagem.
-    */
+    /// <summary>
+    /// Adiciona o script da ação a cada um dos objetos dos jogadores, para definir essa ação ao personagem.
+    /// </summary>
     void AddActionToPlayers()
     {
         _kickAction = _levelPlayers[0].Object.AddComponent<KickAction>();
@@ -191,14 +199,16 @@ public class Level1Controller : MonoBehaviour
         _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_kickAction, this);
     }
 
-    LevelPlayerModel DetectGoal()
+    LevelPlayerModel GetScorer()
     {
         if (_ballController.Player1Scored)
         {
+            _currentNumberOfGoals++;
             return _levelPlayers[0];
         }
         else if (_ballController.Player2Scored)
         {
+            _currentNumberOfGoals++;
             return _levelPlayers[1];
         }
         else
@@ -207,25 +217,35 @@ public class Level1Controller : MonoBehaviour
         }
     }
 
-    void FreezePlayers(float freezingTime)
+    bool IsMaxGoals()
     {
-        _levelPlayers[0].Object.GetComponent<PlayerController>().Freeze(freezingTime);
-        _levelPlayers[1].Object.GetComponent<PlayerController>().Freeze(freezingTime);
+        return _currentNumberOfGoals == _maxNumberOfGoals;
     }
 
-    /*
-     * Atribui os pontos do vencedor e atualiza no ecrã.
-    */
+    /// <summary>
+    /// Atribui os pontos do marcador e atualiza no ecrã.
+    /// </summary>
     void UpdateScore(int scorerID)
     {
         _levelPlayers[scorerID - 1].LevelScore += _scoreController.AddScore();
         _scoreController.DisplayScoreObjectText(scorerID, _levelPlayers[scorerID - 1].LevelScore);
     }
 
-    /*
-     * É executado após o intervalo de espera para iniciar outra ronda.
-     * Responsável por inicializar novamente os componentes necessários para que a ronda comece.
-    */
+    bool IsMaxNumberOfGoals()
+    {
+        return _currentNumberOfGoals == _maxNumberOfGoals ? true : false;
+    }
+
+    void FreezePlayers(float freezingTime)
+    {
+        _levelPlayers[0].Object.GetComponent<PlayerController>().Freeze(freezingTime);
+        _levelPlayers[1].Object.GetComponent<PlayerController>().Freeze(freezingTime);
+    }
+
+    /// <summary>
+    /// É executado após o intervalo de espera para iniciar outra ronda.
+    /// Responsável por inicializar novamente os componentes necessários para que a ronda comece.
+    /// </summary>
     void RestartRound()
     {
         _freezeObjects = false;
@@ -257,9 +277,9 @@ public class Level1Controller : MonoBehaviour
         }
     }
 
-    /*
-     * É executado quando é clicado o botão de próximo nível, no painel de fim de nível.
-    */
+    /// <summary>
+    /// É executado quando é clicado o botão de próximo nível, no painel de fim de nível.
+    /// </summary>
     public void FinishLevel()
     {
         _gameController.NextLevel(_levelPlayers[0].LevelScore, _levelPlayers[1].LevelScore);

@@ -1,8 +1,9 @@
 using UnityEngine;
 
-/*
- * Esta classe controla a bola existente no nível 1.
-*/
+
+/// <summary>
+/// Esta classe controla a bola existente no nível 1.
+/// </summary>
 public class BallController : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
@@ -59,13 +60,16 @@ public class BallController : MonoBehaviour
         // colisão com a linha de golo - deteta que foi golo
         if (collider.CompareTag(_goalLinePlayer1.tag))
         {
-            Debug.Log("colidiu com " + _goalLinePlayer1.tag);
-            _player1Scored = true;
+            _player2Scored = true;
         }
         else if (collider.CompareTag(_goalLinePlayer2.tag))
         {
-            Debug.Log("colidiu com " + _goalLinePlayer2.tag);
-            _player2Scored = true;
+            _player1Scored = true;
         }
+    }
+
+    public bool IsGoalScored()
+    {
+        return _player1Scored || _player2Scored ? true : false;
     }
 }
