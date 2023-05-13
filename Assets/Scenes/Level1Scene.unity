@@ -4098,6 +4098,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3281405714202652546, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281405714202652546, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: distance
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281405714202652546, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: speedSuavization
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8006890648425325630, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
       propertyPath: m_TagString
       value: GoalLine2
@@ -4159,6 +4171,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7554296936554876109, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7554296936554876109, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
+      propertyPath: distance
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7554296936554876109, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
+      propertyPath: speedSuavization
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9219083572234422354, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
       propertyPath: m_Name
       value: GoalPlayer1
