@@ -18,6 +18,9 @@ public class TimerController : MonoBehaviour
     // para guardar uma instância única desta classe
     private static TimerController _instance;
 
+    // para saber se o relógio está ativado ou em pausa
+    private bool _isPause = false;
+
 
     /* PROPRIEDADES PÚBLICAS */
 
@@ -61,7 +64,7 @@ public class TimerController : MonoBehaviour
 
     void Update()
     {
-        if (IsFrozen())
+        if (IsFrozen() || IsOnPause())
         {
             return;
         }
@@ -91,6 +94,21 @@ public class TimerController : MonoBehaviour
     bool IsFrozen()
     {
         return Time.timeScale == 0f;
+    }
+
+    public bool IsOnPause()
+    {
+        return _isPause == true;
+    }
+
+    public void Play()
+    {
+        _isPause = false;
+    }
+
+    public void Pause()
+    {
+        _isPause = true;
     }
 
     public static void Freeze()

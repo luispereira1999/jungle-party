@@ -20,6 +20,7 @@ public class Level1Controller : MonoBehaviour
     private List<LevelPlayerModel> _levelPlayers = new();
 
     // para os objetos do nível - bola
+    [SerializeField] private GameObject _ballPrefab;
     [SerializeField] private GameObject _ballObject;
     private BallController _ballController;
 
@@ -42,9 +43,6 @@ public class Level1Controller : MonoBehaviour
 
     // referência do controlador da pontuação
     [SerializeField] private ScoreController _scoreController;
-
-    // para detetar que os objetos estão congelados quando a ronda acaba
-    private bool _freezeObjects = false;
 
     // para saber o número atual e o número máximo de golos permitido
     private int _currentNumberOfGoals = 0;
@@ -83,14 +81,20 @@ public class Level1Controller : MonoBehaviour
 
     void Update()
     {
+        // quando está no intervalo entre rondas, ou seja o tempo está parado
+        if (_timerController.IsOnPause())
+        {
+            return;
+        }
+
         // se alguém marcou golo
         // - congelar objetos, cancelar spawn de power ups, atribuir pontos e iniciar nova ronda
-        if (!_freezeObjects && _ballController.IsGoalScored())
+        if (_ballController.IsGoalScored())
         {
-            Debug.Log("Marcou golo");
-            _freezeObjects = true;
             float freezingTime = 5f;
             FreezePlayers(freezingTime);
+
+            _timerController.Pause();
 
             CancelInvoke(nameof(SpawnPowerUp));
 
@@ -106,13 +110,12 @@ public class Level1Controller : MonoBehaviour
 
         // se o tempo global acabou ou o número máximo de golos foi atingido
         // - congelar objetos, cancelar spawn de power ups, atribuir pontos e mostrar o painel do fim de nível
-        if (!_freezeObjects && _timerController.HasFinished() || IsMaxGoals())
+        if (_timerController.HasFinished() || IsMaxGoals())
         {
-            Debug.Log("tempo global acabou ou é maximo de golos marcados");
-            _freezeObjects = true;
-
             // congela para sempre
             FreezePlayers(-1);
+
+            _timerController.Pause();
 
             CancelInvoke(nameof(SpawnPowerUp));
 
@@ -203,12 +206,20 @@ public class Level1Controller : MonoBehaviour
     {
         if (_ballController.Player1Scored)
         {
+            // redefinir o jogador que marcou como falso,
+            // para que quando inicia uma nova rodada, ainda nenhum jogador marcou
+            _ballController.Player1Scored = false;
+            _ballController.Player2Scored = false;
             _currentNumberOfGoals++;
+
             return _levelPlayers[0];
         }
         else if (_ballController.Player2Scored)
         {
+            _ballController.Player1Scored = false;
+            _ballController.Player2Scored = false;
             _currentNumberOfGoals++;
+
             return _levelPlayers[1];
         }
         else
@@ -248,15 +259,15 @@ public class Level1Controller : MonoBehaviour
     /// </summary>
     void RestartRound()
     {
-        _freezeObjects = false;
-
-        _timerController.SetInitialTime();
+        _timerController.Play();
 
         _roundController.DisableNextRoundIntro();
 
         SetInitialPosition();
 
         DestroyAllPowerUps();
+
+        InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
     }
 
     void SetInitialPosition()
@@ -266,6 +277,9 @@ public class Level1Controller : MonoBehaviour
 
         _levelPlayers[1].Object.transform.position = _levelPlayers[1].InitialPosition;
         _levelPlayers[1].Object.transform.rotation = _levelPlayers[1].InitialRotation;
+
+        _ballObject.transform.position = _ballPrefab.transform.position;
+        _ballObject.transform.rotation = _ballPrefab.transform.rotation;
     }
 
     void DestroyAllPowerUps()

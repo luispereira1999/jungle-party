@@ -264,6 +264,8 @@ public class Level4Controller : MonoBehaviour
         SetInitialPosition();
 
         DestroyAllPowerUps();
+
+        InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
     }
 
     void SetInitialPosition()

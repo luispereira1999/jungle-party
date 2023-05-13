@@ -471,7 +471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaa54621eb1d094693c281339874c5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingTime: 5
+  _startingTime: 10
   _progressBar: {fileID: 651848629}
 --- !u!4 &124057213
 Transform:
@@ -1441,13 +1441,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed33b028c67b854ea11120a0e1743ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ballPrefab: {fileID: 6533743398507693898, guid: 16baa4fa8dfe97c41a6b9d0ddcc622ee, type: 3}
   _ballObject: {fileID: 782764420}
   _goalObject1: {fileID: 1253019614}
   _goalObject2: {fileID: 375394914}
   _powerUp: {fileID: 2919045375745229412, guid: 908aaf363cad07f43858bedbf8eb8599, type: 3}
   _roundController: {fileID: 312912561}
   _scoreController: {fileID: 2040967659}
-  _maxNumberOfGoals: 3
+  _maxNumberOfGoals: 7
   _introPanel: {fileID: 304262478}
   _buttonPause: {fileID: 1997452290}
   _finishedLevelPanel: {fileID: 1155199146}
