@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- * Controla o nível 3.
- * O nível consiste em empurrar o adversário para fora do ringue.
- * O nível é constituido por várias rondas.
-*/
+
+/// <summary>
+/// Controla o nível 3.
+/// O nível consiste em empurrar o adversário para fora do ringue.
+/// O nível é constituido por várias rondas.
+/// </summary>
 public class Level3Controller : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
@@ -14,11 +15,14 @@ public class Level3Controller : MonoBehaviour
     private GameController _gameController;
 
     // variáveis sobre os jogadores
-    private GameObject _player1Object;
-    private GameObject _player2Object;
+    private List<LevelPlayerModel> _levelPlayers = new();
 
     // para saber se os jogadores colidiram
     private bool _collisionOccurred = false;
+
+    // para os objetos do nível - power ups
+    private readonly List<GameObject> _powerUps = new();
+    [SerializeField] private GameObject _powerUp;
 
     // para definir a ação dos jogadores neste nível
     private CarryAction _carryAction;
@@ -32,14 +36,12 @@ public class Level3Controller : MonoBehaviour
     // para detetar que os objetos estão congelados quando a ronda acaba
     private bool _freezeObjects = false;
 
-    // para o modelo de dados do jogador referente ao nível
-    private List<LevelPlayerModel> _levelPlayers = new();
-
     // para os componentes da UI - painel de introdução, botão de pause e painel do fim de nível
     [SerializeField] private GameObject _introPanel;
     [SerializeField] private GameObject _buttonPause;
     [SerializeField] private GameObject _finishedLevelPanel;
     [SerializeField] private GameObject _finishedLevelDescription;
+
 
     /* PROPRIEDADES PÚBLICAS */
 
@@ -48,6 +50,7 @@ public class Level3Controller : MonoBehaviour
         get { return _collisionOccurred; }
         set { _collisionOccurred = value; }
     }
+
 
     /* MÉTODOS DO MONOBEHAVIOUR */
 
@@ -112,11 +115,12 @@ public class Level3Controller : MonoBehaviour
         }
     }
 
+
     /* MÉTODOS DO LEVEL4CONTROLLER */
 
-    /*
-     * É executado ao clicar no botão de iniciar, no painel de introdução do nível.
-    */
+    /// <summary>
+    /// É executado ao clicar no botão de iniciar, no painel de introdução do nível.
+    /// </summary>
     public void InitAfterIntro()
     {
         TimerController.Unfreeze();
@@ -127,6 +131,7 @@ public class Level3Controller : MonoBehaviour
         _buttonPause.SetActive(true);
         Destroy(_introPanel);
 
+        InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
     }
 
     void OnTriggerExit(Collider other)
@@ -136,6 +141,15 @@ public class Level3Controller : MonoBehaviour
         {
             RestartRound();
         }
+    }
+
+    void SpawnPowerUp()
+    {
+        System.Random rnd = new();
+        int xValue = rnd.Next(42, 58);
+        int zValue = rnd.Next(71, 84);
+
+        Instantiate(_powerUp, new Vector3(xValue, _powerUp.transform.position.y, zValue), Quaternion.identity);
     }
 
     void CreatePlayersDataForLevel()
@@ -150,7 +164,6 @@ public class Level3Controller : MonoBehaviour
     void DisplayObjectInScene()
     {
         SpawnPlayers();
-       
     }
 
     void SpawnPlayers()
@@ -159,9 +172,9 @@ public class Level3Controller : MonoBehaviour
         _levelPlayers[1].Object = Instantiate(_gameController.GamePlayers[1].Prefab);
     }
 
-    /*
-  * Adiciona o script da ação a cada um dos objetos dos jogadores, para definir essa ação ao personagem.
- */
+    /// <summary>
+    /// Adiciona o script da ação a cada um dos objetos dos jogadores, para definir essa ação ao personagem.
+    /// </summary>
     void AddActionToPlayers()
     {
         _carryAction = _levelPlayers[0].Object.AddComponent<CarryAction>();
@@ -171,17 +184,16 @@ public class Level3Controller : MonoBehaviour
         _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_carryAction, this);
     }
 
-
     void FreezePlayers(float freezingTime)
     {
         _levelPlayers[0].Object.GetComponent<PlayerController>().Freeze(freezingTime);
         _levelPlayers[1].Object.GetComponent<PlayerController>().Freeze(freezingTime);
     }
 
-    /*
-     * É executado após o intervalo de espera para iniciar outra ronda.
-     * Responsável por inicializar novamente os componentes necessários para que a ronda comece.
-    */
+    /// <summary>
+    /// É executado após o intervalo de espera para iniciar outra ronda.
+    /// Responsável por inicializar novamente os componentes necessários para que a ronda comece.
+    /// </summary>
     void RestartRound()
     {
         _freezeObjects = false;
@@ -192,6 +204,7 @@ public class Level3Controller : MonoBehaviour
 
         SetInitialPosition();
 
+        InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
     }
 
     void SetInitialPosition()
@@ -203,9 +216,9 @@ public class Level3Controller : MonoBehaviour
         _levelPlayers[1].Object.transform.rotation = _levelPlayers[1].InitialRotation;
     }
 
-    /*
-     * É executado quando é clicado o botão de próximo nível, no painel de fim de nível.
-    */
+    /// <summary>
+    /// É executado quando é clicado o botão de próximo nível, no painel de fim de nível.
+    /// </summary>
     public void FinishLevel()
     {
         _gameController.NextLevel(_levelPlayers[0].LevelScore, _levelPlayers[1].LevelScore);

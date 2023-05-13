@@ -1,7 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Trata da ação do jogador de empurrar no nível 3.
+/// </summary>
 public class CarryAction : MonoBehaviour, IPlayerAction
 {
     /* ATRIBUTOS PRIVADOS */
@@ -45,7 +47,7 @@ public class CarryAction : MonoBehaviour, IPlayerAction
     public void Start()
     {
         _animator = GetComponent<Animator>();
-  
+
     }
 
     public void Enter()
@@ -54,7 +56,7 @@ public class CarryAction : MonoBehaviour, IPlayerAction
 
     public void Exit()
     {
- 
+
     }
 
     public void Collide(Collision collision)
@@ -64,8 +66,6 @@ public class CarryAction : MonoBehaviour, IPlayerAction
 
     public void PushPlayer()
     {
-    
-    }
-    
-}
 
+    }
+}

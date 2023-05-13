@@ -2,7 +2,7 @@ using UnityEngine;
 
 
 /// <summary>
-/// Controla a ação do jogador de chutar a bola no nível 1.
+/// Trata da ação do jogador de chutar a bola no nível 1.
 /// </summary>
 public class KickAction : MonoBehaviour, IPlayerAction
 {
