@@ -90,6 +90,12 @@ public class PlayerController : MonoBehaviour
                 {
                     _currentAction.Enter();
                 }
+
+                if(_currentAction is CarryAction) //significa que está no nível 3
+                {
+                    _currentAction.Enter();
+                }
+
                 if (_currentAction is ThrowAction)  // significa que está no nível 4
                 {
                     if (!_isWalking)
@@ -101,6 +107,10 @@ public class PlayerController : MonoBehaviour
             else
             {
                 if (_currentAction is KickAction)
+                {
+                    _currentAction.Exit();
+                }
+                if (_currentAction is CarryAction)
                 {
                     _currentAction.Exit();
                 }

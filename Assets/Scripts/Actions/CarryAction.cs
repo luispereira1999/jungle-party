@@ -15,9 +15,6 @@ public class CarryAction : MonoBehaviour, IPlayerAction
     // para controlar as animações
     private Animator _animator;
 
-    // referência do controlador da bola
-    private GameObject _ballObject;
-
     // para a força que o jogador é empurrado 
     private float _force = 5f;
 
@@ -53,19 +50,22 @@ public class CarryAction : MonoBehaviour, IPlayerAction
 
     public void Enter()
     {
-        _animator.SetBool("isCarryingMove", true);
     }
 
     public void Exit()
     {
-        _animator.SetBool("isCarryingMove", false);
+ 
     }
 
     public void Collide(Collision collision)
     {
-        
+        PushPlayer();
     }
 
+    public void PushPlayer()
+    {
+    
+    }
     
 }
 

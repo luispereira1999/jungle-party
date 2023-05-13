@@ -21,7 +21,7 @@ public class Level3Controller : MonoBehaviour
     private bool _collisionOccurred = false;
 
     // para definir a ação dos jogadores neste nível
-    private ThrowAction _throwAction;
+    private CarryAction _carryAction;
 
     // referência do controlador do relógio
     private TimerController _timerController;
@@ -164,11 +164,11 @@ public class Level3Controller : MonoBehaviour
  */
     void AddActionToPlayers()
     {
-        _throwAction = _levelPlayers[0].Object.AddComponent<ThrowAction>();
-        _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
+        _carryAction = _levelPlayers[0].Object.AddComponent<CarryAction>();
+        _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_carryAction, this);
 
-        _throwAction = _levelPlayers[1].Object.AddComponent<ThrowAction>();
-        _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
+        _carryAction = _levelPlayers[1].Object.AddComponent<CarryAction>();
+        _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_carryAction, this);
     }
 
 
