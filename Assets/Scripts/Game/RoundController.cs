@@ -12,10 +12,11 @@ public class RoundController : MonoBehaviour
 
     // variáveis sobre as rondas
     private int _currentRound = 0;
-    [SerializeField] private int _numberOfRounds;
+    [SerializeField] private int _maxRounds;
 
-    // referências para a UI - texto da ronda atual e objeto que mostra o texto de introdução da próxima ronda
-    [SerializeField] private Text _roundsComponent;
+    // referências para a UI - texto do número de rondas atuais e máximas e, objeto que mostra o texto de introdução da próxima ronda
+    [SerializeField] private Text _currentRoundsComponent;
+    [SerializeField] private Text _maxRoundsComponent;
     [SerializeField] private GameObject _nextRoundIntro;
 
 
@@ -27,10 +28,10 @@ public class RoundController : MonoBehaviour
         set { _currentRound = value; }
     }
 
-    public int NumberOfRounds
+    public int MaxRounds
     {
-        get { return _numberOfRounds; }
-        set { _numberOfRounds = value; }
+        get { return _maxRounds; }
+        set { _maxRounds = value; }
     }
 
 
@@ -43,7 +44,12 @@ public class RoundController : MonoBehaviour
 
     public void DisplayCurrentRound()
     {
-        _roundsComponent.text = _currentRound.ToString();
+        _currentRoundsComponent.text = _currentRound.ToString();
+    }
+
+    public void DisplayMaxRounds()
+    {
+        _maxRoundsComponent.text = _maxRounds.ToString();
     }
 
     public void DisplayNextRoundIntro()
@@ -59,6 +65,6 @@ public class RoundController : MonoBehaviour
 
     public bool IsLastRound()
     {
-        return _currentRound == _numberOfRounds;
+        return _currentRound == _maxRounds;
     }
 }

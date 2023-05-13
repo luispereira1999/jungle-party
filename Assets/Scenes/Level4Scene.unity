@@ -468,7 +468,7 @@ GameObject:
   - component: {fileID: 186043170}
   - component: {fileID: 186043169}
   m_Layer: 5
-  m_Name: NumberOfRounds
+  m_Name: CurrentRounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1533,8 +1533,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439c09262a7480f45ae162a95166e722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfRounds: 5
-  _roundsComponent: {fileID: 186043169}
+  _maxRounds: 0
+  _currentRoundsComponent: {fileID: 186043169}
+  _maxRoundsComponent: {fileID: 0}
   _nextRoundIntro: {fileID: 92866853}
 --- !u!4 &786400504
 Transform:

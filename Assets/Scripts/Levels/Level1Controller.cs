@@ -44,10 +44,6 @@ public class Level1Controller : MonoBehaviour
     // referência do controlador da pontuação
     [SerializeField] private ScoreController _scoreController;
 
-    // para saber o número atual e o número máximo de golos permitido
-    private int _currentNumberOfGoals = 0;
-    [SerializeField] private int _maxNumberOfGoals;
-
     // para os componentes da UI - painel de introdução, botão de pause e painel do fim de nível
     [SerializeField] private GameObject _introPanel;
     [SerializeField] private GameObject _buttonPause;
@@ -73,6 +69,7 @@ public class Level1Controller : MonoBehaviour
         TimerController.Freeze();
 
         _roundController.DisplayCurrentRound();
+        _roundController.DisplayMaxRounds();
 
         DisplayObjectInScene();
 
@@ -104,13 +101,14 @@ public class Level1Controller : MonoBehaviour
             _roundController.NextRound();
             _roundController.DisplayNextRoundIntro();
             _roundController.DisplayCurrentRound();
+            _roundController.DisplayMaxRounds();
 
             Invoke(nameof(RestartRound), freezingTime);
         }
 
         // se o tempo global acabou ou o número máximo de golos foi atingido
         // - congelar objetos, cancelar spawn de power ups, atribuir pontos e mostrar o painel do fim de nível
-        if (_timerController.HasFinished() || IsMaxGoals())
+        if (_timerController.HasFinished() || _roundController.IsLastRound())
         {
             // congela para sempre
             FreezePlayers(-1);
@@ -210,7 +208,6 @@ public class Level1Controller : MonoBehaviour
             // para que quando inicia uma nova rodada, ainda nenhum jogador marcou
             _ballController.Player1Scored = false;
             _ballController.Player2Scored = false;
-            _currentNumberOfGoals++;
 
             return _levelPlayers[0];
         }
@@ -218,7 +215,6 @@ public class Level1Controller : MonoBehaviour
         {
             _ballController.Player1Scored = false;
             _ballController.Player2Scored = false;
-            _currentNumberOfGoals++;
 
             return _levelPlayers[1];
         }
@@ -228,11 +224,6 @@ public class Level1Controller : MonoBehaviour
         }
     }
 
-    bool IsMaxGoals()
-    {
-        return _currentNumberOfGoals == _maxNumberOfGoals;
-    }
-
     /// <summary>
     /// Atribui os pontos do marcador e atualiza no ecrã.
     /// </summary>
@@ -240,11 +231,6 @@ public class Level1Controller : MonoBehaviour
     {
         _levelPlayers[scorerID - 1].LevelScore += _scoreController.AddScore();
         _scoreController.DisplayScoreObjectText(scorerID, _levelPlayers[scorerID - 1].LevelScore);
-    }
-
-    bool IsMaxNumberOfGoals()
-    {
-        return _currentNumberOfGoals == _maxNumberOfGoals ? true : false;
     }
 
     void FreezePlayers(float freezingTime)

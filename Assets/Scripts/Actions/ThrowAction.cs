@@ -42,7 +42,7 @@ public class ThrowAction : MonoBehaviour, IPlayerAction
 
     public void Start()
     {
-        // nada para ser implementado
+        _animator = GetComponent<Animator>();
     }
 
     public void Enter()
