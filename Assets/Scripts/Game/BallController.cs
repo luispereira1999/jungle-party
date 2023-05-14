@@ -42,13 +42,13 @@ public class BallController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    void OnTriggerEnter(Collider collider)
+    void OnCollisionEnter(Collision collision)
     {
         // colisão com alguma parede da arena - impede que a bola saia da arena
-        if (collider.CompareTag("Wall") || collider.CompareTag("Goal"))
+        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Goal"))
         {
             // obtém o vetor da direção oposta, à posição que a bola bateu na parede
-            Vector3 oppositeDirection = transform.position - collider.ClosestPoint(transform.position);
+            Vector3 oppositeDirection = transform.position - collision.collider.ClosestPoint(transform.position);
 
             // normalizar o vetor, garante que a direção será sempre correta independente da força aplicada
             oppositeDirection = oppositeDirection.normalized;
@@ -58,11 +58,11 @@ public class BallController : MonoBehaviour
         }
 
         // colisão com a linha de golo - deteta que foi golo
-        if (collider.CompareTag(_goalLinePlayer1.tag))
+        if (collision.gameObject.CompareTag(_goalLinePlayer1.tag))
         {
             _player2Scored = true;
         }
-        else if (collider.CompareTag(_goalLinePlayer2.tag))
+        else if (collision.gameObject.CompareTag(_goalLinePlayer2.tag))
         {
             _player1Scored = true;
         }

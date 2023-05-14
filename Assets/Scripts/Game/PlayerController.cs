@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
                     _currentAction.Enter();
                 }
 
-                if(_currentAction is CarryAction) //significa que está no nível 3
+                if (_currentAction is CarryAction) //significa que está no nível 3
                 {
                     _currentAction.Enter();
                 }
@@ -206,16 +206,28 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
+    /// É executado quando colide com algum objeto e entra no seu colisor.
+    /// </summary>
+    void OnCollisionStay(Collision collision)
+    {
+        // colisão com alguma parede da arena - impede que o jogador saia da arena
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            // atualiza a posição do jogador para entrar novamente na arena
+            Vector3 oppositeDirection = transform.position - collision.collider.ClosestPoint(transform.position);
+            transform.position += oppositeDirection.normalized * 0.12f;
+        }
+    }
+
+    /// <summary>
     /// É executado quando o jogador colide com algum objeto que tem o "isTrigger" ativado no seu colisor.
     /// </summary>
     void OnTriggerEnter(Collider collider)
     {
-        // colisão com alguma parede da arena - impede que o jogador saia da arena
+        //colisão com alguma parede da arena - para saber que o jogador saia da arena
         if (collider.CompareTag("Wall"))
         {
-            // atualiza a posição do jogador para entrar novamente na arena
-            Vector3 oppositeDirection = transform.position - collider.ClosestPoint(transform.position);
-            transform.position += oppositeDirection.normalized * 0.11f;
+            // nada para implementar
         }
     }
 
