@@ -134,15 +134,6 @@ public class Level3Controller : MonoBehaviour
         InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        // colisão com alguma parede da arena - impede que o jogador saia da arena
-        if (other.CompareTag("Wall"))
-        {
-            RestartRound();
-        }
-    }
-
     void SpawnPowerUp()
     {
         System.Random rnd = new();
@@ -164,6 +155,7 @@ public class Level3Controller : MonoBehaviour
     void DisplayObjectInScene()
     {
         SpawnPlayers();
+        AddActionToPlayers();
     }
 
     void SpawnPlayers()

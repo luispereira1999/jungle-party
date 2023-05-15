@@ -92,8 +92,9 @@ public class PlayerController : MonoBehaviour
                     _currentAction.Enter();
                 }
 
-                if (_currentAction is CarryAction) //significa que está no nível 3
+                if (_currentAction is CarryAction)  // significa que está no nível 3
                 {
+                    Debug.Log("A");
                     _currentAction.Enter();
                 }
 
@@ -130,6 +131,11 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isFrozen)
         {
+            if (_currentAction is CarryAction)
+            {
+                _currentAction.Collide();
+            }
+
             (float horizontalInput, float verticalInput) = GetCurrentMovementInput();
 
             // se o jogador pressiona uma tecla de movimento
@@ -178,32 +184,18 @@ public class PlayerController : MonoBehaviour
         // colisão com o outro jogador
         if (collision.gameObject.CompareTag(oppositePlayerTag))
         {
+            if (_currentAction is CarryAction)
+            {
+                _currentAction.Collide(collision);
+            }
+
             if (_currentAction is ThrowAction)
             {
                 _currentAction.Collide(collision);
             }
-
         }
 
-        if (_currentAction is CarryAction)
-
-            if (collision.gameObject.CompareTag(oppositePlayerTag))
-            {
-                _currentAction.Collide(collision);
-
-                bool actionInput = GetCurrentActionInput();
-
-                if (actionInput)
-                {
-                    if (_currentAction is CarryAction)  // significa que está no nível 3
-                    {
-                        _currentAction.Enter();
-                    }
-
-                } 
-            }
-
-        if (_currentAction is KickAction)
+        if (_currentAction is KickAction)  // significa que está no nível 1
         {
             // colisão com a bola
             if (collision.gameObject.CompareTag("Ball"))
@@ -215,10 +207,7 @@ public class PlayerController : MonoBehaviour
                 // se o jogador pressiona a tecla de ação
                 if (actionInput)
                 {
-                    if (_currentAction is KickAction)  // significa que está no nível 1
-                    {
-                        _currentAction.Enter();
-                    }
+                    _currentAction.Enter();
                 }
             }
         }

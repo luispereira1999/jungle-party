@@ -102,4 +102,9 @@ public class KickAction : MonoBehaviour, IPlayerAction
         Rigidbody rigidbodyBall = _ballObject.GetComponent<Rigidbody>();
         rigidbodyBall.AddForce(direction * _kickForce, ForceMode.Impulse);
     }
+
+    public void Collide()
+    {
+        throw new System.NotImplementedException();
+    }
 }

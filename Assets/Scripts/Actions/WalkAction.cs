@@ -60,4 +60,9 @@ public class WalkAction : MonoBehaviour, IPlayerAction
     {
         // nada para ser implementado
     }
+
+    public void Collide()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -81,4 +81,9 @@ public class ThrowAction : MonoBehaviour, IPlayerAction
             _player.IsWalking = false;
         }
     }
+
+    public void Collide()
+    {
+        throw new System.NotImplementedException();
+    }
 }

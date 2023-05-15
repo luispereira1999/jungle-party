@@ -18,7 +18,11 @@ public class CarryAction : MonoBehaviour, IPlayerAction
     private Animator _animator;
 
     // para a força que o jogador é empurrado 
-    private float _pushForce = 5f;
+    private float _pushForce = 10f;
+
+    // para saber se a jogador empurrou e tocou no outro jogador
+    private bool carrying = false;
+    private bool colliding = false;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -47,12 +51,17 @@ public class CarryAction : MonoBehaviour, IPlayerAction
     public void Start()
     {
         _animator = GetComponent<Animator>();
-
     }
 
     public void Enter()
     {
-        _animator.SetBool("isCarryingMove", true);
+        carrying = true;
+
+        //if (carryingAndColliding)
+        //{
+        //    _animator.SetBool("isCarryingMove", true);
+        //    carryingAndColliding = false;
+        //}
     }
 
     public void Exit()
@@ -62,19 +71,54 @@ public class CarryAction : MonoBehaviour, IPlayerAction
 
     public void Collide(Collision collision)
     {
-        PushPlayer(collision);
+        Debug.Log("C");
+
+        if (carrying && !colliding)
+        {
+            Debug.Log("D");
+            //carrying = false;
+        }
+
+        //if (carryingAndColliding)
+        //{
+        //    Debug.Log("C");
+        //    _animator.SetBool("isWalking", false);
+        //    //Enter();
+        //    PushPlayer(collision);
+        //    carryingAndColliding = false;
+        //}
     }
 
     public void PushPlayer(Collision collision)
     {
-        string currentPlayerTag = _player.GetCurrentPlayer().tag;
+        //string currentPlayerTag = _player.GetCurrentPlayer().tag;
 
-        Vector3 direction = collision.contacts[0].point - transform.position;
+        //Vector3 direction = collision.contacts[0].point - transform.position;
 
-        direction = direction.normalized;
+        //direction = direction.normalized;
 
-        Rigidbody rigidbody = _player.GetComponent<Rigidbody>();
-        rigidbody.AddForce(direction * _pushForce, ForceMode.Impulse);
+        //Rigidbody rigidbody = _player.GetComponent<Rigidbody>();
 
+        //rigidbody.AddForce(direction * _pushForce, ForceMode.Impulse);
+    }
+
+    public void Collide()
+    {
+        if (carrying )
+        {
+            Debug.Log("B");
+
+            // Calcula a direção oposta ao olhar atual do jogador
+            Vector3 direcaoEmpurrao = transform.forward;
+
+            GameObject opposite = _player.GetOppositePlayer();
+
+            // Aplica o empurrão ao Rigidbody do jogador
+            opposite.GetComponent<Rigidbody>().AddForce(direcaoEmpurrao * 6f, ForceMode.Impulse);
+
+            // Reseta a variável da tecla pressionada
+            carrying = false;
+            colliding = false;
+        }
     }
 }
