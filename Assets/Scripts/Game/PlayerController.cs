@@ -182,7 +182,26 @@ public class PlayerController : MonoBehaviour
             {
                 _currentAction.Collide(collision);
             }
+
         }
+
+        if (_currentAction is CarryAction)
+
+            if (collision.gameObject.CompareTag(oppositePlayerTag))
+            {
+                _currentAction.Collide(collision);
+
+                bool actionInput = GetCurrentActionInput();
+
+                if (actionInput)
+                {
+                    if (_currentAction is CarryAction)  // significa que está no nível 3
+                    {
+                        _currentAction.Enter();
+                    }
+
+                } 
+            }
 
         if (_currentAction is KickAction)
         {

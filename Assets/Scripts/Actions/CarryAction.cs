@@ -18,7 +18,7 @@ public class CarryAction : MonoBehaviour, IPlayerAction
     private Animator _animator;
 
     // para a força que o jogador é empurrado 
-    private float _force = 5f;
+    private float _pushForce = 5f;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -52,20 +52,29 @@ public class CarryAction : MonoBehaviour, IPlayerAction
 
     public void Enter()
     {
+        _animator.SetBool("isCarryingMove", true);
     }
 
     public void Exit()
     {
-
+        _animator.SetBool("isCarryingMove", false);
     }
 
     public void Collide(Collision collision)
     {
-        PushPlayer();
+        PushPlayer(collision);
     }
 
-    public void PushPlayer()
+    public void PushPlayer(Collision collision)
     {
+        string currentPlayerTag = _player.GetCurrentPlayer().tag;
+
+        Vector3 direction = collision.contacts[0].point - transform.position;
+
+        direction = direction.normalized;
+
+        Rigidbody rigidbody = _player.GetComponent<Rigidbody>();
+        rigidbody.AddForce(direction * _pushForce, ForceMode.Impulse);
 
     }
 }
