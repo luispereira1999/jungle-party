@@ -56,13 +56,18 @@ public class WalkAction : MonoBehaviour, IPlayerAction
         _animator.SetBool("isWalking", false);
     }
 
+    public void ApplyPhisics()
+    {
+        // nada para ser implementado
+    }
+
     public void Collide(Collision collision)
     {
         // nada para ser implementado
     }
 
-    public void Collide()
+    public void Trigger(Collider collider)
     {
-        throw new System.NotImplementedException();
+        // nada para ser implementado
     }
 }

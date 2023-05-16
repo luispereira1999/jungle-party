@@ -56,6 +56,11 @@ public class ThrowAction : MonoBehaviour, IPlayerAction
         // nada para ser implementado
     }
 
+    public void ApplyPhisics()
+    {
+        // nada para ser implementado
+    }
+
     public void Collide(Collision collision)
     {
         // uma vez que existem 2 objetos com este script (os 2 jogadores),
@@ -82,8 +87,8 @@ public class ThrowAction : MonoBehaviour, IPlayerAction
         }
     }
 
-    public void Collide()
+    public void Trigger(Collider collider)
     {
-        throw new System.NotImplementedException();
+        // nada para ser implementado
     }
 }

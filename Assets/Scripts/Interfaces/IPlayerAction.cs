@@ -13,6 +13,7 @@ public interface IPlayerAction
     void Start();
     void Enter();
     void Exit();
+    void ApplyPhisics();
     void Collide(Collision collision);
-    void Collide();
+    void Trigger(Collider collider);
 }

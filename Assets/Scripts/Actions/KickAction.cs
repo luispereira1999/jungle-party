@@ -68,6 +68,11 @@ public class KickAction : MonoBehaviour, IPlayerAction
         _animator.SetBool("isKicking", false);
     }
 
+    public void ApplyPhisics()
+    {
+        // nada para ser implementado
+    }
+
     public void Collide(Collision collision)
     {
         if (kickingAndColliding)
@@ -103,8 +108,8 @@ public class KickAction : MonoBehaviour, IPlayerAction
         rigidbodyBall.AddForce(direction * _kickForce, ForceMode.Impulse);
     }
 
-    public void Collide()
+    public void Trigger(Collider collider)
     {
-        throw new System.NotImplementedException();
+        // nada para ser implementado
     }
 }

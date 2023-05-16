@@ -92,12 +92,6 @@ public class PlayerController : MonoBehaviour
                     _currentAction.Enter();
                 }
 
-                if (_currentAction is CarryAction)  // significa que está no nível 3
-                {
-                    Debug.Log("A");
-                    _currentAction.Enter();
-                }
-
                 if (_currentAction is ThrowAction)  // significa que está no nível 4
                 {
                     if (!_isWalking)
@@ -131,11 +125,6 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isFrozen)
         {
-            if (_currentAction is CarryAction)
-            {
-                _currentAction.Collide();
-            }
-
             (float horizontalInput, float verticalInput) = GetCurrentMovementInput();
 
             // se o jogador pressiona uma tecla de movimento
@@ -232,10 +221,13 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void OnTriggerEnter(Collider collider)
     {
-        //colisão com alguma parede da arena - para saber que o jogador saia da arena
+        // colisão com alguma parede da arena - para saber que o jogador saiu da arena
         if (collider.CompareTag("Wall"))
         {
-            // nada para implementar
+            if (_currentAction is CarryAction)
+            {
+                _currentAction.Trigger(collider);
+            }
         }
     }
 
