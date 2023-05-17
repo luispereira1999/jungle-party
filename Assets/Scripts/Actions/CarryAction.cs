@@ -81,7 +81,16 @@ public class CarryAction : MonoBehaviour, IPlayerAction
 
     public void Trigger(Collider collider)
     {
-        // TO DO: chamar função do level3Controller para verificar quem perdeu, atribuir pontos, iniciar outra ronda...
-        Debug.Log("Jogador perdeu");
+        _level3.OutOfArena = true;
+        GameObject loser = Player.gameObject;
+
+        if (loser.tag == "Player1")
+        {
+            _level3.PlayerOutID = 1;
+        }
+        else if (loser.tag == "Player2")
+        {
+            _level3.PlayerOutID = 2;
+        }
     }
 }

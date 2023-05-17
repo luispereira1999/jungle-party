@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1050,6 +1050,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _powerUp: {fileID: 2919045375745229412, guid: 908aaf363cad07f43858bedbf8eb8599, type: 3}
   _roundController: {fileID: 1540794307}
+  _scoreController: {fileID: 856932917}
   _introPanel: {fileID: 1862429366}
   _buttonPause: {fileID: 724255593}
   _finishedLevelPanel: {fileID: 182703753}
@@ -3528,7 +3529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439c09262a7480f45ae162a95166e722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxRounds: 0
+  _maxRounds: 3
   _currentRoundsComponent: {fileID: 928530284}
   _maxRoundsComponent: {fileID: 0}
   _nextRoundIntro: {fileID: 1021529661}
@@ -3789,8 +3790,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829635264}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.93, y: -2.42, z: 14.72}
-  m_LocalScale: {x: 0.83, y: 7.6654005, z: 17.191626}
+  m_LocalPosition: {x: -10.89, y: -10.92, z: 14.72}
+  m_LocalScale: {x: 7.8068266, y: 7.6654005, z: 17.191626}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1102174699}
