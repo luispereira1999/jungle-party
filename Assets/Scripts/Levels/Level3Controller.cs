@@ -90,29 +90,18 @@ public class Level3Controller : MonoBehaviour
             return;
         }
 
-        // se alguém saiu da arena ou o tempo acabou
-        // - congelar objetos, cancelar spawn de power ups, atribuir pontos e iniciar nova ronda
-        if (IsOutOfArena() && !_timerController.HasFinished())
+        // se o tempo acabou - congelar objetos, cancelar spawn de power ups, atribuir pontos e iniciar nova ronda
+        if (_timerController.HasFinished())
         {
-            float freezingTime = 5f;
-            FreezePlayers(freezingTime);
-
             _timerController.Pause();
 
             CancelInvoke(nameof(SpawnPowerUp));
-
-            LevelPlayerModel winner = GetWinner();
-            UpdateScore(winner.ID);
 
             // se estiver na última ronda - mostrar o painel do fim de nível
             if (_roundController.IsLastRound())
             {
                 // congela para sempre
                 FreezePlayers(-1);
-
-                _timerController.Pause();
-
-                CancelInvoke(nameof(SpawnPowerUp));
 
                 string finishedLevelText = "";
                 foreach (LevelPlayerModel levelPlayer in _levelPlayers)
@@ -128,6 +117,54 @@ public class Level3Controller : MonoBehaviour
             // senão iniciar outra ronda
             else
             {
+                float freezingTime = 5f;
+                FreezePlayers(freezingTime);
+
+                _roundController.NextRound();
+                _roundController.DisplayNextRoundIntro();
+                _roundController.DisplayCurrentRound();
+
+                Invoke(nameof(RestartRound), freezingTime);
+            }
+
+            return;
+        }
+
+        // se alguém saiu da arena - congelar objetos, cancelar spawn de power ups, atribuir pontos e iniciar nova ronda
+        if (IsOutOfArena())
+        {
+            _outOfArena = false;
+
+            _timerController.Pause();
+
+            CancelInvoke(nameof(SpawnPowerUp));
+
+            LevelPlayerModel winner = GetWinner();
+            UpdateScore(winner.ID);
+
+            // se estiver na última ronda - mostrar o painel do fim de nível
+            if (_roundController.IsLastRound())
+            {
+                // congela para sempre
+                FreezePlayers(-1);
+
+                string finishedLevelText = "";
+                foreach (LevelPlayerModel levelPlayer in _levelPlayers)
+                {
+                    finishedLevelText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
+                }
+
+                _finishedLevelPanel.SetActive(true);
+                _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
+
+                _buttonPause.SetActive(false);
+            }
+            // senão iniciar outra ronda
+            else
+            {
+                float freezingTime = 5f;
+                FreezePlayers(freezingTime);
+
                 _roundController.NextRound();
                 _roundController.DisplayNextRoundIntro();
                 _roundController.DisplayCurrentRound();
@@ -135,39 +172,6 @@ public class Level3Controller : MonoBehaviour
                 Invoke(nameof(RestartRound), freezingTime);
             }
         }
-
-
-        // se a ronda acaba - congelar objetos, cancelar spawn de power ups e atribuir pontos
-        //if (!_freezeObjects)
-        //{
-        //    _freezeObjects = true;
-        //    float freezingTime = 5f;
-        //    FreezePlayers(freezingTime);
-
-        //    // se estiver na última ronda - mostrar o painel do fim de nível
-        //    if (_roundController.IsLastRound())
-        //    {
-        //        string finishedLevelText = "";
-
-        //        foreach (LevelPlayerModel levelPlayer in _levelPlayers)
-        //        {
-        //            finishedLevelText += "Jogador " + levelPlayer.ID;
-        //        }
-
-        //        _finishedLevelPanel.SetActive(true);
-        //        //_finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
-
-        //    }
-        //    // senão iniciar outra ronda
-        //    else
-        //    {
-        //        _roundController.NextRound();
-        //        _roundController.DisplayNextRoundIntro();
-        //        _roundController.DisplayCurrentRound();
-
-        //        Invoke(nameof(RestartRound), freezingTime);
-        //    }
-        //}
     }
 
 
@@ -274,6 +278,8 @@ public class Level3Controller : MonoBehaviour
     void RestartRound()
     {
         _timerController.Play();
+
+        _timerController.SetInitialTime();
 
         _roundController.DisableNextRoundIntro();
 
