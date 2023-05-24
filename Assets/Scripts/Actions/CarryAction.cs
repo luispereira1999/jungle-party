@@ -77,4 +77,9 @@ public class CarryAction : MonoBehaviour, IPlayerAction
         rigidbody.AddForce(direction * _pushForce, ForceMode.Impulse);
 
     }
+
+    public void onTriggerCollision(Collider collider)
+    {
+        throw new System.NotImplementedException();
+    }
 }

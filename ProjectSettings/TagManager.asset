@@ -18,6 +18,9 @@ TagManager:
   - GoalLine
   - GoalLine1
   - GoalLine2
+  - PopUpText
+  - Apple
+  - HealthBarCtrl
   layers:
   - Default
   - TransparentFX

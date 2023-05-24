@@ -14,4 +14,6 @@ public interface IPlayerAction
     void Enter();
     void Exit();
     void Collide(Collision collision);
+
+    void onTriggerCollision(Collider collider);
 }
