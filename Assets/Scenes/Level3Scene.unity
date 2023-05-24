@@ -1345,6 +1345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startingTime: 15
+  _extraTime: 0
   _progressBar: {fileID: 1945014263}
 --- !u!1 &667015651
 GameObject:
@@ -4258,7 +4259,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 53555a66eff63f746af3b68c5861cbe6, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2dd1c517b14a8764ca3ecfa9a89f47f9, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
