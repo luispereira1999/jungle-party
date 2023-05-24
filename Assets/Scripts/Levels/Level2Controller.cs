@@ -56,7 +56,8 @@ public class Level2Controller : MonoBehaviour
         if (_timerController.HasFinished())
         {
 
-            _timerController.ResetTime();
+            FinishLevel();
+            return;
         }
 
 
@@ -73,8 +74,6 @@ public class Level2Controller : MonoBehaviour
                 {
                     _levelPlayers[0].LevelScore = 100;
                 }
-
-                FinishLevel();
                 break;
             }
         }
@@ -124,6 +123,8 @@ public class Level2Controller : MonoBehaviour
     public void InitAfterIntro()
     {
         TimerController.Unfreeze();
+
+        _timerController.PlaySound();
 
 
         _buttonPause.SetActive(true);
