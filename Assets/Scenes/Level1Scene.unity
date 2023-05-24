@@ -492,6 +492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startingTime: 20
+  _extraTime: 0
   _progressBar: {fileID: 1934950058}
 --- !u!4 &124057213
 Transform:
@@ -3978,7 +3979,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 602844b3897dd2548ae097816345baf7, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1853a2ddff1710840936fa3c14bbc5cf, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1

@@ -2,7 +2,7 @@ using UnityEngine;
 
 
 /// <summary>
-/// Trata da ação do jogador de lançar a bomba no nível 4.
+/// Trata da ação do jogador de lançar a mação no nível 2.
 /// </summary>
 public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
 {
@@ -58,20 +58,16 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
 
     public void Collide(Collision collision)
     {
-
-
-
+        // nada para ser implementado
     }
 
-    public void onTriggerCollision(Collider collider)
+    public void Trigger(Collider collider)
     {
-
         AppleController appleController = collider.gameObject.GetComponent<AppleController>();
 
         appleController.SetPlayer(_player.gameObject);
         appleController.SetPlayerAsParent(_player.gameObject);
         appleController.SetLocalPosition(new Vector3(0.042f, 0.39f, 0.352f));
         appleController.SetLocalRotation(Quaternion.Euler(-90, 0, 0));
-        
     }
 }

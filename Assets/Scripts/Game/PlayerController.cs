@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
                     _currentAction.Enter();
                 }
 
-                if (_currentAction is ThrowAction)  // significa que está no nível 4
+                if (_currentAction is ThrowLvl4Action)  // significa que está no nível 4
                 {
                     if (!_isWalking)
                     {
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
                 {
                     _currentAction.Exit();
                 }
-                if (_currentAction is ThrowAction)
+                if (_currentAction is ThrowLvl4Action)
                 {
                     _currentAction.Exit();
                 }
@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
                 _currentAction.Collide(collision);
             }
 
-            if (_currentAction is ThrowAction)
+            if (_currentAction is ThrowLvl4Action)
             {
                 _currentAction.Collide(collision);
             }
@@ -260,7 +260,7 @@ public class PlayerController : MonoBehaviour
                     Destroy(collider.gameObject);
                 } else
                 {
-                    _currentAction.onTriggerCollision(collider);
+                    _currentAction.Trigger(collider);
                 }
             }
 

@@ -1,7 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Trata da ação do jogador de lançar a maça no nível 2.
+/// </summary>
 public class PickUpAction : MonoBehaviour, IPlayerAction
 {
     // Start is called before the first frame update
@@ -57,34 +59,11 @@ public class PickUpAction : MonoBehaviour, IPlayerAction
 
     public void Collide(Collision collision)
     {
-        // uma vez que existem 2 objetos com este script (os 2 jogadores),
-        // é necessário verificar se já ocorreu a colisão num jogador,
-        // para que o mesmo código não seja executado no outro jogador
-
-        /*
-        if (_level2.CollisionOccurred)
-        {
-            _level2.CollisionOccurred = false;
-            return;
-        }
-
-        string currentPlayerTag = _player.GetCurrentPlayer().tag;
-
-        if (!_level2.GetPlayerWithBomb().CompareTag(currentPlayerTag))
-        {
-            _level2.ChangePlayerTurn();
-            _level2.AssignBomb();
-            _level2.CollisionOccurred = true;
-
-            _player.Freeze(_player.GetFreezingTime());
-
-            _animator.SetBool("isWalking", false);
-            _player.IsWalking = false;
-        }*/
+        // nada para ser implementado
     }
 
-    public void onTriggerCollision(Collider collider)
+    public void Trigger(Collider collider)
     {
-        throw new System.NotImplementedException();
+        // nada para ser implementado 
     }
 }

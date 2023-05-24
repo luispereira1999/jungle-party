@@ -35,7 +35,7 @@ public class Level4Controller : MonoBehaviour
     [SerializeField] private GameObject _powerUp;
 
     // para definir a ação dos jogadores neste nível
-    private ThrowAction _throwAction;
+    private ThrowLvl4Action _throwAction;
 
     // referência do controlador do relógio
     private TimerController _timerController;
@@ -205,10 +205,10 @@ public class Level4Controller : MonoBehaviour
     /// </summary>
     void AddActionToPlayers()
     {
-        _throwAction = _levelPlayers[0].Object.AddComponent<ThrowAction>();
+        _throwAction = _levelPlayers[0].Object.AddComponent<ThrowLvl4Action>();
         _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
 
-        _throwAction = _levelPlayers[1].Object.AddComponent<ThrowAction>();
+        _throwAction = _levelPlayers[1].Object.AddComponent<ThrowLvl4Action>();
         _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
     }
 
