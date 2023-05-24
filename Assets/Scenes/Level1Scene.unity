@@ -4511,8 +4511,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pointsPerRound: 100
-  _scorePlayer1: {fileID: 0}
-  _scorePlayer2: {fileID: 0}
+  _scorePlayer1: {fileID: 2019087625}
+  _scorePlayer2: {fileID: 1766252014}
 --- !u!4 &2040967660
 Transform:
   m_ObjectHideFlags: 0
