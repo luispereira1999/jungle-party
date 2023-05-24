@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 using Random = UnityEngine.Random;
 
 
@@ -36,11 +38,14 @@ public class PlayerController : MonoBehaviour
     // guarda qual ação o jogador deve executar
     private IPlayerAction _currentAction;
 
+    private GameObject _apple;
+
     // para os efeitos das power ups no jogador
     private readonly float _effectTime = 3f;
     private float _normalSpeed;
     private float _halfSpeed;
     private float _doubleSpeed;
+
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -115,6 +120,15 @@ public class PlayerController : MonoBehaviour
                     _currentAction.Exit();
                 }
             }
+
+            if (this._apple != null && (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0)))
+            {
+                AppleController appleController = this._apple.GetComponent<AppleController>();
+
+                appleController.throwApple();
+
+                this._apple = null;
+            }
         }
     }
 
@@ -167,6 +181,8 @@ public class PlayerController : MonoBehaviour
             int value = GenerateEffect();
             ApplyEffect(value);
         }
+
+
 
         string oppositePlayerTag = GetOppositePlayer().tag;
 
@@ -228,6 +244,26 @@ public class PlayerController : MonoBehaviour
             {
                 _currentAction.Trigger(collider);
             }
+        }
+
+        if (collider.gameObject.CompareTag("Apple"))
+        {
+            if (_currentAction is ThrowLvl2Action && _apple == null)
+            {
+                _apple = collider.gameObject;
+                AppleController appleController = _apple.GetComponent<AppleController>();
+
+                if (appleController.HasThrown)
+                {
+                    GameObject healthBarCtrl = GameObject.FindGameObjectWithTag("HealthBarCtrl");
+                    healthBarCtrl.GetComponent<HealthBarController>().TakeDamage(_playerID);
+                    Destroy(collider.gameObject);
+                } else
+                {
+                    _currentAction.onTriggerCollision(collider);
+                }
+            }
+
         }
     }
 
@@ -335,5 +371,12 @@ public class PlayerController : MonoBehaviour
     public void SetNormalSpeed()
     {
         _moveSpeed = _normalSpeed;
+    }
+
+    public void SetThrownActions()
+    {
+        _apple = null;
+        _animator.Play("Throw", -1, 0.1f);
+        _animator.Update(0f);
     }
 }

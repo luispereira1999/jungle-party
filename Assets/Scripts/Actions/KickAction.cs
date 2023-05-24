@@ -2,25 +2,25 @@ using UnityEngine;
 
 
 /// <summary>
-/// Trata da ação do jogador de chutar a bola no nível 1.
+/// Trata da aï¿½ï¿½o do jogador de chutar a bola no nï¿½vel 1.
 /// </summary>
 public class KickAction : MonoBehaviour, IPlayerAction
 {
     /* ATRIBUTOS PRIVADOS */
 
-    // referência ao nível 1
+    // referï¿½ncia ao nï¿½vel 1
     private Level1Controller _level1;
 
-    // referência ao controlador do jogador
+    // referï¿½ncia ao controlador do jogador
     private PlayerController _player;
 
-    // para controlar as animações
+    // para controlar as animaï¿½ï¿½es
     private Animator _animator;
 
-    // referência do controlador da bola
+    // referï¿½ncia do controlador da bola
     private GameObject _ballObject;
 
-    // para a força que a bola é empurrada e chutada
+    // para a forï¿½a que a bola ï¿½ empurrada e chutada
     private float _pushForce = 2f;
     private float _kickForce = 8f;
 
@@ -28,7 +28,7 @@ public class KickAction : MonoBehaviour, IPlayerAction
     private bool kickingAndColliding = false;
 
 
-    /* PROPRIEDADES PÚBLICAS */
+    /* PROPRIEDADES Pï¿½BLICAS */
 
     public MonoBehaviour Level
     {
@@ -49,7 +49,7 @@ public class KickAction : MonoBehaviour, IPlayerAction
     }
 
 
-    /* MÉTODOS */
+    /* Mï¿½TODOS */
 
     public void Start()
     {
@@ -90,7 +90,7 @@ public class KickAction : MonoBehaviour, IPlayerAction
     {
         Vector3 direction = collision.contacts[0].point - transform.position;
 
-        // garante que a direção será sempre correta, independente da força aplicada
+        // garante que a direï¿½ï¿½o serï¿½ sempre correta, independente da forï¿½a aplicada
         direction = direction.normalized;
 
         Rigidbody rigidbodyBall = _ballObject.GetComponent<Rigidbody>();
@@ -101,7 +101,7 @@ public class KickAction : MonoBehaviour, IPlayerAction
     {
         Vector3 direction = collision.contacts[0].point - transform.position;
 
-        // garante que a direção será sempre correta, independente da força aplicada
+        // garante que a direï¿½ï¿½o serï¿½ sempre correta, independente da forï¿½a aplicada
         direction = direction.normalized;
 
         Rigidbody rigidbodyBall = _ballObject.GetComponent<Rigidbody>();
@@ -110,6 +110,6 @@ public class KickAction : MonoBehaviour, IPlayerAction
 
     public void Trigger(Collider collider)
     {
-        // nada para ser implementado
+        // nada para ser implementado 
     }
 }

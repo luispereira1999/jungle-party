@@ -10,6 +10,7 @@ public class TimerController : MonoBehaviour
 
     // variáveis para o tempo inicial e atual (o tempo é em segundos)
     [SerializeField] private float _startingTime;
+    [SerializeField] private float _extraTime;
     private float _currentTime = 0f;
 
     // referência para a barra de progresso do tempo visível no nível
@@ -52,12 +53,13 @@ public class TimerController : MonoBehaviour
 
     void Start()
     {
+        _currentTime = _startingTime;
         SetInitialTime();
     }
 
     public void SetInitialTime()
     {
-        _currentTime = _startingTime;
+        
         _progressBar.MaxValue = _currentTime;
         _progressBar.BarValue = _progressBar.MaxValue;
     }
@@ -119,5 +121,13 @@ public class TimerController : MonoBehaviour
     public static void Unfreeze()
     {
         Time.timeScale = 1f;
+    }
+
+    public void ResetTime()
+    {
+        _currentTime = _extraTime;
+        SetInitialTime();
+        int timeWithoutDecimals = GetTimeWithoutDecimals();
+        _progressBar.UpdateValue(timeWithoutDecimals);
     }
 }

@@ -93,4 +93,9 @@ public class CarryAction : MonoBehaviour, IPlayerAction
             _level3.PlayerOutID = 2;
         }
     }
+
+    public void onTriggerCollision(Collider collider)
+    {
+        throw new System.NotImplementedException();
+    }
 }

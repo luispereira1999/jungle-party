@@ -2,7 +2,7 @@ using UnityEngine;
 
 
 /// <summary>
-/// Define as propriedades e métodos que as classes das ações dos jogadores devem implementar.
+/// Define as propriedades e mï¿½todos que as classes das aï¿½ï¿½es dos jogadores devem implementar.
 /// </summary>
 public interface IPlayerAction
 {
@@ -13,7 +13,6 @@ public interface IPlayerAction
     void Start();
     void Enter();
     void Exit();
-    void ApplyPhisics();
     void Collide(Collision collision);
     void Trigger(Collider collider);
 }

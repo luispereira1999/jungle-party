@@ -2,23 +2,23 @@ using UnityEngine;
 
 
 /// <summary>
-/// Trata da ação de andar do jogador.
+/// Trata da aï¿½ï¿½o de andar do jogador.
 /// </summary>
 public class WalkAction : MonoBehaviour, IPlayerAction
 {
     /* ATRIBUTOS PRIVADOS */
 
-    // referência ao nível atual
+    // referï¿½ncia ao nï¿½vel atual
     private MonoBehaviour _level;
 
-    // referência ao controlador do jogador
+    // referï¿½ncia ao controlador do jogador
     private PlayerController _player;
 
-    // para controlar as animações
+    // para controlar as animaï¿½ï¿½es
     private Animator _animator;
 
 
-    /* PROPRIEDADES PÚBLICAS */
+    /* PROPRIEDADES Pï¿½BLICAS */
 
     public MonoBehaviour Level
     {
@@ -39,7 +39,7 @@ public class WalkAction : MonoBehaviour, IPlayerAction
     }
 
 
-    /* MÉTODOS */
+    /* Mï¿½TODOS */
 
     public void Start()
     {
@@ -68,6 +68,6 @@ public class WalkAction : MonoBehaviour, IPlayerAction
 
     public void Trigger(Collider collider)
     {
-        // nada para ser implementado
+        // nada para ser implementado 
     }
 }
