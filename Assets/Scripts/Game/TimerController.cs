@@ -12,7 +12,8 @@ public class TimerController : MonoBehaviour
     [SerializeField] private float _startingTime;
     private float _currentTime = 0f;
 
-    private AudioSource clockTicking;
+    // para o som do relógio
+    private AudioSource _clockTicking;
 
     // referência para a barra de progresso do tempo visível no nível
     [SerializeField] private ProgressBarCircleController _progressBar;
@@ -54,10 +55,9 @@ public class TimerController : MonoBehaviour
 
     void Start()
     {
-        clockTicking = GetComponent<AudioSource>();
+        _clockTicking = GetComponent<AudioSource>();
         _currentTime = _startingTime;
         SetInitialTime();
-        
     }
 
     public void SetInitialTime()
@@ -78,7 +78,7 @@ public class TimerController : MonoBehaviour
 
         if (HasFinished())
         {
-            clockTicking.Stop();
+            _clockTicking.Stop();
             _currentTime = 0f;
         }
 
@@ -131,11 +131,11 @@ public class TimerController : MonoBehaviour
     }
 
     public void PlaySound() {
-        clockTicking.Play();
+        _clockTicking.Play();
     }
 
     public void StopSound()
     {
-        clockTicking.Stop();
+        _clockTicking.Stop();
     }
 }
