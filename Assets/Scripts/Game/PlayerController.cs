@@ -46,6 +46,8 @@ public class PlayerController : MonoBehaviour
     private float _halfSpeed;
     private float _doubleSpeed;
 
+    [SerializeField] private AudioSource _stepsAudioSource;
+    [SerializeField] private AudioClip[] _stepsAudioClip;
 
 
     /* PROPRIEDADES PÚBLICAS */
@@ -378,5 +380,11 @@ public class PlayerController : MonoBehaviour
         _apple = null;
         _animator.Play("Throw", -1, 0.1f);
         _animator.Update(0f);
+    }
+
+    private void Footstep()
+    {
+        _stepsAudioSource.PlayOneShot(_stepsAudioClip[Random.Range(0, _stepsAudioClip.Length)]);
+
     }
 }
