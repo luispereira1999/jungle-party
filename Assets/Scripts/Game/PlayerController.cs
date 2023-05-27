@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     // para controlar as anima��es
     private Animator _animator;
     private bool _isWalking = false;
+    private bool _isSucess = false;
 
     // para verificar se o personagem est� a pisar no ch�o
     [SerializeField] private LayerMask _groundLayer;
@@ -59,6 +60,11 @@ public class PlayerController : MonoBehaviour
         set { _isWalking = value; }
     }
 
+    public bool IsSucess
+    {
+        get { return _isSucess; }
+        set { _isSucess = value; }
+    }
 
     /* M�TODOS DO MONOBEHAVIOUR */
 
@@ -104,6 +110,7 @@ public class PlayerController : MonoBehaviour
                         _currentAction.Enter();
                     }
                 }
+            
             }
             else
             {
