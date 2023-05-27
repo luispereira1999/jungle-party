@@ -3,38 +3,38 @@ using Random = UnityEngine.Random;
 
 
 /// <summary>
-/// Armazena dados sobre cada personagem criada, no in�cio do jogo.
-/// E controla os movimentos, a��es e caracter�sticas do mesmo.
+/// Armazena dados sobre cada personagem criada, no início do jogo.
+/// E controla os movimentos, ações e características do mesmo.
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
 
-    // vari�vel para identifica��o do jogador
+    // variável para identificação do jogador
     [SerializeField] private int _playerID;
 
-    // vari�veis para a f�sica (movimento e velocidade do personagem)
+    // variáveis para a física (movimento e velocidade do personagem)
     private Rigidbody _rigidbody;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
 
-    // para controlar as anima��es
+    // para controlar as animações
     private Animator _animator;
     private bool _isWalking = false;
     private bool _isSucess = false;
 
-    // para verificar se o personagem est� a pisar no ch�o
+    // para verificar se o personagem está a pisar no chão
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _groundDistance;
 
-    // para verificar se o personagem est� congelado
+    // para verificar se o personagem está congelado
     private bool _isFrozen = false;
     private readonly float _freezingTime = 3f;
 
-    // guarda a a��o de andar do jogador (� igual para todos os n�veis)
+    // guarda a ação de andar do jogador (é igual para todos os níveis)
     private WalkAction _walkAction;
 
-    // guarda qual a��o o jogador deve executar
+    // guarda qual ação o jogador deve executar
     private IPlayerAction _currentAction;
 
     // para os efeitos das power ups no jogador
@@ -46,7 +46,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioSource _stepsAudioSource;
     [SerializeField] private AudioClip[] _stepsAudioClip;
 
-    /* PROPRIEDADES P�BLICAS */
+
+    /* PROPRIEDADES PÚBLICAS */
 
     public int PlayerID
     {
@@ -66,10 +67,10 @@ public class PlayerController : MonoBehaviour
         set { _isSucess = value; }
     }
 
-    /* M�TODOS DO MONOBEHAVIOUR */
+    /* MÉTODOS DO MONOBEHAVIOUR */
 
     /// <summary>
-    /// � executado antes da primeira frame.
+    /// É executado antes da primeira frame.
     /// </summary>
     void Start()
     {
@@ -84,7 +85,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// � executado uma vez por frame.
+    /// É executado uma vez por frame.
     /// </summary>
     void Update()
     {
@@ -92,25 +93,25 @@ public class PlayerController : MonoBehaviour
         {
             bool actionInput = GetCurrentActionInput();
 
-            // se o jogador pressiona a tecla de a��o
+            // se o jogador pressiona a tecla de ação
             if (actionInput)
             {
-                if (_currentAction is KickAction)  // significa que est� no n�vel 1
+                if (_currentAction is KickAction)  // significa que está no nível 1
                 {
                     _currentAction.Enter();
                 }
-                if (_currentAction is ThrowLvl2Action)  // significa que est� no n�vel 2
+                if (_currentAction is ThrowLvl2Action)  // significa que está no nível 2
                 {
                     _currentAction.Enter();
                 }
-                if (_currentAction is ThrowLvl4Action)  // significa que est� no n�vel 4
+                if (_currentAction is ThrowLvl4Action)  // significa que está no nível 4
                 {
                     if (!_isWalking)
                     {
                         _currentAction.Enter();
                     }
                 }
-            
+
             }
             else
             {
@@ -131,7 +132,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// � executado em intervalos fixos.
+    /// É executado em intervalos fixos.
     /// </summary>
     void FixedUpdate()
     {
@@ -167,11 +168,11 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// � executado quando existe alguma colis�o do jogador com outro objeto.
+    /// É executado quando existe alguma colisão do jogador com outro objeto.
     /// </summary>
     void OnCollisionEnter(Collision collision)
     {
-        // colis�o com alguma power up - destroi a power up e aplica o efeito ao jogador
+        // colisão com alguma power up - destroi a power up e aplica o efeito ao jogador
         if (collision.gameObject.CompareTag("PowerUp"))
         {
             Destroy(collision.gameObject);
@@ -182,7 +183,7 @@ public class PlayerController : MonoBehaviour
 
         string oppositePlayerTag = GetOppositePlayer().tag;
 
-        // colis�o com o outro jogador
+        // colisão com o outro jogador
         if (collision.gameObject.CompareTag(oppositePlayerTag))
         {
             if (_currentAction is CarryAction)
@@ -196,16 +197,16 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (_currentAction is KickAction)  // significa que est� no n�vel 1
+        if (_currentAction is KickAction)  // significa que está no nível 1
         {
-            // colis�o com a bola
+            // colisão com a bola
             if (collision.gameObject.CompareTag("Ball"))
             {
                 _currentAction.Collide(collision);
 
                 bool actionInput = GetCurrentActionInput();
 
-                // se o jogador pressiona a tecla de a��o
+                // se o jogador pressiona a tecla de ação
                 if (actionInput)
                 {
                     _currentAction.Enter();
@@ -215,25 +216,25 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// � executado quando colide com algum objeto e entra no seu colisor.
+    /// É executado quando colide com algum objeto e entra no seu colisor.
     /// </summary>
     void OnCollisionStay(Collision collision)
     {
-        // colis�o com alguma parede da arena - impede que o jogador saia da arena
+        // colisão com alguma parede da arena - impede que o jogador saia da arena
         if (collision.gameObject.CompareTag("Wall"))
         {
-            // atualiza a posi��o do jogador para entrar novamente na arena
+            // atualiza a posição do jogador para entrar novamente na arena
             Vector3 oppositeDirection = transform.position - collision.collider.ClosestPoint(transform.position);
             transform.position += oppositeDirection.normalized * 0.12f;
         }
     }
 
     /// <summary>
-    /// � executado quando o jogador colide com algum objeto que tem o "isTrigger" ativado no seu colisor.
+    /// É executado quando o jogador colide com algum objeto que tem o "isTrigger" ativado no seu colisor.
     /// </summary>
     void OnTriggerEnter(Collider collider)
     {
-        // colis�o com alguma parede da arena - para saber que o jogador saiu da arena
+        // colisão com alguma parede da arena - para saber que o jogador saiu da arena
         if (collider.CompareTag("Wall"))
         {
             if (_currentAction is CarryAction)
@@ -242,7 +243,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // colis�o com alguma ma��
+        // colisão com alguma maçã
         if (collider.gameObject.CompareTag("Apple"))
         {
             if (_currentAction is ThrowLvl2Action)
@@ -253,7 +254,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    /* M�TODOS DO PLAYERCONTROLLER */
+    /* MÉTODOS DO PLAYERCONTROLLER */
 
     public void SetAction(IPlayerAction action, MonoBehaviour level)
     {

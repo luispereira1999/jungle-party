@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class FinalScene : MonoBehaviour
 {
-
     /* ATRIBUTOS PRIVADOS */
 
     // variável para a referência do controlador de jogo
@@ -20,39 +19,39 @@ public class FinalScene : MonoBehaviour
     // variáveis sobre os jogadores
     private List<LevelPlayerModel> _levelPlayers = new();
 
-    // referência do controlador da pontuação
-    [SerializeField] private ScoreController _scoreController;
-
     // para os componentes da UI - painel de final de jogo
-
     [SerializeField] private GameObject _finishedGamePanel;
 
     // para controlar as animações
     private Animator _animator;
 
-    /* MÉTODOS DO MONOBEHAVIOUR */
+
+    /* PROPRIEDADES PÚBLICAS */
 
     public MonoBehaviour Level
     {
         get { return _finalScene; }
         set { _finalScene = value; }
     }
+
     public PlayerController Player
     {
         get { return _player; }
         set { _player = value; }
     }
+
     public Animator Animator
     {
         get { return _animator; }
         set { _animator = value; }
     }
-    
+
+
+    /* MÉTODOS */
+
     void Start()
     {
-
         _animator = GetComponent<Animator>();
-       
 
         _gameController = GameController.Instance;
 
@@ -69,10 +68,8 @@ public class FinalScene : MonoBehaviour
 
     void Update()
     {
-       _animator.SetBool("isSucess", true);
+        _animator.SetBool("isSucess", true);
     }
-
-    /* MÉTODOS DO FINALSCENECONTROLLER */
 
     void CreatePlayersDataForLevel()
     {
@@ -92,15 +89,6 @@ public class FinalScene : MonoBehaviour
     {
         _levelPlayers[0].Object = Instantiate(_gameController.GamePlayers[0].Prefab);
         _levelPlayers[1].Object = Instantiate(_gameController.GamePlayers[1].Prefab);
-    }
-
-    /// <summary>
-    /// Atribui os pontos do marcador e atualiza no ecrã.
-    /// </summary>
-    void UpdateScore(int scorerID)
-    {
-        _levelPlayers[scorerID - 1].LevelScore += _scoreController.AddScore();
-        _scoreController.DisplayScoreObjectText(scorerID, _levelPlayers[scorerID - 1].LevelScore);
     }
 
     public void Quit()
