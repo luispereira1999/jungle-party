@@ -62,7 +62,6 @@ public class TimerController : MonoBehaviour
 
     public void SetInitialTime()
     {
-        
         _progressBar.MaxValue = _currentTime;
         _progressBar.BarValue = _progressBar.MaxValue;
     }

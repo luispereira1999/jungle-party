@@ -84,8 +84,6 @@ public class Level4Controller : MonoBehaviour
 
         _roundController.DisplayCurrentRound();
 
-        _roundController.DisplayCurrentRound();
-
         int randomID = GenerateFirstPlayerWithBomb();
         _playerIDWithBomb = randomID;
 
