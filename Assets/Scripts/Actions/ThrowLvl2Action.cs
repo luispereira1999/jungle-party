@@ -17,6 +17,8 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
     // para controlar as animações
     private Animator _animator;
 
+    private GameObject _apple;
+
 
     /* PROPRIEDADES PÚBLICAS */
 
@@ -38,6 +40,12 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
         set { _animator = value; }
     }
 
+    public GameObject Apple
+    {
+        get { return _apple; }
+        set { _apple = value; }
+    }
+
 
     /* MÉTODOS */
 
@@ -48,7 +56,13 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
 
     public void Enter()
     {
-        // nada para ser implementado
+        if (_apple != null)
+        {
+            AppleController appleController = _apple.GetComponent<AppleController>();
+            appleController.ThrowApple();
+
+            _apple = null;
+        }
     }
 
     public void Exit()
@@ -63,11 +77,31 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
 
     public void Trigger(Collider collider)
     {
-        AppleController appleController = collider.gameObject.GetComponent<AppleController>();
+        if (_apple == null)
+        {
+            _apple = collider.gameObject;
+            AppleController appleController = _apple.GetComponent<AppleController>();
 
-        appleController.SetPlayer(_player.gameObject);
-        appleController.SetPlayerAsParent(_player.gameObject);
-        appleController.SetLocalPosition(new Vector3(0.042f, 0.39f, 0.352f));
-        appleController.SetLocalRotation(Quaternion.Euler(-90, 0, 0));
+            if (appleController.HasThrown)
+            {
+                GameObject healthBarCtrl = GameObject.FindGameObjectWithTag("HealthBarCtrl");
+                healthBarCtrl.GetComponent<HealthBarController>().TakeDamage(_player.PlayerID);
+                Destroy(collider.gameObject);
+            }
+            else
+            {
+                appleController.SetPlayer(_player.gameObject);
+                appleController.SetPlayerAsParent(_player.gameObject);
+                appleController.SetLocalPosition(new Vector3(0.042f, 0.39f, 0.352f));
+                appleController.SetLocalRotation(Quaternion.Euler(-90, 0, 0));
+            }
+        }
+    }
+
+    public void SetThrownActions()
+    {
+        _apple = null;
+        _animator.Play("Throw", -1, 0.1f);
+        _animator.Update(0f);
     }
 }

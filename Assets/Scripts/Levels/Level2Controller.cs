@@ -1,15 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class Level2Controller : MonoBehaviour
 {
     private GameController _gameController;
-    // Start is called before the first frame update
 
     private List<LevelPlayerModel> _levelPlayers = new();
 
-    private ThrowLvl2Action _throwAction;
+    private ThrowLvl2Action _throwLvl2Action;
 
     [SerializeField] private GameObject _powerUp;
 
@@ -38,7 +37,7 @@ public class Level2Controller : MonoBehaviour
         _gameController.GamePlayers = new();
         _gameController.InitiateGame();
 
-                // armazenar dados de cada jogador neste n�vel,
+        // armazenar dados de cada jogador neste n�vel,
         // sabendo que um jogo tem v�rios n�veis e j� existem dados que passam de n�vel para n�vel, como a pontua��o
         CreatePlayersDataForLevel();
 
@@ -52,7 +51,6 @@ public class Level2Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (_timerController.HasFinished())
         {
 
@@ -60,25 +58,23 @@ public class Level2Controller : MonoBehaviour
             return;
         }
 
-
-        foreach (LevelPlayerModel levelPlayer in _levelPlayers )
+        foreach (LevelPlayerModel levelPlayer in _levelPlayers)
         {
             bool hasLoose = _healthBarController.HasLoose(levelPlayer.ID);
 
-            if(hasLoose)
+            if (hasLoose)
             {
                 if (levelPlayer.ID == 1)
                 {
                     _levelPlayers[1].LevelScore = 100;
-                } else
+                }
+                else
                 {
                     _levelPlayers[0].LevelScore = 100;
                 }
                 break;
             }
         }
-
-
     }
 
     void CreatePlayersDataForLevel()
@@ -104,11 +100,11 @@ public class Level2Controller : MonoBehaviour
 
     void AddActionToPlayers()
     {
-        _throwAction = _levelPlayers[0].Object.AddComponent<ThrowLvl2Action>();
-        _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
+        _throwLvl2Action = _levelPlayers[0].Object.AddComponent<ThrowLvl2Action>();
+        _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_throwLvl2Action, this);
 
-        _throwAction = _levelPlayers[1].Object.AddComponent<ThrowLvl2Action>();
-        _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_throwAction, this);
+        _throwLvl2Action = _levelPlayers[1].Object.AddComponent<ThrowLvl2Action>();
+        _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_throwLvl2Action, this);
     }
 
     void SpawnPowerUp()
@@ -125,7 +121,6 @@ public class Level2Controller : MonoBehaviour
         TimerController.Unfreeze();
 
         _timerController.PlaySound();
-
 
         _buttonPause.SetActive(true);
         Destroy(_introPanel);

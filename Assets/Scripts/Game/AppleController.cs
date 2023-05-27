@@ -1,24 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class AppleController : MonoBehaviour
 {
     /* ATRIBUTOS */
 
-    // referência do jogador que tem a bomba
+    // referência do jogador que tem a maçã
     private GameObject _player;
 
-
-    private Rigidbody rb;
-    //private Vector3 initialPosition;
-    //private Quaternion initialRotation;
     private bool _isGrabbed = false;
-    private bool _hasPickedUp = false;
     private bool _hasThrown = false;
-    private Vector3 thrownDirection;
+    private Vector3 _thrownDirection;
 
-    public float throwForce = 10f;
+    public float _throwForce = 10f;
+
+    private ThrowLvl2Action _throwLvl2Action;
+
 
     public bool IsGrabbed
     {
@@ -35,19 +32,12 @@ public class AppleController : MonoBehaviour
 
     /* MÉTODOS */
 
-    private void Start()
-    {
-
-    }
-
     private void Update()
     {
-        
         if (_hasThrown)
         {
-            transform.position += thrownDirection;
+            transform.position += _thrownDirection;
         }
-        
     }
 
     public void SetPlayer(GameObject currentPlayer)
@@ -75,18 +65,16 @@ public class AppleController : MonoBehaviour
         transform.SetParent(player.transform);
     }
 
-    public void throwApple()
+    public void ThrowApple()
     {
+        _thrownDirection = _player.transform.forward * 0.1f;
 
-        thrownDirection = _player.transform.forward * 0.1f;
-
-        _player.GetComponent<PlayerController>().SetThrownActions();
+        _throwLvl2Action = _player.GetComponent<ThrowLvl2Action>();
+        _throwLvl2Action.SetThrownActions();
 
         _hasThrown = true;
-        
 
         transform.SetParent(null);
         _player = null;
-
     }
 }

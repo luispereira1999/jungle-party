@@ -1,13 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+
 
 public class HealthBarController : MonoBehaviour
 {
-
     [SerializeField] private float Damage = 5f;
     [SerializeField] private float HealthAmount = 40f;
 
@@ -58,13 +53,10 @@ public class HealthBarController : MonoBehaviour
 
     public bool HasLoose(int playerId)
     {
-
         GameObject healthBar = playerId == 1 ? _healthPlayer1 : _healthPlayer2;
 
         Vector3 currentScale = healthBar.transform.localScale;
 
         return currentScale.x <= 0f;
-
-
     }
 }
