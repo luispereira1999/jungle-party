@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     // para controlar as anima��es
     private Animator _animator;
     private bool _isWalking = false;
-    private bool _isSucess = false;
 
     // para verificar se o personagem est� a pisar no ch�o
     [SerializeField] private LayerMask _groundLayer;
@@ -43,9 +42,6 @@ public class PlayerController : MonoBehaviour
     private float _halfSpeed;
     private float _doubleSpeed;
 
-    [SerializeField] private AudioSource _stepsAudioSource;
-    [SerializeField] private AudioClip[] _stepsAudioClip;
-
     /* PROPRIEDADES P�BLICAS */
 
     public int PlayerID
@@ -58,12 +54,6 @@ public class PlayerController : MonoBehaviour
     {
         get { return _isWalking; }
         set { _isWalking = value; }
-    }
-
-    public bool IsSucess
-    {
-        get { return _isSucess; }
-        set { _isSucess = value; }
     }
 
     /* M�TODOS DO MONOBEHAVIOUR */
@@ -84,10 +74,19 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// � executado uma vez por frame.
+    /// Executado uma vez por frame.
     /// </summary>
     void Update()
     {
+        if (_currentAction is SuccessAction)
+        {
+            _currentAction.Enter();
+        }
+        if (_currentAction is FailureAction)
+        {
+            _currentAction.Enter();
+        }
+
         if (!_isFrozen)
         {
             bool actionInput = GetCurrentActionInput();
@@ -110,6 +109,7 @@ public class PlayerController : MonoBehaviour
                         _currentAction.Enter();
                     }
                 }
+                
             
             }
             else
@@ -196,16 +196,16 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (_currentAction is KickAction)  // significa que est� no n�vel 1
+        if (_currentAction is KickAction)  // significa que esta no nivel 1
         {
-            // colis�o com a bola
+            // colisao com a bola
             if (collision.gameObject.CompareTag("Ball"))
             {
                 _currentAction.Collide(collision);
 
                 bool actionInput = GetCurrentActionInput();
 
-                // se o jogador pressiona a tecla de a��o
+                // se o jogador pressiona a tecla de acao
                 if (actionInput)
                 {
                     _currentAction.Enter();
@@ -215,7 +215,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// � executado quando colide com algum objeto e entra no seu colisor.
+    /// Executado quando colide com algum objeto e entra no seu colisor.
     /// </summary>
     void OnCollisionStay(Collision collision)
     {
@@ -229,7 +229,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// � executado quando o jogador colide com algum objeto que tem o "isTrigger" ativado no seu colisor.
+    /// Executado quando o jogador colide com algum objeto que tem o "isTrigger" ativado no seu colisor.
     /// </summary>
     void OnTriggerEnter(Collider collider)
     {
@@ -356,10 +356,5 @@ public class PlayerController : MonoBehaviour
     public void SetNormalSpeed()
     {
         _moveSpeed = _normalSpeed;
-    }
-
-    private void Footstep()
-    {
-        _stepsAudioSource.PlayOneShot(_stepsAudioClip[Random.Range(0, _stepsAudioClip.Length)]);
     }
 }

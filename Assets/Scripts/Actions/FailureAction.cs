@@ -1,0 +1,72 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FailureAction : MonoBehaviour, IPlayerAction
+{
+    /* ATRIBUTOS PRIVADOS */
+
+    // referencia ao nivel atual
+    private MonoBehaviour _level;
+
+    // referencia ao controlador do jogador
+    private PlayerController _player;
+
+    // para controlar as animacoes
+    private Animator _animator;
+
+    public MonoBehaviour Level
+    {
+        get { return _level; }
+        set { _level = value; }
+    }
+
+    public PlayerController Player
+    {
+        get { return _player; }
+        set { _player = value; }
+    }
+
+    public Animator Animator
+    {
+        get { return _animator; }
+        set { _animator = value; }
+    }
+
+    public void Collide(Collision collision)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Enter()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Exit()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Trigger(Collider collider)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
+    void IPlayerAction.Start()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        _animator.SetBool("isFailure", true);
+    }
+}
