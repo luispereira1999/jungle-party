@@ -1,15 +1,24 @@
 ﻿using UnityEngine;
 
+
+/// <summary>
+/// Trata da animação do jogador quando ganha no fim do jogo.
+/// </summary>
 public class SuccessAction : MonoBehaviour, IPlayerAction
 {
-    // referencia ao nivel atual
+    /* ATRIBUTOS PRIVADOS */
+
+    // referência ao nível atual
     private MonoBehaviour _level;
 
-    // referencia ao controlador do jogador
+    // referência ao controlador do jogador
     private PlayerController _player;
 
-    // para controlar as animacoes
+    // para controlar as animações
     private Animator _animator;
+
+
+    /* PROPRIEDADES PÚBLICAS */
 
     public MonoBehaviour Level
     {
@@ -29,9 +38,12 @@ public class SuccessAction : MonoBehaviour, IPlayerAction
         set { _animator = value; }
     }
 
-    public void Collide(Collision collision)
+
+    /* MÉTODOS */
+
+    public void Start()
     {
-        throw new System.NotImplementedException();
+        _animator = GetComponent<Animator>();
     }
 
     public void Enter()
@@ -41,17 +53,16 @@ public class SuccessAction : MonoBehaviour, IPlayerAction
 
     public void Exit()
     {
-        throw new System.NotImplementedException();
+        // nada para ser implementado
+    }
+
+    public void Collide(Collision collision)
+    {
+        // nada para ser implementado
     }
 
     public void Trigger(Collider collider)
     {
-        throw new System.NotImplementedException();
-    }
-
-    // Start is called before the first frame update
-    public void Start()
-    {
-        _animator = GetComponent<Animator>();
+        // nada para ser implementado
     }
 }

@@ -2,33 +2,33 @@ using UnityEngine;
 
 
 /// <summary>
-/// Trata da a��o do jogador de chutar a bola no n�vel 1.
+/// Trata da ação do jogador de chutar a bola no nível 1.
 /// </summary>
 public class KickAction : MonoBehaviour, IPlayerAction
 {
     /* ATRIBUTOS PRIVADOS */
 
-    // refer�ncia ao n�vel 1
+    // referência ao nível 1
     private Level1Controller _level1;
 
-    // refer�ncia ao controlador do jogador
+    // referência ao controlador do jogador
     private PlayerController _player;
 
-    // para controlar as anima��es
+    // para controlar as animações
     private Animator _animator;
 
-    // refer�ncia do controlador da bola
+    // referência do controlador da bola
     private GameObject _ballObject;
 
-    // para a for�a que a bola � empurrada e chutada
+    // para a força que a bola é empurrada e chutada
     private float _pushForce = 2f;
     private float _kickForce = 8f;
 
     // para saber se a jogador chutou e tocou na bola ao mesmo tempo
-    private bool kickingAndColliding = false;
+    private bool _kickingAndColliding = false;
 
 
-    /* PROPRIEDADES P�BLICAS */
+    /* PROPRIEDADES PÚBLICAS */
 
     public MonoBehaviour Level
     {
@@ -49,7 +49,7 @@ public class KickAction : MonoBehaviour, IPlayerAction
     }
 
 
-    /* M�TODOS */
+    /* MÉTODOS */
 
     public void Start()
     {
@@ -60,7 +60,7 @@ public class KickAction : MonoBehaviour, IPlayerAction
     public void Enter()
     {
         _animator.SetBool("isKicking", true);
-        kickingAndColliding = true;
+        _kickingAndColliding = true;
     }
 
     public void Exit()
@@ -75,10 +75,10 @@ public class KickAction : MonoBehaviour, IPlayerAction
 
     public void Collide(Collision collision)
     {
-        if (kickingAndColliding)
+        if (_kickingAndColliding)
         {
             KickBall(collision);
-            kickingAndColliding = false;
+            _kickingAndColliding = false;
         }
         else
         {
@@ -90,7 +90,7 @@ public class KickAction : MonoBehaviour, IPlayerAction
     {
         Vector3 direction = collision.contacts[0].point - transform.position;
 
-        // garante que a dire��o ser� sempre correta, independente da for�a aplicada
+        // garante que a direção será sempre correta, independente da força aplicada
         direction = direction.normalized;
 
         Rigidbody rigidbodyBall = _ballObject.GetComponent<Rigidbody>();
@@ -101,7 +101,7 @@ public class KickAction : MonoBehaviour, IPlayerAction
     {
         Vector3 direction = collision.contacts[0].point - transform.position;
 
-        // garante que a dire��o ser� sempre correta, independente da for�a aplicada
+        // garante que a direção será sempre correta, independente da força aplicada
         direction = direction.normalized;
 
         Rigidbody rigidbodyBall = _ballObject.GetComponent<Rigidbody>();

@@ -60,11 +60,6 @@ public class PlayerController : MonoBehaviour
         set { _isWalking = value; }
     }
 
-    public bool IsSucess
-    {
-        get { return _isSucess; }
-        set { _isSucess = value; }
-    }
 
     /* MÉTODOS DO MONOBEHAVIOUR */
 

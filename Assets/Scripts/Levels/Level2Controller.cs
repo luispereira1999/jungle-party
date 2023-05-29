@@ -2,8 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+/// <summary>
+/// Controla o nível 2.
+/// O nível consiste em apanhar maçãs do cháo e atirá-las ao inimigo.
+/// O nível é constituido por várias rondas.
+/// </summary>
 public class Level2Controller : MonoBehaviour
 {
+    /* ATRIBUTOS PRIVADOS */
+
     private GameController _gameController;
 
     private List<LevelPlayerModel> _levelPlayers = new();
@@ -17,8 +24,8 @@ public class Level2Controller : MonoBehaviour
 
     private HealthBarController _healthBarController;
 
+    // referência do controlador da pontuação
     [SerializeField] private ScoreController _scoreController;
-
 
     // referência do controlador das rondas
     [SerializeField] private RoundController _roundController;
@@ -28,6 +35,9 @@ public class Level2Controller : MonoBehaviour
     [SerializeField] private GameObject _buttonPause;
     [SerializeField] private GameObject _finishedLevelPanel;
     [SerializeField] private GameObject _finishedLevelDescription;
+
+
+    /* MÉTODOS */
 
     void Start()
     {
@@ -50,7 +60,6 @@ public class Level2Controller : MonoBehaviour
         DisplayObjectInScene();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_timerController.HasFinished())
@@ -76,6 +85,30 @@ public class Level2Controller : MonoBehaviour
                 break;
             }
         }
+    }
+
+    /// <summary>
+    /// É executado ao clicar no botão de iniciar, no painel de introdução do nível.
+    /// </summary>
+    public void InitAfterIntro()
+    {
+        TimerController.Unfreeze();
+
+        _timerController.PlaySound();
+
+        _buttonPause.SetActive(true);
+        Destroy(_introPanel);
+
+        InvokeRepeating(nameof(SpawnPowerUp), 0f, 7f);
+    }
+
+    void SpawnPowerUp()
+    {
+        System.Random rnd = new();
+        int xValue = rnd.Next(42, 58);
+        int zValue = rnd.Next(71, 84);
+
+        Instantiate(_powerUp, new Vector3(xValue, 5.5f, zValue), Quaternion.Euler(-90, 0, 0));
     }
 
     void CreatePlayersDataForLevel()
@@ -108,28 +141,10 @@ public class Level2Controller : MonoBehaviour
         _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_throwLvl2Action, this);
     }
 
-    void SpawnPowerUp()
-    {
-        System.Random rnd = new();
-        int xValue = rnd.Next(42, 58);
-        int zValue = rnd.Next(71, 84);
-
-        Instantiate(_powerUp, new Vector3(xValue, 5.5f, zValue), Quaternion.Euler(-90, 0, 0));
-    }
-
-    public void InitAfterIntro()
-    {
-        TimerController.Unfreeze();
-
-        _timerController.PlaySound();
-
-        _buttonPause.SetActive(true);
-        Destroy(_introPanel);
-
-        InvokeRepeating(nameof(SpawnPowerUp), 0f, 7f);
-    }
-
-    void FinishLevel()
+    /// <summary>
+    /// É executado quando é clicado o botão de próximo nível, no painel de fim de nível.
+    /// </summary>
+    public void FinishLevel()
     {
         _gameController.NextLevel(_levelPlayers[0].LevelScore, _levelPlayers[1].LevelScore);
     }

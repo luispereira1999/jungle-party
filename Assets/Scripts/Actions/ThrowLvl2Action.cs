@@ -17,6 +17,7 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
     // para controlar as animações
     private Animator _animator;
 
+    // para a maçã atual que o jogador apanhou
     private GameObject _apple;
 
 

@@ -2,23 +2,23 @@ using UnityEngine;
 
 
 /// <summary>
-/// Trata da a��o do jogador de lan�ar a bomba no n�vel 4.
+/// Trata da ação do jogador de lançar a bomba no nível 4.
 /// </summary>
 public class ThrowLvl4Action : MonoBehaviour, IPlayerAction
 {
     /* ATRIBUTOS PRIVADOS */
 
-    // refer�ncia ao n�vel 4
+    // referência ao nível 4
     private Level4Controller _level4;
 
-    // refer�ncia ao controlador do jogador
+    // referência ao controlador do jogador
     private PlayerController _player;
 
-    // para controlar as anima��es
+    // para controlar as animações
     private Animator _animator;
 
 
-    /* PROPRIEDADES P�BLICAS */
+    /* PROPRIEDADES PÚBLICAS */
 
     public MonoBehaviour Level
     {
@@ -39,7 +39,7 @@ public class ThrowLvl4Action : MonoBehaviour, IPlayerAction
     }
 
 
-    /* M�TODOS */
+    /* MÉTODOS */
 
     public void Start()
     {
@@ -56,16 +56,11 @@ public class ThrowLvl4Action : MonoBehaviour, IPlayerAction
         // nada para ser implementado
     }
 
-    public void ApplyPhisics()
-    {
-        // nada para ser implementado
-    }
-
     public void Collide(Collision collision)
     {
         // uma vez que existem 2 objetos com este script (os 2 jogadores),
-        // � necess�rio verificar se j� ocorreu a colis�o num jogador,
-        // para que o mesmo c�digo n�o seja executado no outro jogador
+        // é necessário verificar se já ocorreu a colisão num jogador,
+        // para que o mesmo código não seja executado no outro jogador
         if (_level4.CollisionOccurred)
         {
             _level4.CollisionOccurred = false;

@@ -3,15 +3,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
+/// <summary>
+/// Trata da cena final, quando todos os níveis terminam e exibe quem ganhou.
+/// </summary>
 public class FinalScene : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
 
     // variável para a referência do controlador de jogo
     private GameController _gameController;
-
-    // referencia ao nivel atual
-    private MonoBehaviour _finalScene;
 
     // referencia ao acao do nivel
     private SuccessAction _successAction;
@@ -23,33 +23,15 @@ public class FinalScene : MonoBehaviour
     // variáveis sobre os jogadores
     private List<LevelPlayerModel> _levelPlayers = new();
 
+    // referência do controlador da pontuação
+    [SerializeField] private ScoreController _scoreController;
+
     // para os componentes da UI - painel de final de jogo
     [SerializeField] private GameObject _finishedGamePanel;
     [SerializeField] private GameObject _finishedGameDescription;
 
     // para controlar as animações
     private Animator _animator;
-
-
-    /* PROPRIEDADES PÚBLICAS */
-
-    public MonoBehaviour Level
-    {
-        get { return _finalScene; }
-        set { _finalScene = value; }
-    }
-
-    public PlayerController Player
-    {
-        get { return _player; }
-        set { _player = value; }
-    }
-
-    public Animator Animator
-    {
-        get { return _animator; }
-        set { _animator = value; }
-    }
 
 
     /* MÉTODOS */
@@ -69,11 +51,6 @@ public class FinalScene : MonoBehaviour
         CreatePlayersDataForLevel();
 
         DisplayObjectInScene();
-    }
-
-    void Update()
-    {
-       _animator.SetBool("isSucess", true);
 
         string finishedGameText = "";
 
@@ -83,7 +60,7 @@ public class FinalScene : MonoBehaviour
         }
 
         _finishedGamePanel.SetActive(true);
-        _finishedGameDescription.GetComponent<Text>().text = finishedGameText;
+        //_finishedGameDescription.GetComponent<Text>().text = finishedGameText;
     }
 
     void CreatePlayersDataForLevel()
@@ -107,18 +84,9 @@ public class FinalScene : MonoBehaviour
         _levelPlayers[1].Object = Instantiate(_gameController.GamePlayers[1].Prefab);
     }
 
-    /// <summary>
-    /// Atribui os pontos do marcador e atualiza no ecrã.
-    /// </summary>
-    void UpdateScore(int scorerID)
-    {
-        _levelPlayers[scorerID - 1].LevelScore += _scoreController.AddScore();
-        _scoreController.DisplayScoreObjectText(scorerID, _levelPlayers[scorerID - 1].LevelScore);
-    }
-
     void AddActionToPlayers()
     {
-        if(_gameController.GamePlayers[0].GlobalScore > _gameController.GamePlayers[1].GlobalScore)
+        if (_gameController.GamePlayers[0].GlobalScore > _gameController.GamePlayers[1].GlobalScore)
         {
             _successAction = _levelPlayers[0].Object.AddComponent<SuccessAction>();
             _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_successAction, this);

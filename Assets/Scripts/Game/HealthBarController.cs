@@ -8,12 +8,14 @@ public class HealthBarController : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
 
+    // variáveis para o dano causado pela maçã e a quantidade de vida do jogador
     [SerializeField] private float _damage = 5f;
-    [SerializeField] private float _healthAmount = 40f;
 
+    // para as barras da vida de cada jogador
     [SerializeField] private GameObject _healthPlayer1;
     [SerializeField] private GameObject _healthPlayer2;
 
+    // referência para a própria instância desta classe
     private static HealthBarController _instance;
 
 

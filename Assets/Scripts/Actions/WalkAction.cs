@@ -2,23 +2,23 @@ using UnityEngine;
 
 
 /// <summary>
-/// Trata da a��o de andar do jogador.
+/// Trata da ação de andar do jogador.
 /// </summary>
 public class WalkAction : MonoBehaviour, IPlayerAction
 {
     /* ATRIBUTOS PRIVADOS */
 
-    // refer�ncia ao n�vel atual
+    // referência ao nível atual
     private MonoBehaviour _level;
 
-    // refer�ncia ao controlador do jogador
+    // referência ao controlador do jogador
     private PlayerController _player;
 
-    // para controlar as anima��es
+    // para controlar as animações
     private Animator _animator;
 
 
-    /* PROPRIEDADES P�BLICAS */
+    /* PROPRIEDADES PÚBLICAS */
 
     public MonoBehaviour Level
     {
@@ -39,7 +39,7 @@ public class WalkAction : MonoBehaviour, IPlayerAction
     }
 
 
-    /* M�TODOS */
+    /* MÉTODOS */
 
     public void Start()
     {
@@ -54,11 +54,6 @@ public class WalkAction : MonoBehaviour, IPlayerAction
     public void Exit()
     {
         _animator.SetBool("isWalking", false);
-    }
-
-    public void ApplyPhisics()
-    {
-        // nada para ser implementado
     }
 
     public void Collide(Collision collision)

@@ -59,11 +59,6 @@ public class CarryAction : MonoBehaviour, IPlayerAction
         _animator.SetBool("isCarryingMove", false);
     }
 
-    public void ApplyPhisics()
-    {
-        // nada para ser implementado
-    }
-
     public void Collide(Collision collision)
     {
         PushPlayer(collision);
@@ -92,10 +87,5 @@ public class CarryAction : MonoBehaviour, IPlayerAction
         {
             _level3.PlayerOutID = 2;
         }
-    }
-
-    public void onTriggerCollision(Collider collider)
-    {
-        throw new System.NotImplementedException();
     }
 }

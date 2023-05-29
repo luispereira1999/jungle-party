@@ -129,7 +129,8 @@ public class TimerController : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void PlaySound() {
+    public void PlaySound()
+    {
         _clockTicking.Play();
     }
 

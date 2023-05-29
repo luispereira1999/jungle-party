@@ -1,19 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+
+/// <summary>
+/// Trata da animação do jogador quando perde no fim do jogo.
+/// </summary>
 public class FailureAction : MonoBehaviour, IPlayerAction
 {
     /* ATRIBUTOS PRIVADOS */
 
-    // referencia ao nivel atual
+    // referência ao nível atual
     private MonoBehaviour _level;
 
-    // referencia ao controlador do jogador
+    // referência ao controlador do jogador
     private PlayerController _player;
 
-    // para controlar as animacoes
+    // para controlar as animações
     private Animator _animator;
+
+
+    /* PROPRIEDADES PÚBLICAS */
 
     public MonoBehaviour Level
     {
@@ -33,35 +38,28 @@ public class FailureAction : MonoBehaviour, IPlayerAction
         set { _animator = value; }
     }
 
-    public void Collide(Collision collision)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Enter()
-    {
-        _animator.SetBool("isSuccess", true);
-    }
-
-    public void Exit()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Trigger(Collider collider)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         _animator = GetComponent<Animator>();
     }
 
-    void IPlayerAction.Start()
+    public void Enter()
     {
-        throw new System.NotImplementedException();
+        _animator.SetBool("isFailure", true);
     }
-    
+
+    public void Exit()
+    {
+        // nada para ser implementado
+    }
+
+    public void Collide(Collision collision)
+    {
+        // nada para ser implementado
+    }
+
+    public void Trigger(Collider collider)
+    {
+        // nada para ser implementado
+    }
 }
