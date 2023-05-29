@@ -10,8 +10,12 @@ public class FinalScene : MonoBehaviour
     // variável para a referência do controlador de jogo
     private GameController _gameController;
 
-    // referencia ao n�vel atual
+    // referencia ao nivel atual
     private MonoBehaviour _finalScene;
+
+    // referencia ao acao do nivel
+    private SuccessAction _successAction;
+    private FailureAction _failureAction;
 
     // refer�ncia ao controlador do jogador
     private PlayerController _player;
@@ -21,6 +25,7 @@ public class FinalScene : MonoBehaviour
 
     // para os componentes da UI - painel de final de jogo
     [SerializeField] private GameObject _finishedGamePanel;
+    [SerializeField] private GameObject _finishedGameDescription;
 
     // para controlar as animações
     private Animator _animator;
@@ -68,7 +73,17 @@ public class FinalScene : MonoBehaviour
 
     void Update()
     {
-        _animator.SetBool("isSucess", true);
+       _animator.SetBool("isSucess", true);
+
+        string finishedGameText = "";
+
+        foreach (LevelPlayerModel levelPlayer in _levelPlayers)
+        {
+            finishedGameText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
+        }
+
+        _finishedGamePanel.SetActive(true);
+        _finishedGameDescription.GetComponent<Text>().text = finishedGameText;
     }
 
     void CreatePlayersDataForLevel()
@@ -83,6 +98,7 @@ public class FinalScene : MonoBehaviour
     void DisplayObjectInScene()
     {
         SpawnPlayers();
+        AddActionToPlayers();
     }
 
     void SpawnPlayers()
@@ -91,6 +107,38 @@ public class FinalScene : MonoBehaviour
         _levelPlayers[1].Object = Instantiate(_gameController.GamePlayers[1].Prefab);
     }
 
+    /// <summary>
+    /// Atribui os pontos do marcador e atualiza no ecrã.
+    /// </summary>
+    void UpdateScore(int scorerID)
+    {
+        _levelPlayers[scorerID - 1].LevelScore += _scoreController.AddScore();
+        _scoreController.DisplayScoreObjectText(scorerID, _levelPlayers[scorerID - 1].LevelScore);
+    }
+
+    void AddActionToPlayers()
+    {
+        if(_gameController.GamePlayers[0].GlobalScore > _gameController.GamePlayers[1].GlobalScore)
+        {
+            _successAction = _levelPlayers[0].Object.AddComponent<SuccessAction>();
+            _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_successAction, this);
+
+            _failureAction = _levelPlayers[1].Object.AddComponent<FailureAction>();
+            _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_failureAction, this);
+        }
+        else
+        {
+            _failureAction = _levelPlayers[0].Object.AddComponent<FailureAction>();
+            _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_failureAction, this);
+
+            _successAction = _levelPlayers[1].Object.AddComponent<SuccessAction>();
+            _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_successAction, this);
+        }
+    }
+
+    /// <summary>
+    /// É executado quando é clicado o botão de menu, no painel de fim de jogo.
+    /// </summary>
     public void Quit()
     {
         TimerController.Unfreeze();

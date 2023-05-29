@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     // para controlar as animações
     private Animator _animator;
     private bool _isWalking = false;
-    private bool _isSucess = false;
 
     // para verificar se o personagem está a pisar no chão
     [SerializeField] private LayerMask _groundLayer;
@@ -89,6 +88,15 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (_currentAction is SuccessAction)
+        {
+            _currentAction.Enter();
+        }
+        if (_currentAction is FailureAction)
+        {
+            _currentAction.Enter();
+        }
+
         if (!_isFrozen)
         {
             bool actionInput = GetCurrentActionInput();
@@ -111,7 +119,6 @@ public class PlayerController : MonoBehaviour
                         _currentAction.Enter();
                     }
                 }
-
             }
             else
             {
@@ -357,10 +364,5 @@ public class PlayerController : MonoBehaviour
     public void SetNormalSpeed()
     {
         _moveSpeed = _normalSpeed;
-    }
-
-    private void Footstep()
-    {
-        _stepsAudioSource.PlayOneShot(_stepsAudioClip[Random.Range(0, _stepsAudioClip.Length)]);
     }
 }
