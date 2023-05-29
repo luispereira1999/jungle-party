@@ -1,9 +1,12 @@
 using UnityEngine;
 
 
+/// <summary>
+/// Esta classe controla a maçã existente no nível 2.
+/// </summary>
 public class AppleController : MonoBehaviour
 {
-    /* ATRIBUTOS */
+    /* ATRIBUTOS PRIVADOS */
 
     // referência do jogador que tem a maçã
     private GameObject _player;
@@ -16,6 +19,8 @@ public class AppleController : MonoBehaviour
 
     private ThrowLvl2Action _throwLvl2Action;
 
+
+    /* PROPRIEDADES PÚBLICAS */
 
     public bool IsGrabbed
     {

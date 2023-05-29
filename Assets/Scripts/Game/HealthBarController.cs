@@ -1,23 +1,32 @@
 using UnityEngine;
 
 
+/// <summary>
+/// Esta classe controla a barra da vida existente no nível 2.
+/// </summary>s
 public class HealthBarController : MonoBehaviour
 {
-    [SerializeField] private float Damage = 5f;
-    [SerializeField] private float HealthAmount = 40f;
+    /* ATRIBUTOS PRIVADOS */
+
+    [SerializeField] private float _damage = 5f;
+    [SerializeField] private float _healthAmount = 40f;
 
     [SerializeField] private GameObject _healthPlayer1;
     [SerializeField] private GameObject _healthPlayer2;
 
     private static HealthBarController _instance;
 
-    // Start is called before the first frame update
+
+    /* PROPRIEDADES PÚBLICAS */
 
     public static HealthBarController Instance
     {
         get { return _instance; }
         set { _instance = value; }
     }
+
+
+    /* MÉTODOS */
 
     void Awake()
     {
@@ -36,20 +45,17 @@ public class HealthBarController : MonoBehaviour
 
         Vector3 currentScale = healthBar.transform.localScale;
 
-        float healthValue = currentScale.x - Damage;
+        float healthValue = currentScale.x - _damage;
 
         if (healthValue < 0)
         {
             healthValue = 0;
         }
 
-        // Calculate the new scale with the desired width
+        // atualiza a barre de vida
         Vector3 newScale = new Vector3(healthValue, currentScale.y, currentScale.z);
-
-        // Set the new scale to the game object
         healthBar.transform.localScale = newScale;
     }
-
 
     public bool HasLoose(int playerId)
     {

@@ -45,6 +45,8 @@ public class Level2Controller : MonoBehaviour
         _timerController = TimerController.Instance;
         TimerController.Freeze();
 
+        _roundController.DisplayCurrentRound();
+
         DisplayObjectInScene();
     }
 
@@ -53,7 +55,6 @@ public class Level2Controller : MonoBehaviour
     {
         if (_timerController.HasFinished())
         {
-
             FinishLevel();
             return;
         }
