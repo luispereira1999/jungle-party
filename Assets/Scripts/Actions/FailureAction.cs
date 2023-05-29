@@ -40,7 +40,7 @@ public class FailureAction : MonoBehaviour, IPlayerAction
 
     public void Enter()
     {
-        throw new System.NotImplementedException();
+        _animator.SetBool("isSuccess", true);
     }
 
     public void Exit()
@@ -63,10 +63,5 @@ public class FailureAction : MonoBehaviour, IPlayerAction
     {
         throw new System.NotImplementedException();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        _animator.SetBool("isFailure", true);
-    }
+    
 }
