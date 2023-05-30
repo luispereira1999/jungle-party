@@ -121,7 +121,10 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (this._apple != null && (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0)))
+            bool isP1Throwing = this._apple != null && Input.GetKeyDown(KeyCode.Alpha1) && this._playerID == 1;
+            bool isP2Throwing = this._apple != null && Input.GetKeyDown(KeyCode.Alpha0) && this._playerID == 2;
+
+            if (isP1Throwing || isP2Throwing)
             {
                 AppleController appleController = this._apple.GetComponent<AppleController>();
 
@@ -129,6 +132,7 @@ public class PlayerController : MonoBehaviour
 
                 this._apple = null;
             }
+
         }
     }
 

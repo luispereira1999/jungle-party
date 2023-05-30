@@ -30,8 +30,12 @@ public class Level2Controller : MonoBehaviour
     [SerializeField] private GameObject _finishedLevelPanel;
     [SerializeField] private GameObject _finishedLevelDescription;
 
+    private bool _isExtraTime;
+
     void Start()
     {
+        _isExtraTime = false;
+
         _gameController = GameController.Instance;
 
         // TEST: usar isto enquanto � testado apenas o n�vel atual (sem iniciar pelo menu)
@@ -55,9 +59,15 @@ public class Level2Controller : MonoBehaviour
 
         if (_timerController.HasFinished())
         {
-
-            FinishLevel();
-            return;
+            if(_isExtraTime)
+            {
+                FinishLevel();
+                return;
+            } else
+            {
+                _timerController.SetExtraTime();
+                _isExtraTime=true;
+            }
         }
 
 
