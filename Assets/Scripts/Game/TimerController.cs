@@ -10,6 +10,7 @@ public class TimerController : MonoBehaviour
 
     // variáveis para o tempo inicial e atual (o tempo é em segundos)
     [SerializeField] private float _startingTime;
+    [SerializeField] private float _extraTime;
     private float _currentTime = 0f;
 
     // para o som do relógio
@@ -137,5 +138,12 @@ public class TimerController : MonoBehaviour
     public void StopSound()
     {
         _clockTicking.Stop();
+    }
+
+    public void SetExtraTime()
+    {
+        _currentTime = _extraTime;
+        _progressBar.MaxValue = _extraTime;
+        _progressBar.BarValue = _progressBar.MaxValue;
     }
 }

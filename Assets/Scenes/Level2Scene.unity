@@ -640,7 +640,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -40.699997}
+  m_AnchoredPosition: {x: 8.7, y: -46.1}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &174059167
@@ -3430,7 +3430,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaa54621eb1d094693c281339874c5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingTime: 60
+  _startingTime: 10
+  _extraTime: 10
   _progressBar: {fileID: 1980734447}
 --- !u!4 &1498130015
 Transform:
@@ -4595,9 +4596,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "No in\xEDcio do n\xEDvel os jogadores s\xE3o posicionados em cada lado
-    do campo e tentar\xE3o marcar o m\xE1ximo de golos. Quantos mais golos marcarem
-    mais pontos atingir\xE3o."
+  m_text: "Os jogadores ter\xE3o de atirar ma\xE7as em dire\xE7\xE3o um ao outro.
+    Cada jogador tem uma barra de vida associada. O primeiro jogador que conseguir
+    fazer com que o advers\xE1rio perca a vida totalmente ganha. Caso o tempo acabe
+    e nenhum dos jogadores consiga vencer, haver\xE1 empate."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
