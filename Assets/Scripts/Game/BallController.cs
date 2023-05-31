@@ -57,6 +57,8 @@ public class BallController : MonoBehaviour
             _rigidbody.AddForce(oppositeDirection * 10f, ForceMode.Impulse);
         }
 
+        Debug.Log("_goalLinePlayer1.tag:" + _goalLinePlayer1.tag);
+        //Debug.Log("collision.gameObject.tag:" + collision.gameObject.tag);
         // colisão com a linha de golo - deteta que foi golo
         if (collision.gameObject.CompareTag(_goalLinePlayer1.tag))
         {

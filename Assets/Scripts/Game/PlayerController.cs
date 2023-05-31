@@ -130,19 +130,6 @@ public class PlayerController : MonoBehaviour
                     _currentAction.Exit();
                 }
             }
-
-            bool isP1Throwing = this._apple != null && Input.GetKeyDown(KeyCode.Alpha1) && this._playerID == 1;
-            bool isP2Throwing = this._apple != null && Input.GetKeyDown(KeyCode.Alpha0) && this._playerID == 2;
-
-            if (isP1Throwing || isP2Throwing)
-            {
-                AppleController appleController = this._apple.GetComponent<AppleController>();
-
-                appleController.throwApple();
-
-                this._apple = null;
-            }
-
         }
     }
 

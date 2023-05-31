@@ -41,12 +41,6 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
         set { _animator = value; }
     }
 
-    public GameObject Apple
-    {
-        get { return _apple; }
-        set { _apple = value; }
-    }
-
 
     /* MÉTODOS */
 

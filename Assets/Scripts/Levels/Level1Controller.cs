@@ -101,7 +101,6 @@ public class Level1Controller : MonoBehaviour
             _roundController.NextRound();
             _roundController.DisplayNextRoundIntro();
             _roundController.DisplayCurrentRound();
-            _roundController.DisplayMaxRounds();
 
             Invoke(nameof(RestartRound), freezingTime);
         }

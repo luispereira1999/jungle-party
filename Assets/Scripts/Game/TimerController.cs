@@ -56,7 +56,7 @@ public class TimerController : MonoBehaviour
 
     void Start()
     {
-        _clockTicking = GetComponent<AudioSource>();
+        //_clockTicking = GetComponent<AudioSource>();
         _currentTime = _startingTime;
         SetInitialTime();
     }
@@ -78,7 +78,7 @@ public class TimerController : MonoBehaviour
 
         if (HasFinished())
         {
-            _clockTicking.Stop();
+            //_clockTicking.Stop();
             _currentTime = 0f;
         }
 
@@ -132,12 +132,12 @@ public class TimerController : MonoBehaviour
 
     public void PlaySound()
     {
-        _clockTicking.Play();
+        //_clockTicking.Play();
     }
 
     public void StopSound()
     {
-        _clockTicking.Stop();
+        //_clockTicking.Stop();
     }
 
     public void SetExtraTime()

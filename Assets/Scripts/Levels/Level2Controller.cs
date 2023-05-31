@@ -22,6 +22,7 @@ public class Level2Controller : MonoBehaviour
     // referência do controlador do relógio
     private TimerController _timerController;
 
+    // referência do controlador da barra de vida dos jogadores
     private HealthBarController _healthBarController;
 
     // referência do controlador da pontuação
@@ -36,12 +37,14 @@ public class Level2Controller : MonoBehaviour
     [SerializeField] private GameObject _finishedLevelPanel;
     [SerializeField] private GameObject _finishedLevelDescription;
 
+    // para o tempo extra que continua depois do tempo normal
     private bool _isExtraTime;
+
+
+    /* MÉTODOS */
 
     void Start()
     {
-        _isExtraTime = false;
-
         _gameController = GameController.Instance;
 
         // TEST: usar isto enquanto � testado apenas o n�vel atual (sem iniciar pelo menu)
@@ -59,20 +62,23 @@ public class Level2Controller : MonoBehaviour
         _roundController.DisplayCurrentRound();
 
         DisplayObjectInScene();
+
+        _isExtraTime = false;
     }
 
     void Update()
     {
         if (_timerController.HasFinished())
         {
-            if(_isExtraTime)
+            if (_isExtraTime)
             {
                 FinishLevel();
                 return;
-            } else
+            }
+            else
             {
                 _timerController.SetExtraTime();
-                _isExtraTime=true;
+                _isExtraTime = true;
             }
         }
 

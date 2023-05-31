@@ -78,6 +78,7 @@ public class Level3Controller : MonoBehaviour
         TimerController.Freeze();
 
         _roundController.DisplayCurrentRound();
+        _roundController.DisplayMaxRounds();
 
         DisplayObjectInScene();
     }
