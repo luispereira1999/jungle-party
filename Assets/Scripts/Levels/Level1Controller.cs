@@ -247,6 +247,8 @@ public class Level1Controller : MonoBehaviour
     {
         _timerController.Play();
 
+        _timerController.SetInitialTime();
+
         _roundController.DisableNextRoundIntro();
 
         SetInitialPosition();

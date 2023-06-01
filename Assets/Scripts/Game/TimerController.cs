@@ -57,12 +57,12 @@ public class TimerController : MonoBehaviour
     void Start()
     {
         //_clockTicking = GetComponent<AudioSource>();
-        _currentTime = _startingTime;
         SetInitialTime();
     }
 
     public void SetInitialTime()
     {
+        _currentTime = _startingTime;
         _progressBar.MaxValue = _currentTime;
         _progressBar.BarValue = _progressBar.MaxValue;
     }
