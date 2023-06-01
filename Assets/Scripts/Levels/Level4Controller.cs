@@ -83,6 +83,7 @@ public class Level4Controller : MonoBehaviour
         TimerController.Freeze();
 
         _roundController.DisplayCurrentRound();
+        _roundController.DisplayMaxRounds();
 
         int randomID = GenerateFirstPlayerWithBomb();
         _playerIDWithBomb = randomID;

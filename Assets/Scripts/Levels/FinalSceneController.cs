@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 /// <summary>
 /// Trata da cena final, quando todos os níveis terminam e exibe quem ganhou.
 /// </summary>
-public class FinalScene : MonoBehaviour
+public class FinalSceneController : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
 
@@ -16,9 +17,6 @@ public class FinalScene : MonoBehaviour
     // referencia ao acao do nivel
     private SuccessAction _successAction;
     private FailureAction _failureAction;
-
-    // refer�ncia ao controlador do jogador
-    private PlayerController _player;
 
     // variáveis sobre os jogadores
     private List<LevelPlayerModel> _levelPlayers = new();
@@ -30,16 +28,11 @@ public class FinalScene : MonoBehaviour
     [SerializeField] private GameObject _finishedGamePanel;
     [SerializeField] private GameObject _finishedGameDescription;
 
-    // para controlar as animações
-    private Animator _animator;
-
 
     /* MÉTODOS */
 
     void Start()
     {
-        _animator = GetComponent<Animator>();
-
         _gameController = GameController.Instance;
 
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
@@ -60,7 +53,7 @@ public class FinalScene : MonoBehaviour
         }
 
         _finishedGamePanel.SetActive(true);
-        //_finishedGameDescription.GetComponent<Text>().text = finishedGameText;
+        _finishedGameDescription.GetComponent<Text>().text = finishedGameText;
     }
 
     void CreatePlayersDataForLevel()

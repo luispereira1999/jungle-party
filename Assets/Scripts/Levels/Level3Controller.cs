@@ -176,7 +176,7 @@ public class Level3Controller : MonoBehaviour
     }
 
 
-    /* MÉTODOS DO LEVEL4CONTROLLER */
+    /* MÉTODOS DO LEVEL3CONTROLLER */
 
     /// <summary>
     /// É executado ao clicar no botão de iniciar, no painel de introdução do nível.
