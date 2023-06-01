@@ -28,9 +28,6 @@ public class Level2Controller : MonoBehaviour
     // referência do controlador da pontuação
     [SerializeField] private ScoreController _scoreController;
 
-    // referência do controlador das rondas
-    [SerializeField] private RoundController _roundController;
-
     // para os componentes da UI - painel de introdução, botão de pause e painel do fim de nível
     [SerializeField] private GameObject _introPanel;
     [SerializeField] private GameObject _buttonPause;
@@ -58,8 +55,6 @@ public class Level2Controller : MonoBehaviour
         _healthBarController = HealthBarController.Instance;
         _timerController = TimerController.Instance;
         TimerController.Freeze();
-
-        _roundController.DisplayCurrentRound();
 
         DisplayObjectInScene();
 
