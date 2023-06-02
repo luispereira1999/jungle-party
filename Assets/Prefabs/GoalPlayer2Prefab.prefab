@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4274991495532912638}
   - component: {fileID: 555709871540490296}
   m_Layer: 0
-  m_Name: GoalLinePlayer2
-  m_TagString: GoalLine
+  m_Name: GoalLine
+  m_TagString: GoalLine2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f0c1857d9cac0b8458277122ddb40c47, type: 2}
+  - {fileID: 2100000, guid: 7aaca0e70fc5bb24faec24d3914db6ed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

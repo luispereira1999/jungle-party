@@ -57,16 +57,20 @@ public class BallController : MonoBehaviour
             _rigidbody.AddForce(oppositeDirection * 10f, ForceMode.Impulse);
         }
 
-        Debug.Log("_goalLinePlayer1.tag:" + _goalLinePlayer1.tag);
-        //Debug.Log("collision.gameObject.tag:" + collision.gameObject.tag);
-        // colisão com a linha de golo - deteta que foi golo
-        if (collision.gameObject.CompareTag(_goalLinePlayer1.tag))
+        // obtém a linha de golo da baliza que colidiu
+        Transform goalLineCollision = collision.transform.Find("GoalLine");
+
+        // colisão da bola com a linha de golo - deteta que foi golo
+        if (goalLineCollision != null)
         {
-            _player2Scored = true;
-        }
-        else if (collision.gameObject.CompareTag(_goalLinePlayer2.tag))
-        {
-            _player1Scored = true;
+            if (goalLineCollision.CompareTag(_goalLinePlayer1.tag))
+            {
+                _player2Scored = true;
+            }
+            else if (goalLineCollision.gameObject.CompareTag(_goalLinePlayer2.tag))
+            {
+                _player1Scored = true;
+            }
         }
     }
 
