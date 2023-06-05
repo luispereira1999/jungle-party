@@ -68,11 +68,6 @@ public class KickAction : MonoBehaviour, IPlayerAction
         _animator.SetBool("isKicking", false);
     }
 
-    public void ApplyPhisics()
-    {
-        // nada para ser implementado
-    }
-
     public void Collide(Collision collision)
     {
         if (_kickingAndColliding)
@@ -93,7 +88,7 @@ public class KickAction : MonoBehaviour, IPlayerAction
         // garante que a direção será sempre correta, independente da força aplicada
         direction = direction.normalized;
 
-        Rigidbody rigidbodyBall = _ballObject.GetComponent<Rigidbody>();
+        Rigidbody rigidbodyBall = _ballObject.GetComponent<BallController>().Rigidbody;
         rigidbodyBall.AddForce(direction * _pushForce, ForceMode.Impulse);
     }
 

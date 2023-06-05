@@ -84,48 +84,88 @@ public class Level1Controller : MonoBehaviour
             return;
         }
 
-        // se alguém marcou golo
-        // - congelar objetos, cancelar spawn de power ups, atribuir pontos e iniciar nova ronda
+        // se o tempo acabou - congelar objetos, cancelar spawn de power ups, atribuir pontos e iniciar nova ronda
+        if (_timerController.HasFinished())
+        {
+            _timerController.Pause();
+
+            CancelInvoke(nameof(SpawnPowerUp));
+
+            // se estiver na última ronda - mostrar o painel do fim de nível
+            if (_roundController.IsLastRound())
+            {
+                // congela para sempre
+                FreezePlayers(-1);
+
+                string finishedLevelText = "";
+                foreach (LevelPlayerModel levelPlayer in _levelPlayers)
+                {
+                    finishedLevelText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
+                }
+
+                _finishedLevelPanel.SetActive(true);
+                _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
+
+                _buttonPause.SetActive(false);
+            }
+            // senão iniciar outra ronda
+            else
+            {
+                float freezingTime = 5f;
+                FreezePlayers(freezingTime);
+
+                _roundController.NextRound();
+                _roundController.DisplayNextRoundIntro();
+                _roundController.DisplayCurrentRound();
+
+                Invoke(nameof(RestartRound), freezingTime);
+            }
+
+            return;
+        }
+
+        // se alguém marcou golo - congelar objetos, cancelar spawn de power ups, atribuir pontos e iniciar nova ronda
         if (_ballController.IsGoalScored())
         {
-            float freezingTime = 5f;
-            FreezePlayers(freezingTime);
-
             _timerController.Pause();
+
+            // congela bola
+            _ballController.Freeze();
 
             CancelInvoke(nameof(SpawnPowerUp));
 
             LevelPlayerModel scorer = GetScorer();
             UpdateScore(scorer.ID);
 
-            _roundController.NextRound();
-            _roundController.DisplayNextRoundIntro();
-            _roundController.DisplayCurrentRound();
-
-            Invoke(nameof(RestartRound), freezingTime);
-        }
-
-        // se o tempo global acabou ou o número máximo de golos foi atingido
-        // - congelar objetos, cancelar spawn de power ups, atribuir pontos e mostrar o painel do fim de nível
-        if (_timerController.HasFinished() || _roundController.IsLastRound())
-        {
-            // congela para sempre
-            FreezePlayers(-1);
-
-            _timerController.Pause();
-
-            CancelInvoke(nameof(SpawnPowerUp));
-
-            string finishedLevelText = "";
-            foreach (LevelPlayerModel levelPlayer in _levelPlayers)
+            // se estiver na última ronda - mostrar o painel do fim de nível
+            if (_roundController.IsLastRound())
             {
-                finishedLevelText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
+                // congela para sempre
+                FreezePlayers(-1);
+
+                string finishedLevelText = "";
+                foreach (LevelPlayerModel levelPlayer in _levelPlayers)
+                {
+                    finishedLevelText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
+                }
+
+                _finishedLevelPanel.SetActive(true);
+                _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
+
+                _buttonPause.SetActive(false);
             }
+            // senão iniciar outra ronda
+            else
+            {
+                float freezingTime = 5f;
+                FreezePlayers(freezingTime);
 
-            _finishedLevelPanel.SetActive(true);
-            _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
+                _roundController.NextRound();
+                _roundController.DisplayNextRoundIntro();
+                _roundController.DisplayCurrentRound();
 
-            _buttonPause.SetActive(false);
+                Invoke(nameof(RestartRound), freezingTime);
+            }
         }
     }
 
@@ -251,11 +291,13 @@ public class Level1Controller : MonoBehaviour
 
         _roundController.DisableNextRoundIntro();
 
+        _ballController.Unfreeze();
+
         SetInitialPosition();
 
         DestroyAllPowerUps();
 
-        InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
+        InvokeRepeating(nameof(SpawnPowerUp), 10f, 10f);
     }
 
     void SetInitialPosition()

@@ -22,6 +22,12 @@ public class BallController : MonoBehaviour
 
     /* PROPRIEDADES PÚBLICAS */
 
+    public Rigidbody Rigidbody
+    {
+        get { return _rigidbody; }
+        set { _rigidbody = value; }
+    }
+
     public bool Player1Scored
     {
         get { return _player1Scored; }
@@ -77,5 +83,16 @@ public class BallController : MonoBehaviour
     public bool IsGoalScored()
     {
         return _player1Scored || _player2Scored ? true : false;
+    }
+
+    public void Freeze()
+    {
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.isKinematic = true;
+    }
+
+    public void Unfreeze()
+    {
+        _rigidbody.isKinematic = false;
     }
 }

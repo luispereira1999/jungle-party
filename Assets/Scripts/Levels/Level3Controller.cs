@@ -289,7 +289,7 @@ public class Level3Controller : MonoBehaviour
 
         DestroyAllPowerUps();
 
-        InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
+        InvokeRepeating(nameof(SpawnPowerUp), 10f, 10f);
     }
 
     void SetInitialPosition()

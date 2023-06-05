@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -357,7 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaa54621eb1d094693c281339874c5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingTime: 40
+  _startingTime: 60
   _extraTime: 0
   _progressBar: {fileID: 1934950058}
 --- !u!4 &124057213
@@ -2375,6 +2375,30 @@ PrefabInstance:
     - target: {fileID: 9219083572234422382, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9219083572360250585, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
+      propertyPath: m_Size.x
+      value: 0.9111012
+      objectReference: {fileID: 0}
+    - target: {fileID: 9219083572360250585, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
+      propertyPath: m_Size.y
+      value: 37.625565
+      objectReference: {fileID: 0}
+    - target: {fileID: 9219083572360250585, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
+      propertyPath: m_Size.z
+      value: 1.0366967
+      objectReference: {fileID: 0}
+    - target: {fileID: 9219083572360250585, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
+      propertyPath: m_Center.x
+      value: 0.0024454638
+      objectReference: {fileID: 0}
+    - target: {fileID: 9219083572360250585, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
+      propertyPath: m_Center.y
+      value: 18.312763
+      objectReference: {fileID: 0}
+    - target: {fileID: 9219083572360250585, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
+      propertyPath: m_Center.z
+      value: 3.1559083
       objectReference: {fileID: 0}
     - target: {fileID: 9219083572360250589, guid: 376b1e7c6ded2504bbd648f8f820a377, type: 3}
       propertyPath: m_Name
@@ -4874,6 +4898,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 555709871540490296, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: m_Size.x
+      value: 0.9111012
+      objectReference: {fileID: 0}
+    - target: {fileID: 555709871540490296, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: m_Size.y
+      value: 37.62556
+      objectReference: {fileID: 0}
+    - target: {fileID: 555709871540490296, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: m_Size.z
+      value: 1.036697
+      objectReference: {fileID: 0}
+    - target: {fileID: 555709871540490296, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: m_Center.x
+      value: 0.002445464
+      objectReference: {fileID: 0}
+    - target: {fileID: 555709871540490296, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: m_Center.y
+      value: 18.31276
+      objectReference: {fileID: 0}
+    - target: {fileID: 555709871540490296, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: m_Center.z
+      value: 3.155908
+      objectReference: {fileID: 0}
+    - target: {fileID: 2673673903237114272, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.05873193
+      objectReference: {fileID: 0}
+    - target: {fileID: 2673673903237114272, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2017296
+      objectReference: {fileID: 0}
+    - target: {fileID: 2673673903237114272, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2673673903237114272, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.76
+      objectReference: {fileID: 0}
     - target: {fileID: 3281405714202652546, guid: bbaf7224a350e9b48b6708c3305d1082, type: 3}
       propertyPath: speed
       value: 0
