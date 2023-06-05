@@ -88,6 +88,14 @@ public class GameController : MonoBehaviour
         string sceneName = "Level" + _currentLevelID + "Scene";
         SceneManager.LoadScene(sceneName);
 
+        // ir para a cena de final de jogo após o último nível
+        if (_currentLevelID > 4)
+        {
+            sceneName = "FinalScene";
+            SceneManager.LoadScene(sceneName);
+        }
+
+        // ir para a cena de menu após a cena de final de jogo
         if (_currentLevelID > 5)
         {
             _currentLevelID = -1;
