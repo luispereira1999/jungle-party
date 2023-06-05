@@ -192,7 +192,7 @@ public class Level3Controller : MonoBehaviour
         _buttonPause.SetActive(true);
         Destroy(_introPanel);
 
-        InvokeRepeating(nameof(SpawnPowerUp), 5f, 10f);
+        InvokeRepeating(nameof(SpawnPowerUp), 10f, 10f);
     }
 
     void SpawnPowerUp()
