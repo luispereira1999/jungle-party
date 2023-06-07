@@ -15,10 +15,8 @@ TagManager:
   - Rounds
   - FinishedLevelText
   - Goal
-  - GoalLine
   - GoalLine1
   - GoalLine2
-  - PopUpText
   - Apple
   - HealthBarCtrl
   layers:

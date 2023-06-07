@@ -25,8 +25,12 @@ public class Level1Controller : MonoBehaviour
     private BallController _ballController;
 
     // para os objetos do nível - balizas
-    [SerializeField] private GameObject _goalObject1;
-    [SerializeField] private GameObject _goalObject2;
+    [SerializeField] private GameObject _goal1Prefab;
+    [SerializeField] private GameObject _goal2Prefab;
+    [SerializeField] private GameObject _goal1Object;
+    [SerializeField] private GameObject _goal2Object;
+    private GoalController _goal1Controller;
+    private GoalController _goal2Controller;
 
     // para os objetos do nível - power ups
     private readonly List<GameObject> _powerUps = new();
@@ -58,8 +62,8 @@ public class Level1Controller : MonoBehaviour
         _gameController = GameController.Instance;
 
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
-        //_gameController.GamePlayers = new();
-        //_gameController.InitiateGame();
+        _gameController.GamePlayers = new();
+        _gameController.InitiateGame();
 
         // armazenar dados de cada jogador neste nível,
         // sabendo que um jogo tem vários níveis e já existem dados que passam de nível para nível, como a pontuação
@@ -74,6 +78,8 @@ public class Level1Controller : MonoBehaviour
         DisplayObjectInScene();
 
         _ballController = _ballObject.GetComponent<BallController>();
+        _goal1Controller = _goal1Object.GetComponent<GoalController>();
+        _goal2Controller = _goal2Object.GetComponent<GoalController>();
     }
 
     void Update()
@@ -88,6 +94,11 @@ public class Level1Controller : MonoBehaviour
         if (_timerController.HasFinished())
         {
             _timerController.Pause();
+
+            // congela bola e balizas
+            _ballController.Freeze();
+            _goal1Controller.Freeze();
+            _goal2Controller.Freeze();
 
             CancelInvoke(nameof(SpawnPowerUp));
 
@@ -129,8 +140,10 @@ public class Level1Controller : MonoBehaviour
         {
             _timerController.Pause();
 
-            // congela bola
+            // congela bola e balizas
             _ballController.Freeze();
+            _goal1Controller.Freeze();
+            _goal2Controller.Freeze();
 
             CancelInvoke(nameof(SpawnPowerUp));
 
@@ -208,14 +221,6 @@ public class Level1Controller : MonoBehaviour
         }
     }
 
-    int GenerateFirstPlayerWithBomb()
-    {
-        // previne que o Random não fique viciado
-        Random.InitState(DateTime.Now.Millisecond);
-
-        return Random.Range(1, 3);
-    }
-
     void DisplayObjectInScene()
     {
         SpawnPlayers();
@@ -244,18 +249,10 @@ public class Level1Controller : MonoBehaviour
     {
         if (_ballController.Player1Scored)
         {
-            // redefinir o jogador que marcou como falso,
-            // para que quando inicia uma nova rodada, ainda nenhum jogador marcou
-            _ballController.Player1Scored = false;
-            _ballController.Player2Scored = false;
-
             return _levelPlayers[0];
         }
         else if (_ballController.Player2Scored)
         {
-            _ballController.Player1Scored = false;
-            _ballController.Player2Scored = false;
-
             return _levelPlayers[1];
         }
         else
@@ -291,7 +288,14 @@ public class Level1Controller : MonoBehaviour
 
         _roundController.DisableNextRoundIntro();
 
+        // redefinir o jogador que marcou como falso,
+        // para que quando inicia uma nova rodada, ainda nenhum jogador marcou
+        _ballController.Player1Scored = false;
+        _ballController.Player2Scored = false;
+
         _ballController.Unfreeze();
+        _goal1Controller.Unfreeze();
+        _goal2Controller.Unfreeze();
 
         SetInitialPosition();
 
@@ -310,6 +314,12 @@ public class Level1Controller : MonoBehaviour
 
         _ballObject.transform.position = _ballPrefab.transform.position;
         _ballObject.transform.rotation = _ballPrefab.transform.rotation;
+
+        _goal1Object.transform.position = _goal1Prefab.transform.position;
+        _goal1Object.transform.rotation = _goal1Prefab.transform.rotation;
+
+        _goal2Object.transform.position = _goal2Prefab.transform.position;
+        _goal2Object.transform.rotation = _goal2Prefab.transform.rotation;
     }
 
     void DestroyAllPowerUps()

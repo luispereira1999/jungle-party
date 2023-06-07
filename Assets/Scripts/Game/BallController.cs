@@ -50,7 +50,7 @@ public class BallController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        // colisão com alguma parede da arena - impede que a bola saia da arena
+        // colisão com alguma parede da arena ou baliza - impede que a bola saia da arena
         if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Goal"))
         {
             // obtém o vetor da direção oposta, à posição que a bola bateu na parede
@@ -62,21 +62,18 @@ public class BallController : MonoBehaviour
             // aplicar uma força oposta para manter a bola dentro da arena
             _rigidbody.AddForce(oppositeDirection * 10f, ForceMode.Impulse);
         }
+    }
 
-        // obtém a linha de golo da baliza que colidiu
-        Transform goalLineCollision = collision.transform.Find("GoalLine");
-
-        // colisão da bola com a linha de golo - deteta que foi golo
-        if (goalLineCollision != null)
+    void OnTriggerEnter(Collider collider)
+    {
+        // colisão com a linha de golo - deteta que é golo
+        if (collider.gameObject.CompareTag(_goalLinePlayer1.gameObject.tag))
         {
-            if (goalLineCollision.CompareTag(_goalLinePlayer1.tag))
-            {
-                _player2Scored = true;
-            }
-            else if (goalLineCollision.gameObject.CompareTag(_goalLinePlayer2.tag))
-            {
-                _player1Scored = true;
-            }
+            _player2Scored = true;
+        }
+        else if (collider.gameObject.CompareTag(_goalLinePlayer2.gameObject.tag))
+        {
+            _player1Scored = true;
         }
     }
 

@@ -9,7 +9,8 @@ public class GoalController : MonoBehaviour
     /* ATRIBUTOS PRIVADOS */
 
     // variável para a velocidade que a baliza se move
-    [SerializeField] private float speed;
+    [SerializeField] private float _initialSpeed;
+    private float _speed;
 
     // para a distância do movimento tanto à esquerda como à direita
     [SerializeField] private float _distance;
@@ -30,6 +31,8 @@ public class GoalController : MonoBehaviour
     {
         // define a posição inicial (centro da baliza)
         _center = transform.position.x;
+
+        _speed = _initialSpeed;
     }
 
     void Update()
@@ -37,7 +40,7 @@ public class GoalController : MonoBehaviour
         if (_activeMoviemnt)
         {
             // move o objeto ao longo do eixo X
-            transform.position += Vector3.right * speed * _direction * Time.deltaTime;
+            transform.position += Vector3.right * _speed * _direction * Time.deltaTime;
 
             // se passou o limite à direita - definir para o alvo à esquerda e mudar para essa direção
             if (transform.position.x > _center + _distance && _direction == 1.0f)
@@ -50,5 +53,15 @@ public class GoalController : MonoBehaviour
                 _direction = 1.0f;
             }
         }
+    }
+
+    public void Freeze()
+    {
+        _speed = 0.0f;
+    }
+
+    public void Unfreeze()
+    {
+        _speed = _initialSpeed;
     }
 }
