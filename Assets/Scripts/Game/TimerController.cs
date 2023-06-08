@@ -65,7 +65,6 @@ public class TimerController : MonoBehaviour
 
     public void SetInitialTime()
     {
-        _currentTime = _startingTime;
         _progressBar.MaxValue = _currentTime;
         _progressBar.BarValue = _progressBar.MaxValue;
     }
@@ -108,7 +107,7 @@ public class TimerController : MonoBehaviour
 
     bool IsFrozen()
     {
-  
+
         return Time.timeScale == 0f;
     }
 
@@ -119,7 +118,7 @@ public class TimerController : MonoBehaviour
 
     public void Play()
     {
- 
+
         _isPause = false;
     }
 
@@ -142,7 +141,7 @@ public class TimerController : MonoBehaviour
     {
         _audioSource.Play();
     }
-    
+
     private void StopClockSound()
     {
         _audioSource.Stop();

@@ -26,9 +26,6 @@ public class Level2Controller : MonoBehaviour
     // referência do controlador do relógio
     private TimerController _timerController;
 
-    // referência do controlador da barra de vida dos jogadores
-    private HealthBarController _healthBarController;
-
     // referência do controlador da pontuação
     [SerializeField] private ScoreController _scoreController;
 
@@ -55,8 +52,8 @@ public class Level2Controller : MonoBehaviour
         _gameController = GameController.Instance;
 
         // TEST: usar isto enquanto � testado apenas o n�vel atual (sem iniciar pelo menu)
-        //_gameController.GamePlayers = new();
-        //_gameController.InitiateGame();
+        _gameController.GamePlayers = new();
+        _gameController.InitiateGame();
 
         // armazenar dados de cada jogador neste n�vel,
         // sabendo que um jogo tem v�rios n�veis e j� existem dados que passam de n�vel para n�vel, como a pontua��o
