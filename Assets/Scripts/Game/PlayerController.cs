@@ -42,10 +42,6 @@ public class PlayerController : MonoBehaviour
     private float _halfSpeed;
     private float _doubleSpeed;
 
-    [SerializeField] private AudioSource _stepsAudioSource;
-    [SerializeField] private AudioClip[] _stepsAudioClip;
-
-
     /* PROPRIEDADES PÚBLICAS */
 
     public int PlayerID
