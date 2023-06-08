@@ -4390,10 +4390,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Os jogadores ter\xE3o de atirar ma\xE7as em dire\xE7\xE3o um ao outro.
-    Cada jogador tem uma barra de vida associada. O primeiro jogador que conseguir
-    fazer com que o advers\xE1rio perca a vida totalmente ganha. Caso o tempo acabe
-    e nenhum dos jogadores consiga vencer, haver\xE1 empate."
+  m_text: "O jogador ter\xE1 de atirar uma ma\xE7\xE3 ao advers\xE1rio, para dessa
+    forma diminuir a sua barra de vida. Terminando o per\xEDodo de jogo, se nenhum
+    dos jogadores tiver vencido \xE9 acrescentado um per\xEDodo extra de 30 segundos."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
