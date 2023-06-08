@@ -14,7 +14,9 @@ public class TimerController : MonoBehaviour
     private float _currentTime = 0f;
 
     // para o som do relógio
-    private AudioSource _clockTicking;
+    private AudioSource _audioSource;
+    public float clockSoundTime = 15f;
+    private bool clockSoundPlayed = false;
 
     // referência para a barra de progresso do tempo visível no nível
     [SerializeField] private ProgressBarCircleController _progressBar;
@@ -56,7 +58,8 @@ public class TimerController : MonoBehaviour
 
     void Start()
     {
-        //_clockTicking = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
+        _currentTime = _startingTime;
         SetInitialTime();
     }
 
@@ -74,12 +77,18 @@ public class TimerController : MonoBehaviour
             return;
         }
 
+        if (!clockSoundPlayed && _currentTime <= clockSoundTime)
+        {
+            PlayClockSound();
+            clockSoundPlayed = true;
+        }
+
         _currentTime -= Time.deltaTime;
 
         if (HasFinished())
         {
-            //_clockTicking.Stop();
             _currentTime = 0f;
+            StopClockSound();
         }
 
         // atualiza a barra de progresso
@@ -99,7 +108,7 @@ public class TimerController : MonoBehaviour
 
     bool IsFrozen()
     {
-        StopSound();
+  
         return Time.timeScale == 0f;
     }
 
@@ -110,13 +119,12 @@ public class TimerController : MonoBehaviour
 
     public void Play()
     {
-        PlaySound();
+ 
         _isPause = false;
     }
 
     public void Pause()
     {
-        StopSound();
         _isPause = true;
     }
 
@@ -130,14 +138,14 @@ public class TimerController : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void PlaySound()
+    private void PlayClockSound()
     {
-        //_clockTicking.Play();
+        _audioSource.Play();
     }
-
-    public void StopSound()
+    
+    private void StopClockSound()
     {
-        //_clockTicking.Stop();
+        _audioSource.Stop();
     }
 
     public void SetExtraTime()

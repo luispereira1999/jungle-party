@@ -61,6 +61,7 @@ public class HealthBarController : MonoBehaviour
 
     public bool HasLoose(int playerId)
     {
+      
         GameObject healthBar = playerId == 1 ? _healthPlayer1 : _healthPlayer2;
 
         Vector3 currentScale = healthBar.transform.localScale;

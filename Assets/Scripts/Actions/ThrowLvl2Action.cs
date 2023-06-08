@@ -8,7 +8,7 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
 {
     /* ATRIBUTOS PRIVADOS */
 
-    // referência ao nível 4
+    // referência ao nível 2
     private Level2Controller _level2;
 
     // referência ao controlador do jogador
@@ -79,8 +79,11 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
 
             if (appleController.HasThrown)
             {
+                _level2.PlaySplashSound();
+
                 GameObject healthBarCtrl = GameObject.FindGameObjectWithTag("HealthBarCtrl");
                 healthBarCtrl.GetComponent<HealthBarController>().TakeDamage(_player.PlayerID);
+
                 Destroy(collider.gameObject);
             }
             else

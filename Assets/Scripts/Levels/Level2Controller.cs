@@ -11,13 +11,17 @@ public class Level2Controller : MonoBehaviour
 {
     /* ATRIBUTOS PRIVADOS */
 
+    // variável para a referência do controlador de jogo
     private GameController _gameController;
 
+    // variáveis sobre os jogadores
     private List<LevelPlayerModel> _levelPlayers = new();
 
-    private ThrowLvl2Action _throwLvl2Action;
+    // para os objetos do nível - maçã
+    [SerializeField] private GameObject _apple;
 
-    [SerializeField] private GameObject _powerUp;
+    // para definir a ação dos jogadores neste nível
+    private ThrowLvl2Action _throwLvl2Action;
 
     // referência do controlador do relógio
     private TimerController _timerController;
@@ -27,6 +31,12 @@ public class Level2Controller : MonoBehaviour
 
     // referência do controlador da pontuação
     [SerializeField] private ScoreController _scoreController;
+
+    // referência do controladores da barra de vida
+    private HealthBarController _healthBarController;
+
+    // para para o som de acertar com a maçã
+    private AudioSource _audioSource;
 
     // para os componentes da UI - painel de introdução, botão de pause e painel do fim de nível
     [SerializeField] private GameObject _introPanel;
@@ -59,6 +69,8 @@ public class Level2Controller : MonoBehaviour
         DisplayObjectInScene();
 
         _isExtraTime = false;
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -103,21 +115,19 @@ public class Level2Controller : MonoBehaviour
     {
         TimerController.Unfreeze();
 
-        _timerController.PlaySound();
-
         _buttonPause.SetActive(true);
         Destroy(_introPanel);
 
-        InvokeRepeating(nameof(SpawnPowerUp), 0f, 7f);
+        InvokeRepeating(nameof(SpawnApple), 0f, 7f);
     }
 
-    void SpawnPowerUp()
+    void SpawnApple()
     {
         System.Random rnd = new();
         int xValue = rnd.Next(42, 58);
         int zValue = rnd.Next(71, 84);
 
-        Instantiate(_powerUp, new Vector3(xValue, 5.5f, zValue), Quaternion.Euler(-90, 0, 0));
+        Instantiate(_apple, new Vector3(xValue, 5.5f, zValue), Quaternion.Euler(-90, 0, 0));
     }
 
     void CreatePlayersDataForLevel()
@@ -156,5 +166,10 @@ public class Level2Controller : MonoBehaviour
     public void FinishLevel()
     {
         _gameController.NextLevel(_levelPlayers[0].LevelScore, _levelPlayers[1].LevelScore);
+    }
+
+    public void PlaySplashSound()
+    {
+        _audioSource.Play();
     }
 }

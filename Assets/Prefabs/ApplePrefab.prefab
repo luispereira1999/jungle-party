@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -4361013365282041356}
   - component: {fileID: 3727373962703867496}
   m_Layer: 0
-  m_Name: apple
+  m_Name: ApplePrefab
   m_TagString: Apple
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,3 +127,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 226e35bdf156b8347921e6a8348b3ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _throwForce: 10
