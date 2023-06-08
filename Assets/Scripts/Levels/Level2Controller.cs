@@ -73,6 +73,12 @@ public class Level2Controller : MonoBehaviour
 
     void Update()
     {
+        // quando o tempo já acabou e aparece o painel de final de nível
+        if (_timerController.IsOnPause())
+        {
+            return;
+        }
+
         // se tempo normal acabou
         if (_timerController.HasFinished())
         {
@@ -113,6 +119,8 @@ public class Level2Controller : MonoBehaviour
 
             CancelInvoke(nameof(SpawnApple));
 
+            UpdateScore(winner.ID);
+
             // congela para sempre
             FreezePlayers(-1);
 
@@ -126,8 +134,6 @@ public class Level2Controller : MonoBehaviour
             _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
 
             _buttonPause.SetActive(false);
-
-            UpdateScore(winner.ID);
         }
     }
 

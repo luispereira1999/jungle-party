@@ -888,7 +888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2950fd7fc2174ad48bdb0c9ab50971b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 5
+  _damage: 13
   _healthPlayer1: {fileID: 297659243}
   _healthPlayer2: {fileID: 1740933507}
 --- !u!4 &272519056
