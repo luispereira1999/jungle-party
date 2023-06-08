@@ -14,10 +14,6 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
     // referência ao controlador do jogador
     private PlayerController _player;
 
-    //referência para o som
-    private AudioSource _audioSource;
-    public AudioClip _splash;
-
     // para controlar as animações
     private Animator _animator;
 
@@ -57,9 +53,6 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
     public void Start()
     {
         _animator = GetComponent<Animator>();
-        _audioSource = GetComponent<AudioSource>();
-        _audioSource.clip = _splash;
-
     }
 
     public void Enter()
@@ -92,12 +85,12 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
 
             if (appleController.HasThrown)
             {
-                _audioSource.Play();
+                _level2.PlaySplashSound();
+
                 GameObject healthBarCtrl = GameObject.FindGameObjectWithTag("HealthBarCtrl");
                 healthBarCtrl.GetComponent<HealthBarController>().TakeDamage(_player.PlayerID);
-                
-                Destroy(collider.gameObject);
 
+                Destroy(collider.gameObject);
             }
             else
             {

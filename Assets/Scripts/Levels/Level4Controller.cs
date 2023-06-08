@@ -149,7 +149,6 @@ public class Level4Controller : MonoBehaviour
     public void InitAfterIntro()
     {
         TimerController.Unfreeze();
-       
 
         _roundController.NextRound();
         _roundController.DisplayCurrentRound();
