@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 /// <summary>
@@ -72,11 +73,30 @@ public class Level2Controller : MonoBehaviour
 
     void Update()
     {
+        // se tempo normal acabou
         if (_timerController.HasFinished())
         {
+            // se tempo extra acabou
             if (_isExtraTime)
             {
-                FinishLevel();
+                _timerController.Pause();
+
+                CancelInvoke(nameof(SpawnApple));
+
+                // congela para sempre
+                FreezePlayers(-1);
+
+                string finishedLevelText = "";
+                foreach (LevelPlayerModel levelPlayer in _levelPlayers)
+                {
+                    finishedLevelText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
+                }
+
+                _finishedLevelPanel.SetActive(true);
+                _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
+
+                _buttonPause.SetActive(false);
+
                 return;
             }
             else
@@ -86,22 +106,28 @@ public class Level2Controller : MonoBehaviour
             }
         }
 
-        foreach (LevelPlayerModel levelPlayer in _levelPlayers)
+        LevelPlayerModel winner = GetWinner();
+        if (winner != null)
         {
-            bool hasLoose = _healthBarController.HasLoose(levelPlayer.ID);
+            _timerController.Pause();
 
-            if (hasLoose)
+            CancelInvoke(nameof(SpawnApple));
+
+            // congela para sempre
+            FreezePlayers(-1);
+
+            string finishedLevelText = "";
+            foreach (LevelPlayerModel levelPlayer in _levelPlayers)
             {
-                if (levelPlayer.ID == 1)
-                {
-                    _levelPlayers[1].LevelScore = 100;
-                }
-                else
-                {
-                    _levelPlayers[0].LevelScore = 100;
-                }
-                break;
+                finishedLevelText += "Jogador " + levelPlayer.ID + ": " + levelPlayer.LevelScore + "\n";
             }
+
+            _finishedLevelPanel.SetActive(true);
+            _finishedLevelDescription.GetComponent<Text>().text = finishedLevelText;
+
+            _buttonPause.SetActive(false);
+
+            UpdateScore(winner.ID);
         }
     }
 
@@ -157,16 +183,53 @@ public class Level2Controller : MonoBehaviour
         _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_throwLvl2Action, this);
     }
 
+    LevelPlayerModel GetWinner()
+    {
+        foreach (LevelPlayerModel levelPlayer in _levelPlayers)
+        {
+            bool hasLoose = _healthBarController.HasLoose(levelPlayer.ID);
+
+            if (hasLoose)
+            {
+                if (levelPlayer.ID == 1)
+                {
+                    return _levelPlayers[1];
+                }
+                else
+                {
+                    return _levelPlayers[0];
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Atribui os pontos do marcador e atualiza no ecrã.
+    /// </summary>
+    void UpdateScore(int scorerID)
+    {
+        _levelPlayers[scorerID - 1].LevelScore += _scoreController.AddScore();
+        _scoreController.DisplayScoreObjectText(scorerID, _levelPlayers[scorerID - 1].LevelScore);
+    }
+
+    void FreezePlayers(float freezingTime)
+    {
+        _levelPlayers[0].Object.GetComponent<PlayerController>().Freeze(freezingTime);
+        _levelPlayers[1].Object.GetComponent<PlayerController>().Freeze(freezingTime);
+    }
+
+    public void PlaySplashSound()
+    {
+        _audioSource.Play();
+    }
+
     /// <summary>
     /// É executado quando é clicado o botão de próximo nível, no painel de fim de nível.
     /// </summary>
     public void FinishLevel()
     {
         _gameController.NextLevel(_levelPlayers[0].LevelScore, _levelPlayers[1].LevelScore);
-    }
-
-    public void PlaySplashSound()
-    {
-        _audioSource.Play();
     }
 }

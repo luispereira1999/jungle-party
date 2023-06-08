@@ -2712,8 +2712,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Level1Controller, Assembly-CSharp
+      - m_Target: {fileID: 1431884288}
+        m_TargetAssemblyTypeName: Level2Controller, Assembly-CSharp
         m_MethodName: FinishLevel
         m_Mode: 1
         m_Arguments:
@@ -2926,7 +2926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16bffcb0fe8bac645896d7537148d613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pointsPerRound: 100
+  _pointsPerRound: 300
   _scorePlayer1: {fileID: 843900098}
   _scorePlayer2: {fileID: 146065795}
 --- !u!4 &1241727151
@@ -3370,8 +3370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaa54621eb1d094693c281339874c5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingTime: 20
-  _extraTime: 20
+  _startingTime: 90
+  _extraTime: 30
   clockSoundTime: 20
   _progressBar: {fileID: 1980734447}
 --- !u!4 &1498130015
