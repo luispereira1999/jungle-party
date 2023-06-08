@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2694,6 +2694,7 @@ MonoBehaviour:
   _player1Prefab: {fileID: 2457192430609160820, guid: bcf64fd514cf6904cb6b14f63b341284, type: 3}
   _player2Prefab: {fileID: 6843642465392651978, guid: fd80d993d5e4b864fa75915bed0ffdcd, type: 3}
   _currentLevelID: 3
+  _numberOfLevels: 4
 --- !u!1 &1158297703
 GameObject:
   m_ObjectHideFlags: 0

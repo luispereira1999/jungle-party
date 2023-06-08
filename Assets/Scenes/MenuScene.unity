@@ -223,6 +223,7 @@ MonoBehaviour:
   _player1Prefab: {fileID: 2457192430609160820, guid: bcf64fd514cf6904cb6b14f63b341284, type: 3}
   _player2Prefab: {fileID: 6843642465392651978, guid: fd80d993d5e4b864fa75915bed0ffdcd, type: 3}
   _currentLevelID: 1
+  _numberOfLevels: 4
 --- !u!4 &59546542
 Transform:
   m_ObjectHideFlags: 0

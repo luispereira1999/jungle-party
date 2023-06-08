@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -484,7 +484,6 @@ GameObject:
   m_Component:
   - component: {fileID: 799735584}
   - component: {fileID: 799735583}
-  - component: {fileID: 799735585}
   m_Layer: 0
   m_Name: FinalSceneController
   m_TagString: Untagged
@@ -522,27 +521,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &799735585
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 799735582}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dbde9d173828cd94dabb8c1c7fec75b0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &856932916
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,6 +902,7 @@ MonoBehaviour:
   _player1Prefab: {fileID: 2457192430609160820, guid: bcf64fd514cf6904cb6b14f63b341284, type: 3}
   _player2Prefab: {fileID: 6843642465392651978, guid: fd80d993d5e4b864fa75915bed0ffdcd, type: 3}
   _currentLevelID: 5
+  _numberOfLevels: 0
 --- !u!1 &1255955682
 GameObject:
   m_ObjectHideFlags: 0

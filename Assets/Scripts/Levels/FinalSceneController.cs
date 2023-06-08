@@ -36,8 +36,8 @@ public class FinalSceneController : MonoBehaviour
         _gameController = GameController.Instance;
 
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
-        _gameController.GamePlayers = new();
-        _gameController.InitiateGame();
+        //_gameController.GamePlayers = new();
+        //_gameController.InitiateGame();
 
         // armazenar dados de cada jogador neste nível,
         // sabendo que um jogo tem vários níveis e já existem dados que passam de nível para nível, como a pontuação
@@ -60,7 +60,7 @@ public class FinalSceneController : MonoBehaviour
     {
         foreach (GamePlayerModel gamePlayer in _gameController.GamePlayers)
         {
-            LevelPlayerModel levelPlayer = new(gamePlayer.ID, 0, gamePlayer.Prefab.transform.position, gamePlayer.Prefab.transform.rotation);
+            LevelPlayerModel levelPlayer = new(gamePlayer.ID, gamePlayer.GlobalScore, gamePlayer.Prefab.transform.position, gamePlayer.Prefab.transform.rotation);
             _levelPlayers.Add(levelPlayer);
         }
     }
@@ -79,7 +79,17 @@ public class FinalSceneController : MonoBehaviour
 
     void AddActionToPlayers()
     {
-        if (_gameController.GamePlayers[0].GlobalScore > _gameController.GamePlayers[1].GlobalScore)
+        // se empatarem
+        if (_gameController.GamePlayers[0].GlobalScore == _gameController.GamePlayers[1].GlobalScore)
+        {
+            _failureAction = _levelPlayers[0].Object.AddComponent<FailureAction>();
+            _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_failureAction, this);
+
+            _failureAction = _levelPlayers[1].Object.AddComponent<FailureAction>();
+            _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_failureAction, this);
+        }
+        // se jogador 1 ganhou
+        else if (_gameController.GamePlayers[0].GlobalScore > _gameController.GamePlayers[1].GlobalScore)
         {
             _successAction = _levelPlayers[0].Object.AddComponent<SuccessAction>();
             _levelPlayers[0].Object.GetComponent<PlayerController>().SetAction(_successAction, this);
@@ -87,6 +97,7 @@ public class FinalSceneController : MonoBehaviour
             _failureAction = _levelPlayers[1].Object.AddComponent<FailureAction>();
             _levelPlayers[1].Object.GetComponent<PlayerController>().SetAction(_failureAction, this);
         }
+        // se jogador 2 ganhou
         else
         {
             _failureAction = _levelPlayers[0].Object.AddComponent<FailureAction>();
@@ -103,6 +114,8 @@ public class FinalSceneController : MonoBehaviour
     public void Quit()
     {
         TimerController.Unfreeze();
+
+        _gameController.CurrentLevelID = 1;
 
         string sceneName = "MenuScene";
         SceneManager.LoadScene(sceneName);

@@ -67,8 +67,8 @@ public class Level3Controller : MonoBehaviour
         _gameController = GameController.Instance;
 
         // TEST: usar isto enquanto é testado apenas o nível atual (sem iniciar pelo menu)
-        //_gameController.GamePlayers = new();
-        //_gameController.InitiateGame();
+        _gameController.GamePlayers = new();
+        _gameController.InitiateGame();
 
         // armazenar dados de cada jogador neste nível,
         // sabendo que um jogo tem vários níveis e já existem dados que passam de nível para nível, como a pontuação

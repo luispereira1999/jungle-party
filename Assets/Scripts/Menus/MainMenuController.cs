@@ -27,7 +27,6 @@ public class MainMenuController : MonoBehaviour
 
     public void Play()
     {
-        _game.ResetGame();
         _game.InitiateGame();
 
         string sceneName = "Level" + _game.CurrentLevelID + "Scene";

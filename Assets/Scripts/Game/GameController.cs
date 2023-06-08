@@ -18,8 +18,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject _player2Prefab;
     private List<GamePlayerModel> _gamePlayers = new();
 
-    // para identificar o nível atual
-    [SerializeField] private int _currentLevelID = 1;
+    // para identificar o nível atual e o número total de níveis
+    [SerializeField] private int _currentLevelID;
+    [SerializeField] private int _numberOfLevels;
 
     // para guardar uma instância única desta classe
     private static GameController _instance;
@@ -64,8 +65,14 @@ public class GameController : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+    /// <summary>
+    /// Chamar esta função sempre que um novo jogo iniciar,
+    /// para alterar os valores atuais para os valores originais.
+    /// </summary>
     public void InitiateGame()
     {
+        _gamePlayers.Clear();
+
         AddPlayer(1, _player1Prefab, 0);
         AddPlayer(2, _player2Prefab, 0);
     }
@@ -81,42 +88,27 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void NextLevel(int scorePlayer1, int scorePlayer2)
     {
+        string sceneName;
         _currentLevelID++;
 
         UpdateGlobalScore(scorePlayer1, scorePlayer2);
 
-        string sceneName = "Level" + _currentLevelID + "Scene";
-        SceneManager.LoadScene(sceneName);
-
         // ir para a cena de final de jogo após o último nível
-        if (_currentLevelID > 4)
+        if (_currentLevelID > _numberOfLevels)
         {
             sceneName = "FinalScene";
             SceneManager.LoadScene(sceneName);
+
+            return;
         }
 
-        // ir para a cena de menu após a cena de final de jogo
-        if (_currentLevelID > 5)
-        {
-            _currentLevelID = -1;
-
-            sceneName = "MenuScene";
-            SceneManager.LoadScene(sceneName);
-        }
+        sceneName = "Level" + _currentLevelID + "Scene";
+        SceneManager.LoadScene(sceneName);
     }
 
     void UpdateGlobalScore(int scorePlayer1, int scorePlayer2)
     {
         _gamePlayers[0].GlobalScore += scorePlayer1;
         _gamePlayers[1].GlobalScore += scorePlayer2;
-    }
-
-    /// <summary>
-    /// Chamar esta função sempre que um novo jogo iniciar,
-    /// para alterar os valores atuais para os valores originais.
-    /// </summary>
-    public void ResetGame()
-    {
-        _gamePlayers.Clear();
     }
 }
