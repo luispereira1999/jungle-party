@@ -94,8 +94,6 @@ public class Level2Controller : MonoBehaviour
     {
         TimerController.Unfreeze();
 
-        _timerController.PlaySound();
-
         _buttonPause.SetActive(true);
         Destroy(_introPanel);
 

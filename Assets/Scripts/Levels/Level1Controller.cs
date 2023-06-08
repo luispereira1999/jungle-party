@@ -140,7 +140,8 @@ public class Level1Controller : MonoBehaviour
     public void InitAfterIntro()
     {
         TimerController.Unfreeze();
-        _timerController.PlaySound();
+        
+    
 
         _roundController.NextRound();
         _roundController.DisplayCurrentRound();
