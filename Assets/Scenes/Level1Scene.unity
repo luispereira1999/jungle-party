@@ -2164,8 +2164,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "No in\xEDcio do n\xEDvel os jogadores s\xE3o posicionados em cada lado
-    do campo e tentar\xE3o marcar o m\xE1ximo de golos. Quantos mais golos marcarem
-    mais pontos atingir\xE3o."
+    do campo e tentar\xE3o marcar golos. Quantos mais golos marcarem mais pontos
+    atingir\xE3o."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}

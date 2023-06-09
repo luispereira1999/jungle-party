@@ -109,6 +109,8 @@ public class Level4Controller : MonoBehaviour
         {
             _freezeObjects = true;
 
+            PlayBombSound();
+
             CancelInvoke(nameof(SpawnPowerUp));
 
             UpdateWinnerScore();

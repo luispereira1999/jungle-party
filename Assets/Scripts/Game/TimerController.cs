@@ -87,7 +87,9 @@ public class TimerController : MonoBehaviour
         if (HasFinished())
         {
             _currentTime = 0f;
+
             StopClockSound();
+            clockSoundPlayed = false;
         }
 
         // atualiza a barra de progresso
@@ -107,7 +109,6 @@ public class TimerController : MonoBehaviour
 
     bool IsFrozen()
     {
-
         return Time.timeScale == 0f;
     }
 
@@ -118,7 +119,6 @@ public class TimerController : MonoBehaviour
 
     public void Play()
     {
-
         _isPause = false;
     }
 
