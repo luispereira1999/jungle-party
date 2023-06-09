@@ -49,6 +49,9 @@ public class Level4Controller : MonoBehaviour
     // para detetar que os objetos estão congelados quando a ronda acaba
     private bool _freezeObjects = false;
 
+    // para para o som da bomba a explodir
+    private AudioSource _audioSource;
+
     // para os componentes da UI - painel de introdução, botão de pause e painel do fim de nível
     [SerializeField] private GameObject _introPanel;
     [SerializeField] private GameObject _buttonPause;
@@ -89,6 +92,8 @@ public class Level4Controller : MonoBehaviour
         _playerIDWithBomb = randomID;
 
         DisplayObjectInScene();
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -243,6 +248,7 @@ public class Level4Controller : MonoBehaviour
 
         _levelPlayers[winnerID - 1].LevelScore += _scoreController.AddScore();
         _scoreController.DisplayScoreObjectText(winnerID, _levelPlayers[winnerID - 1].LevelScore);
+     
     }
 
     int GetWinnerID()
@@ -290,7 +296,7 @@ public class Level4Controller : MonoBehaviour
     public GameObject GetPlayerWithBomb()
     {
         if (_playerIDWithBomb == 1)
-        {
+        {  
             return _levelPlayers[0].Object;
         }
         else
@@ -309,6 +315,11 @@ public class Level4Controller : MonoBehaviour
         {
             _playerIDWithBomb = 1;
         }
+    }
+
+    public void PlayBombSound()
+    {
+        _audioSource.Play();
     }
 
     /// <summary>

@@ -22,6 +22,9 @@ public class Level1Controller : MonoBehaviour
     [SerializeField] private GameObject _ballObject;
     private BallController _ballController;
 
+    // para para o som de marcar golo
+    private AudioSource _audioSource;
+
     // para os objetos do nível - balizas
     [SerializeField] private GameObject _goal1Prefab;
     [SerializeField] private GameObject _goal2Prefab;
@@ -78,6 +81,8 @@ public class Level1Controller : MonoBehaviour
         _ballController = _ballObject.GetComponent<BallController>();
         _goal1Controller = _goal1Object.GetComponent<GoalController>();
         _goal2Controller = _goal2Object.GetComponent<GoalController>();
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -137,6 +142,8 @@ public class Level1Controller : MonoBehaviour
         if (_ballController.IsGoalScored())
         {
             _timerController.Pause();
+
+            PlayGoalSound();
 
             // congela bola e balizas
             _ballController.Freeze();
@@ -326,6 +333,11 @@ public class Level1Controller : MonoBehaviour
         {
             Destroy(obj);
         }
+    }
+
+    public void PlayGoalSound()
+    {
+        _audioSource.Play();
     }
 
     /// <summary>
