@@ -90,7 +90,7 @@ public class ThrowLvl2Action : MonoBehaviour, IPlayerAction
             {
                 appleController.SetPlayer(_player.gameObject);
                 appleController.SetPlayerAsParent(_player.gameObject);
-                appleController.SetLocalPosition(new Vector3(0.042f, 0.39f, 0.352f));
+                appleController.SetLocalPosition(new Vector3(0.0419f, 0.389f, 0.445f));
                 appleController.SetLocalRotation(Quaternion.Euler(-90, 0, 0));
             }
         }
