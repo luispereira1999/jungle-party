@@ -248,7 +248,6 @@ public class Level4Controller : MonoBehaviour
 
         _levelPlayers[winnerID - 1].LevelScore += _scoreController.AddScore();
         _scoreController.DisplayScoreObjectText(winnerID, _levelPlayers[winnerID - 1].LevelScore);
-     
     }
 
     int GetWinnerID()
@@ -296,7 +295,7 @@ public class Level4Controller : MonoBehaviour
     public GameObject GetPlayerWithBomb()
     {
         if (_playerIDWithBomb == 1)
-        {  
+        {
             return _levelPlayers[0].Object;
         }
         else

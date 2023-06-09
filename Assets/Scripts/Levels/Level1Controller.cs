@@ -17,6 +17,10 @@ public class Level1Controller : MonoBehaviour
     // variáveis sobre os jogadores
     private List<LevelPlayerModel> _levelPlayers = new();
 
+    // variáveis sobre os prefabs específicos dos jogadores
+    [SerializeField] private GameObject _player1Level1Prefab;
+    [SerializeField] private GameObject _player2Level1Prefab;
+
     // para os objetos do nível - bola
     [SerializeField] private GameObject _ballPrefab;
     [SerializeField] private GameObject _ballObject;
@@ -197,7 +201,7 @@ public class Level1Controller : MonoBehaviour
     public void InitAfterIntro()
     {
         TimerController.Unfreeze();
-        
+
         _roundController.NextRound();
         _roundController.DisplayCurrentRound();
 
@@ -218,11 +222,11 @@ public class Level1Controller : MonoBehaviour
 
     void CreatePlayersDataForLevel()
     {
-        foreach (GamePlayerModel gamePlayer in _gameController.GamePlayers)
-        {
-            LevelPlayerModel levelPlayer = new(gamePlayer.ID, 0, gamePlayer.Prefab.transform.position, gamePlayer.Prefab.transform.rotation);
-            _levelPlayers.Add(levelPlayer);
-        }
+        LevelPlayerModel levelPlayer1 = new(_gameController.GamePlayers[0].ID, 0, _player1Level1Prefab.transform.position, _player1Level1Prefab.transform.rotation);
+        LevelPlayerModel levelPlayer2 = new(_gameController.GamePlayers[1].ID, 0, _player2Level1Prefab.transform.position, _player2Level1Prefab.transform.rotation);
+       
+        _levelPlayers.Add(levelPlayer1);
+        _levelPlayers.Add(levelPlayer2);
     }
 
     void DisplayObjectInScene()
@@ -233,8 +237,8 @@ public class Level1Controller : MonoBehaviour
 
     void SpawnPlayers()
     {
-        _levelPlayers[0].Object = Instantiate(_gameController.GamePlayers[0].Prefab);
-        _levelPlayers[1].Object = Instantiate(_gameController.GamePlayers[1].Prefab);
+        _levelPlayers[0].Object = Instantiate(_player1Level1Prefab);
+        _levelPlayers[1].Object = Instantiate(_player2Level1Prefab);
     }
 
     /// <summary>
