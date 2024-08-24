@@ -2,11 +2,11 @@
 
 ## ⚡️ O que é o Jungle Party?
 
-Uma aplicação web responsiva para qualquer dispositivo. Tem como principal objetivo qualquer pessoa pedir as suas refeições e que estas sejam entregues ao domicílio com qualidade. Cada utilizador pode registar-se como consumidor, motorista ou comerciante e assim fornecer o seu serviço.
+Um jogo de computador 3D multiplayer do género party games. É formado por 4 níveis, onde dois jogadores terão de disputar entre si em diferentes minijogos, de forma a determinar um vencedor..
 
-Jungle Party é uma aplicação desenvolvida em ambiente Web com HTML, Javascript e CSS para o front-end. Para o back-end foi usado Node.js e no quesito de preservar os dados foi elaborado com SQLite, um sistema de gestão para a base de dados.
+Jungle Party é um jogo desenvolvida em ambiente desktop com Unity.
 
-> Esta não é um aplicação oficializada no mercado, foi construida no âmbito académico de forma aumentar as nossas capacidades técnicas e interpessoais.
+> Esta não é um jogo oficializada no mercado, foi construida no âmbito académico de forma aumentar as nossas capacidades técnicas e interpessoais.
 
 ## 💡 Pré-Requisitos
 
