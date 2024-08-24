@@ -2,7 +2,7 @@
 
 ## ⚡️ O que é o Jungle Party?
 
-Um jogo de computador 3D multiplayer do género party games. É formado por 4 níveis, onde dois jogadores terão de disputar entre si em diferentes minijogos, de forma a determinar um vencedor..
+Um jogo de computador 3D multiplayer do género party games, para ser jogado no mesmo computador. É formado por 4 níveis, onde dois jogadores terão de disputar entre si em diferentes minijogos, de forma a determinar um vencedor.
 
 Jungle Party é um jogo desenvolvida em ambiente desktop com Unity.
 
@@ -26,9 +26,7 @@ Para colocar o projeto a funcionar localmente na sua máquina basta:
 
 ## 📖 Multiplayer
 
-Este repositório contém a versão original deste jogo, onde os jogadores jogam no mesmo computador, um contra o outro.
-
-Partindo disto, criou-se uma versão multiplayer em rede, onde os jogadores se juntam em diferentes computadores para jogarem entre si. Pode aceder facilmente a esse repositório [aqui](https://github.com/luispereira1999/jungle-party-multiplayer).
+Este repositório contém uma versão multiplayer online do jogo original. Pode aceder facilmente ao repositório do jogo original [aqui](https://github.com/luispereira1999/jungle-party).
 
 ## 👍 Contribuições
 
